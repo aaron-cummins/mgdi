@@ -8,7 +8,14 @@ const Select_React = (props) => {
   //const styleadd =
   //  "form-control block w-full px-3 py-1.5 rounded-l-lg border-t-1 border-l-1 border-b-1 border-solid border-gray-300 text-gray-600 pl-1";
 
-  let opciones = [];
+  let opciones = [
+    {
+      target: { value: 0, name: props.name, type: "select-one", label: props.name },
+      value: 0,
+      label: "Sleccione una opción",
+      name: props.name,
+    },
+  ];
 
   props.list?.forEach((item) =>
     opciones.push({

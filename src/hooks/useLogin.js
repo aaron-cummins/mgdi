@@ -1,5 +1,5 @@
 import { createUserAdapter, loginAdapter } from "adapters";
-import { login } from "services/usuarioService";
+import { login, obtenerUsuarioCorreo } from "services/usuarioService";
 //import { useIsAuthenticated } from "@azure/msal-react";
 import { LoginContext } from "contexts/LoginContext";
 import { LogOut, persistUsuarioState, persistJwt } from "utilities/Login_utiles";
@@ -16,21 +16,27 @@ const useLogin = () => {
     const credenciales = loginAdapter(correo);
     const jwt = await callEndpoint(login(credenciales));
 
+    console.log(jwt.data);
+
     let respuesta = false;
 
     if (jwt && jwt.data) {
       await persistJwt(jwt.data.access_token, jwt.data.refresh_token);
 
-      //await entrar(correo);
-      const adapUser = createUserAdapter(jwt.data);
-      crearUsuario(adapUser);
-      persistUsuarioState(adapUser);
+      const permisos = await callEndpoint(obtenerUsuarioCorreo(correo));
 
-      setMensajeOk("Logeado con Exito!");
-      setMensajeErr(null);
-      setLogeado(true);
+      if (permisos && permisos.data) {
+        //await entrar(correo);
+        const adapUser = createUserAdapter(jwt.data, permisos.data);
+        crearUsuario(adapUser);
+        persistUsuarioState(adapUser);
 
-      respuesta = true;
+        setMensajeOk("Logeado con Exito!");
+        setMensajeErr(null);
+        setLogeado(true);
+
+        respuesta = true;
+      }
     } else {
       setMensajeErr("No se encontró el usuario (no se pudo recuperar el token), póngase en contacto con Soporte DBM");
       LogOut();

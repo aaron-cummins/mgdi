@@ -153,7 +153,7 @@ export const SelectsContextProvider = (props) => {
       if (resultado && resultado.data) {
         let ZonasActivas = [];
         resultado.data.forEach((item) => {
-          item.activo && ZonasActivas.push(item);
+          item.activo && ZonasActivas.push({ id: item.id, nombre: item.nombre + " / " + item.pais?.nombre });
         });
 
         dispatch({
@@ -315,9 +315,25 @@ export const SelectsContextProvider = (props) => {
     try {
       const resultado = await callEndpoint(getList("flotas"));
       if (resultado && resultado.data) {
+
+
+        let flotasOrdenadas = resultado.data.sort(
+          (f1, f2) => {
+            const nameA = f1.nombre.toUpperCase(); // ignore upper and lowercase
+            const nameB = f2.nombre.toUpperCase(); // ignore upper and lowercase
+            if (nameA > nameB) {
+              return 1;
+            }
+            if (nameA < nameB) {
+              return -1;
+            }
+            // names must be equal
+            return 0;
+          });
+
         dispatch({
           type: OBTENER_LISTA_FLOTAS,
-          payload: resultado.data,
+          payload: flotasOrdenadas,
         });
       }
     } catch (error) {

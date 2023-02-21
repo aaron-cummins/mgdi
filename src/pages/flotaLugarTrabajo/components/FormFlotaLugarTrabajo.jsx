@@ -55,8 +55,8 @@ const FormFlotaLugarTrabajo = () => {
     const { name, value, type, checked } = e.target;
 
     if (type === "checkbox") setFlotaLugarTrabajo({ ...flotaLugarTrabajo, [name]: checked });
-    else if (name === "flotasId") setFlotaLugarTrabajo({ ...flotaLugarTrabajo, flotas: { id: value } });
-    else if (name === "lugarTrabajoId") setFlotaLugarTrabajo({ ...flotaLugarTrabajo, lugarTrabajo: { id: value } });
+    else if (name === "flotasId") setFlotaLugarTrabajo({ ...flotaLugarTrabajo, flotas: { id: value }, [name]: value  });
+    else if (name === "lugarTrabajoId") setFlotaLugarTrabajo({ ...flotaLugarTrabajo, lugarTrabajo: { id: value }, [name]: value  });
     else setFlotaLugarTrabajo({ ...flotaLugarTrabajo, [name]: value });
 
     if (type === "select-one") validarNumero(name, value);
@@ -85,8 +85,8 @@ const FormFlotaLugarTrabajo = () => {
 
   const FlotaEnviar = () => {
     let flotaTmp = { ...flotaLugarTrabajo };
-    flotaTmp.lugarTrabajoId = document.querySelector("#lugarTrabajoId").value;
-    flotaTmp.flotasId = document.querySelector("#flotasId").value;
+    flotaTmp.lugarTrabajoId = flotaLugarTrabajo.lugarTrabajo.id; 
+    flotaTmp.flotasId =flotaLugarTrabajo.flotas.id;
     return flotaTmp;
   };
 
@@ -94,19 +94,7 @@ const FormFlotaLugarTrabajo = () => {
     <form onSubmit={handleOnSubmit}>
       {mensaje.mensaje ? enqueueSnackbar(mensaje.mensaje, { variant: mensaje.tipoAlerta }) : null}
       <div className="grid grid-cols-2 gap-4">
-        <div className="form-group mb-8">
-          <Select
-            id="flotasId"
-            name="flotasId"
-            placeholder="Flota"
-            value={flotaLugarTrabajo.flotas.id}
-            onChange={handleChange}
-            label="Flota"
-            list={flotasList}
-            required={true}
-            error={error.flotasId}
-          />
-        </div>
+        
         <div className="form-group mb-4">
           <Select
             id="lugarTrabajoId"
@@ -118,6 +106,19 @@ const FormFlotaLugarTrabajo = () => {
             list={lugarTrabajoList}
             required={true}
             error={error.lugarTrabajoId}
+          />
+        </div>
+        <div className="form-group mb-4">
+          <Select
+            id="flotasId"
+            name="flotasId"
+            placeholder="Flota"
+            value={flotaLugarTrabajo.flotas.id}
+            onChange={handleChange}
+            label="Flota"
+            list={flotasList}
+            required={true}
+            error={error.flotasId}
           />
         </div>
       </div>

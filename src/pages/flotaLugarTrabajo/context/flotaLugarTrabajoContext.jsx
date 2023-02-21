@@ -21,7 +21,7 @@ export const FlotaLugarTrabajoContextProvider = (props) => {
   const [state, dispatch] = useReducer(flotaLugarTrabajoReducer, initialState);
 
   /* OBETENER LISTADO DE Flotas LugarTrabajo */
-  const obtenerFlotasLugarTrabajo = async () => {
+  const obtenerFlotasLugarTrabajoList = async () => {
     try {
       const resultado = await callEndpoint(getList(urlApi));
       if (resultado && resultado.data) {
@@ -108,7 +108,7 @@ export const FlotaLugarTrabajoContextProvider = (props) => {
         flotaLugarTrabajoList: state.flotaLugarTrabajoList,
         flotaLugarTrabajoActual: state.flotaLugarTrabajoActual,
 
-        obtenerFlotasLugarTrabajo,
+        obtenerFlotasLugarTrabajoList,
         obtenerFlotaLugarTrabajo,
         registrarFlotaLugarTrabajo,
         actualizarFlotaLugarTrabajo,

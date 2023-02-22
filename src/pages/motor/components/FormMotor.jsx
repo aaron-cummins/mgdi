@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext, useMemo } from "react";
-import { InputText, Buttons, Checkbox, Select} from "components";
+import { InputText, Buttons, Checkbox, Select } from "components";
 import { MotorContext } from "../context/motorContext";
 import { useStateContext } from "contexts/ContextProvider";
 import { closeModal } from "utilities/Utiles";
@@ -11,9 +11,7 @@ const FormMotor = () => {
   const { registrarMotor, motorActual, actualizarMotor, obtenerMotor } = useContext(MotorContext);
   const { enqueueSnackbar } = useSnackbar();
   const { mensaje } = useStateContext();
-  const {
-    aplicacionesList,
-  } = useContext(SelectsContext);
+  const { aplicacionesList } = useContext(SelectsContext);
   const { validarTexto, validarSelect, validarNumero, error, setError } = useValidacionForm();
 
   const motorDefault = useMemo(
@@ -42,7 +40,7 @@ const FormMotor = () => {
     if (validarTexto("nombre", motor.nombre, "Nombre de motor requerido")) valida = false;
     if (validarTexto("rangoPotencia", motor.rangoPotencia, "Nombre de rango potencia requerido")) valida = false;
     if (validarSelect("aplicacionId", motor.aplicacion, "Debe seleccionar una aplicación")) valida = false;
-  
+
     return valida;
   };
 
@@ -50,7 +48,7 @@ const FormMotor = () => {
     const { name, value, type, checked } = e.target;
 
     if (type === "checkbox") setMotor({ ...motor, [name]: checked });
-    else if (name === "aplicacionId") setMotor({ ...motor, aplicacion: { id: value } });
+    else if (name === "aplicacionId") setMotor({ ...motor, aplicacion: { id: value }, [name]: value });
     else setMotor({ ...motor, [name]: value });
 
     if (type === "select-one") validarNumero(name, value);
@@ -66,9 +64,7 @@ const FormMotor = () => {
   const handleOnSubmit = async (e) => {
     e.preventDefault();
     if (validaciones()) {
-      motorActual !== null
-        ? actualizarMotor(MotorEnviar())
-        : registrarMotor(MotorEnviar());
+      motorActual !== null ? actualizarMotor(MotorEnviar()) : registrarMotor(MotorEnviar());
       closeModal();
       limpiaForm();
     } else {
@@ -82,7 +78,6 @@ const FormMotor = () => {
     motorTmp.aplicacionId = document.querySelector("#aplicacionId").value;
     return motorTmp;
   };
-
 
   return (
     <form onSubmit={handleOnSubmit}>

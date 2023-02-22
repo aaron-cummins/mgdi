@@ -12,11 +12,7 @@ const FormLugarTrabajo = () => {
     useContext(LugarTrabajoContext);
   const { enqueueSnackbar } = useSnackbar();
   const { mensaje } = useStateContext();
-  const {
-    zonaList,
-    tipoLugarTrabajoList,
-    comunaList,
-  } = useContext(SelectsContext);
+  const { zonaList, tipoLugarTrabajoList, comunaList } = useContext(SelectsContext);
   const { validarTexto, validarSelect, validarNumero, error, setError } = useValidacionForm();
 
   const lugarTrabajoDefault = useMemo(() => {
@@ -62,9 +58,12 @@ const FormLugarTrabajo = () => {
     if (validarNumero("altura", lugarTrabajo.altura, "Altura requerida")) valida = false;
     if (validarTexto("direccion", lugarTrabajo.direccion, "Dirección requerida")) valida = false;
     if (validarSelect("zonaId", lugarTrabajo.zona, "Debe seleccionar una zona")) valida = false;
-    if (validarSelect("tipoLugarTrabajoId", lugarTrabajo.tipoLugarTrabajo, "Debe seleccionar un tipo de lugar de trabajo")) valida = false;
+    if (
+      validarSelect("tipoLugarTrabajoId", lugarTrabajo.tipoLugarTrabajo, "Debe seleccionar un tipo de lugar de trabajo")
+    )
+      valida = false;
     if (validarSelect("comunaId", lugarTrabajo.comuna, "Debe seleccionar una comuna")) valida = false;
-  
+
     return valida;
   };
 
@@ -72,9 +71,10 @@ const FormLugarTrabajo = () => {
     const { name, value, type, checked } = e.target;
 
     if (type === "checkbox") setLugarTrabajo({ ...lugarTrabajo, [name]: checked });
-    else if (name === "zonaId") setLugarTrabajo({ ...lugarTrabajo, zona: { id: value } });
-    else if (name === "tipoLugarTrabajoId") setLugarTrabajo({ ...lugarTrabajo, tipoLugarTrabajo: { id: value } });
-    else if (name === "comunaId") setLugarTrabajo({ ...lugarTrabajo, comuna: { id: value } });
+    else if (name === "zonaId") setLugarTrabajo({ ...lugarTrabajo, zona: { id: value }, [name]: value });
+    else if (name === "tipoLugarTrabajoId")
+      setLugarTrabajo({ ...lugarTrabajo, tipoLugarTrabajo: { id: value }, [name]: value });
+    else if (name === "comunaId") setLugarTrabajo({ ...lugarTrabajo, comuna: { id: value }, [name]: value });
     else setLugarTrabajo({ ...lugarTrabajo, [name]: value });
 
     if (type === "select-one") validarNumero(name, value);

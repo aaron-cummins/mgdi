@@ -14,8 +14,9 @@ const ModuloControl = () => {
         <Header category="Administración" title="Módulo Control">
           <button
             type="button"
-            data-bs-toggle="modal"
-            data-bs-target="#modulocontrol-modal"
+            data-te-toggle="modal"
+            data-te-ripple-init
+            data-te-target="#modulocontrol-modal"
             style={{
               backgroundColor: currentColor,
               color: "white",

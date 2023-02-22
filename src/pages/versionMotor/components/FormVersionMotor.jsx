@@ -1,10 +1,5 @@
 import React, { useEffect, useState, useContext, useMemo } from "react";
-import {
-  InputText,
-  Buttons,
-  Checkbox,
-  Select,
-} from "components";
+import { InputText, Buttons, Checkbox, Select } from "components";
 import { VersionMotorContext } from "../context/versionMotorContext";
 import { useStateContext } from "contexts/ContextProvider";
 import { closeModal } from "utilities/Utiles";
@@ -24,7 +19,7 @@ const FormVersionMotor = () => {
     tipoBlockList,
     tipoCombustibleList,
     tipoFiltradoList,
-    tipoInyeccionList, 
+    tipoInyeccionList,
     moduloControlList,
     postTratamientoList,
   } = useContext(SelectsContext);
@@ -112,14 +107,20 @@ const FormVersionMotor = () => {
 
     if (type === "checkbox") setVersionMotor({ ...versionmotor, [name]: checked });
     else if (name === "motorId") setVersionMotor({ ...versionmotor, motor: { id: value }, [name]: value });
-    else if (name === "tipoAdmisionId") setVersionMotor({ ...versionmotor, tipoAdmision: { id: value } });
-    else if (name === "tipoEmisionId") setVersionMotor({ ...versionmotor, tipoEmision: { id: value } });
-    else if (name === "tipoBlockId") setVersionMotor({ ...versionmotor, tipoBlock: { id: value } });
-    else if (name === "tipoCombustibleId") setVersionMotor({ ...versionmotor, tipoCombustible: { id: value } });
-    else if (name === "tipoFiltradoId") setVersionMotor({ ...versionmotor, tipoFiltrado: { id: value } });
-    else if (name === "moduloControlId") setVersionMotor({ ...versionmotor, moduloControl: { id: value } });
-    else if (name === "tipoInyeccionId") setVersionMotor({ ...versionmotor, tipoInyeccion: { id: value } });
-    else if (name === "postTratamientoId") setVersionMotor({ ...versionmotor, posttratamiento: { id: value } });
+    else if (name === "tipoAdmisionId")
+      setVersionMotor({ ...versionmotor, tipoAdmision: { id: value }, [name]: value });
+    else if (name === "tipoEmisionId") setVersionMotor({ ...versionmotor, tipoEmision: { id: value }, [name]: value });
+    else if (name === "tipoBlockId") setVersionMotor({ ...versionmotor, tipoBlock: { id: value }, [name]: value });
+    else if (name === "tipoCombustibleId")
+      setVersionMotor({ ...versionmotor, tipoCombustible: { id: value }, [name]: value });
+    else if (name === "tipoFiltradoId")
+      setVersionMotor({ ...versionmotor, tipoFiltrado: { id: value }, [name]: value });
+    else if (name === "moduloControlId")
+      setVersionMotor({ ...versionmotor, moduloControl: { id: value }, [name]: value });
+    else if (name === "tipoInyeccionId")
+      setVersionMotor({ ...versionmotor, tipoInyeccion: { id: value }, [name]: value });
+    else if (name === "postTratamientoId")
+      setVersionMotor({ ...versionmotor, posttratamiento: { id: value }, [name]: value });
     else setVersionMotor({ ...versionmotor, [name]: value });
 
     if (type === "select-one") validarNumero(name, value);

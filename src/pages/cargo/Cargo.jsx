@@ -14,8 +14,9 @@ const Cargo = () => {
         <Header category="Administración" title="Cargo">
           <button
             type="button"
-            data-bs-toggle="modal"
-            data-bs-target="#cargo-modal"
+            data-te-toggle="modal"
+            data-te-ripple-init
+            data-te-target="#cargo-modal"
             style={{
               backgroundColor: currentColor,
               color: "white",

@@ -14,8 +14,9 @@ const TipoCombustible = () => {
         <Header category="Administración" title="Tipo Combustible">
           <button
             type="button"
-            data-bs-toggle="modal"
-            data-bs-target="#tipocombustible-modal"
+            data-te-toggle="modal"
+            data-te-ripple-init
+            data-te-target="#tipocombustible-modal"
             style={{
               backgroundColor: currentColor,
               color: "white",

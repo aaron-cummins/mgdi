@@ -14,8 +14,9 @@ const TipoLugarTrabajo = () => {
         <Header category="Administración" title="Tipo lugar de trabajo">
           <button
             type="button"
-            data-bs-toggle="modal"
-            data-bs-target="#tipolugartrabajo-modal"
+            data-te-toggle="modal"
+            data-te-ripple-init
+            data-te-target="#tipolugartrabajo-modal"
             style={{
               backgroundColor: currentColor,
               color: "white",
@@ -28,9 +29,7 @@ const TipoLugarTrabajo = () => {
 
         <TablaTipolugarTrabajo />
 
-        <Modal
-          ModalTitle="Tipo lugar de trabajo"
-          modalId="tipolugartrabajo-modal">
+        <Modal ModalTitle="Tipo lugar de trabajo" modalId="tipolugartrabajo-modal">
           <FormTipoLugarTrabajo modalid="#tipolugartrabajo-modal" />
         </Modal>
       </div>

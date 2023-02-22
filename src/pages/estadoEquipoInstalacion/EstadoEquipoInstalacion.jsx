@@ -14,8 +14,9 @@ const EstadoEquipoInstalacion = () => {
         <Header category="Administración" title="Estado equipo instalación">
           <button
             type="button"
-            data-bs-toggle="modal"
-            data-bs-target="#estadoequipoinstalacion-modal"
+            data-te-toggle="modal"
+            data-te-ripple-init
+            data-te-target="#estadoequipoinstalacion-modal"
             style={{
               backgroundColor: currentColor,
               color: "white",

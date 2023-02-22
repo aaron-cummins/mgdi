@@ -15,8 +15,9 @@ const Comuna = () => {
         <Header category="Administración" title="Comuna">
           <button
             type="button"
-            data-bs-toggle="modal"
-            data-bs-target="#comuna-modal"
+            data-te-toggle="modal"
+            data-te-ripple-init
+            data-te-target="#comuna-modal"
             style={{
               backgroundColor: currentColor,
               color: "white",

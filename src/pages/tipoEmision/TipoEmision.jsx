@@ -14,8 +14,9 @@ const TipoEmision = () => {
         <Header category="Administración" title="Tipo Emisión">
           <button
             type="button"
-            data-bs-toggle="modal"
-            data-bs-target="#tipoemision-modal"
+            data-te-toggle="modal"
+            data-te-ripple-init
+            data-te-target="#tipoemision-modal"
             style={{
               backgroundColor: currentColor,
               color: "white",

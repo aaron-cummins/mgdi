@@ -14,8 +14,9 @@ const Roles = () => {
         <Header category="Administración" title="Roles">
           <button
             type="button"
-            data-bs-toggle="modal"
-            data-bs-target="#roles-modal"
+            data-te-toggle="modal"
+            data-te-ripple-init
+            data-te-target="#roles-modal"
             style={{
               backgroundColor: currentColor,
               color: "white",

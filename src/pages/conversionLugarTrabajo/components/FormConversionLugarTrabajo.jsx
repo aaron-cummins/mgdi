@@ -8,14 +8,15 @@ import { SelectsContext } from "contexts/SelectsContext";
 import useValidacionForm from "hooks/useValidacionForm";
 
 const FormConversionLugarTrabajo = () => {
-  const { obtenerConversionLugarTrabajo, ConversionLugarTrabajoActual, actualizarConversionLugarTrabajo, registrarConversionLugarTrabajo } =
-    useContext(ConversionLugarTrabajoContext);
+  const {
+    obtenerConversionLugarTrabajo,
+    ConversionLugarTrabajoActual,
+    actualizarConversionLugarTrabajo,
+    registrarConversionLugarTrabajo,
+  } = useContext(ConversionLugarTrabajoContext);
   const { enqueueSnackbar } = useSnackbar();
   const { mensaje } = useStateContext();
-  const {
-    lugarTrabajoList,
-    fuenteInformacionList,
-  } = useContext(SelectsContext);
+  const { lugarTrabajoList, fuenteInformacionList } = useContext(SelectsContext);
   const { validarTexto, validarSelect, validarNumero, error, setError } = useValidacionForm();
 
   const ConversionLugarTrabajoDefault = useMemo(() => {
@@ -38,7 +39,9 @@ const FormConversionLugarTrabajo = () => {
   const [ConversionLugarTrabajo, setConversionLugarTrabajo] = useState(ConversionLugarTrabajoDefault);
 
   useEffect(() => {
-    ConversionLugarTrabajoActual !== null ? setConversionLugarTrabajo(ConversionLugarTrabajoActual) : setConversionLugarTrabajo(ConversionLugarTrabajoDefault);
+    ConversionLugarTrabajoActual !== null
+      ? setConversionLugarTrabajo(ConversionLugarTrabajoActual)
+      : setConversionLugarTrabajo(ConversionLugarTrabajoDefault);
   }, [ConversionLugarTrabajoActual, ConversionLugarTrabajoDefault]);
 
   const validaciones = () => {
@@ -46,8 +49,18 @@ const FormConversionLugarTrabajo = () => {
 
     if (validarTexto("nombre", ConversionLugarTrabajo.nombre, "Nombre requerido")) valida = false;
     if (validarTexto("abreviacion", ConversionLugarTrabajo.abreviacion, "Abreviacion requerida")) valida = false;
-    if (validarSelect("fuenteInformacionId", ConversionLugarTrabajo.fuenteInformacion, "Debe seleccionar una fuente de información")) valida = false;
-    if (validarSelect("lugarTrabajoId", ConversionLugarTrabajo.lugarTrabajo, "Debe seleccionar un tipo lugar de trabajo")) valida = false;
+    if (
+      validarSelect(
+        "fuenteInformacionId",
+        ConversionLugarTrabajo.fuenteInformacion,
+        "Debe seleccionar una fuente de información"
+      )
+    )
+      valida = false;
+    if (
+      validarSelect("lugarTrabajoId", ConversionLugarTrabajo.lugarTrabajo, "Debe seleccionar un tipo lugar de trabajo")
+    )
+      valida = false;
 
     return valida;
   };
@@ -56,8 +69,10 @@ const FormConversionLugarTrabajo = () => {
     const { name, value, type, checked } = e.target;
 
     if (type === "checkbox") setConversionLugarTrabajo({ ...ConversionLugarTrabajo, [name]: checked });
-    else if (name === "fuenteInformacionId") setConversionLugarTrabajo({ ...ConversionLugarTrabajo, fuenteInformacion: { id: value }});
-    else if (name === "lugarTrabajoId") setConversionLugarTrabajo({ ...ConversionLugarTrabajo, lugarTrabajo: { id: value }});
+    else if (name === "fuenteInformacionId")
+      setConversionLugarTrabajo({ ...ConversionLugarTrabajo, fuenteInformacion: { id: value }, [name]: value });
+    else if (name === "lugarTrabajoId")
+      setConversionLugarTrabajo({ ...ConversionLugarTrabajo, lugarTrabajo: { id: value }, [name]: value });
     else setConversionLugarTrabajo({ ...ConversionLugarTrabajo, [name]: value });
 
     if (type === "select-one") validarNumero(name, value);
@@ -152,7 +167,13 @@ const FormConversionLugarTrabajo = () => {
 
       <div className="grid grid-cols-2 gap-4">
         <div className="form-group mb-6">
-          <Checkbox id="activo" name="activo" onChangeFN={handleChange} checked={ConversionLugarTrabajo.activo} label="Activo" />
+          <Checkbox
+            id="activo"
+            name="activo"
+            onChangeFN={handleChange}
+            checked={ConversionLugarTrabajo.activo}
+            label="Activo"
+          />
         </div>
       </div>
 

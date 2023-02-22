@@ -14,8 +14,9 @@ const VersionEquipo = () => {
         <Header category="Administración" title="Versión Equipo">
           <button
             type="button"
-            data-bs-toggle="modal"
-            data-bs-target="#versionequipo-modal"
+            data-te-toggle="modal"
+            data-te-ripple-init
+            data-te-target="#versionequipo-modal"
             style={{
               backgroundColor: currentColor,
               color: "white",

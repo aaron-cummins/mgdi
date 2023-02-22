@@ -46,7 +46,7 @@ const FormVistasGroup = () => {
     const { name, value, type, checked } = e.target;
 
     if (type === "checkbox") setVistasGroup({ ...vistasgroup, [name]: checked });
-    else if (name === "moduloId") setVistasGroup({ ...vistasgroup, modulos: { id: value } });
+    else if (name === "moduloId") setVistasGroup({ ...vistasgroup, modulos: { id: value }, [name]: value });
     else setVistasGroup({ ...vistasgroup, [name]: value });
 
     if (type === "select-one") validarNumero(name, value);

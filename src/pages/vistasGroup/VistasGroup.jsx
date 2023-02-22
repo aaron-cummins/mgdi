@@ -15,8 +15,9 @@ const VistasGroup = () => {
         <Header category="Administración" title="Grupo de vistas">
           <button
             type="button"
-            data-bs-toggle="modal"
-            data-bs-target="#vistasgroup-modal"
+            data-te-toggle="modal"
+            data-te-ripple-init
+            data-te-target="#vistasgroup-modal"
             style={{
               backgroundColor: currentColor,
               color: "white",

@@ -14,8 +14,9 @@ const PostTratamiento = () => {
         <Header category="Administración" title="Post tratamiento">
           <button
             type="button"
-            data-bs-toggle="modal"
-            data-bs-target="#posttratamiento-modal"
+            data-te-toggle="modal"
+            data-te-ripple-init
+            data-te-target="#posttratamiento-modal"
             style={{
               backgroundColor: currentColor,
               color: "white",

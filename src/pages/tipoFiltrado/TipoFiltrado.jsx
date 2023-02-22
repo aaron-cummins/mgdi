@@ -14,8 +14,9 @@ const TipoFiltrado = () => {
         <Header category="Administración" title="Tipo Filtrado">
           <button
             type="button"
-            data-bs-toggle="modal"
-            data-bs-target="#tipofiltrado-modal"
+            data-te-toggle="modal"
+            data-te-ripple-init
+            data-te-target="#tipofiltrado-modal"
             style={{
               backgroundColor: currentColor,
               color: "white",

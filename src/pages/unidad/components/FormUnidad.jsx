@@ -91,7 +91,7 @@ const FormUnidad = () => {
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
 
-    console.log(e);
+    //console.log(e);
 
     if (type === "checkbox") setUnidad({ ...unidad, [name]: checked });
     else if (name === "lugarTrabajoId") {

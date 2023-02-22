@@ -11,10 +11,7 @@ const FormEquipo = () => {
   const { registrarEquipo, equipoActual, actualizarEquipo, obtenerEquipo } = useContext(EquipoContext);
   const { enqueueSnackbar } = useSnackbar();
   const { mensaje } = useStateContext();
-  const {
-    aplicacionOemsList,
-    oemsList,
-  } = useContext(SelectsContext);
+  const { aplicacionOemsList, oemsList } = useContext(SelectsContext);
   const { validarTexto, validarSelect, validarNumero, error, setError } = useValidacionForm();
 
   const equipoDefault = useMemo(
@@ -46,7 +43,7 @@ const FormEquipo = () => {
     if (validarTexto("nombre", equipo.nombre, "Nombre requerido")) valida = false;
     if (validarSelect("aplicacionOemId", equipo.aplicacionOem, "Debe seleccionar una aplicación Oem")) valida = false;
     if (validarSelect("oemId", equipo.oem, "Debe seleccionar una Oem")) valida = false;
-  
+
     return valida;
   };
 
@@ -54,8 +51,8 @@ const FormEquipo = () => {
     const { name, value, type, checked } = e.target;
 
     if (type === "checkbox") setEquipo({ ...equipo, [name]: checked });
-    else if (name === "aplicacionOemId") setEquipo({ ...equipo, aplicacionOem: { id: value } });
-    else if (name === "oemId") setEquipo({ ...equipo, oem: { id: value } });
+    else if (name === "aplicacionOemId") setEquipo({ ...equipo, aplicacionOem: { id: value }, [name]: value });
+    else if (name === "oemId") setEquipo({ ...equipo, oem: { id: value }, [name]: value });
     else setEquipo({ ...equipo, [name]: value });
 
     if (type === "select-one") validarNumero(name, value);
@@ -71,9 +68,7 @@ const FormEquipo = () => {
   const handleOnSubmit = async (e) => {
     e.preventDefault();
     if (validaciones()) {
-      equipoActual !== null
-        ? actualizarEquipo(EquipoAEnviar())
-        : registrarEquipo(EquipoAEnviar());
+      equipoActual !== null ? actualizarEquipo(EquipoAEnviar()) : registrarEquipo(EquipoAEnviar());
       closeModal();
       limpiaForm();
     } else {
@@ -89,7 +84,7 @@ const FormEquipo = () => {
     return equipoTmp;
   };
 
-  console.log(equipo.aplicacionOem?.id)
+  //console.log(equipo.aplicacionOem?.id)
 
   return (
     <form onSubmit={handleOnSubmit}>
@@ -123,15 +118,15 @@ const FormEquipo = () => {
       <div className="grid grid-cols-2 gap-4">
         <div className="form-group mb-4">
           <Select
-            id="oemId" 
-            name="oemId" 
-            value={equipo.oem?.id} 
-            onChange={handleChange} 
+            id="oemId"
+            name="oemId"
+            value={equipo.oem?.id}
+            onChange={handleChange}
             required={true}
             label="Oem"
-            list={oemsList} 
+            list={oemsList}
             error={error.oemId}
-            />
+          />
         </div>
         <div className="form-group mb-2">
           <Checkbox id="activo" name="activo" label="Activo" onChangeFN={handleChange} checked={equipo.activo} />

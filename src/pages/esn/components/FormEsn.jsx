@@ -52,7 +52,7 @@ const FormEsn = () => {
     const { name, value, type, checked } = e.target;
 
     if (type === "checkbox") setEsn({ ...esn, [name]: checked });
-    else if (name === "versionMotorId") setEsn({ ...esn, versionMotor: { id: value } });
+    else if (name === "versionMotorId") setEsn({ ...esn, versionMotor: { id: value }, [name]: value });
     else setEsn({ ...esn, [name]: value });
 
     if (type === "select-one") validarNumero(name, value);

@@ -15,8 +15,9 @@ const Equipo = () => {
         <Header category="Administración" title="Equipo">
           <button
             type="button"
-            data-bs-toggle="modal"
-            data-bs-target="#equipo-modal"
+            data-te-toggle="modal"
+            data-te-ripple-init
+            data-te-target="#equipo-modal"
             style={{
               backgroundColor: currentColor,
               color: "white",

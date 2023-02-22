@@ -12,9 +12,7 @@ const FormComuna = () => {
 
   const { mensaje } = useStateContext();
   const { enqueueSnackbar } = useSnackbar();
-  const {
-    regionList,
-  } = useContext(SelectsContext);
+  const { regionList } = useContext(SelectsContext);
   const { validarTexto, validarSelect, validarNumero, error, setError } = useValidacionForm();
 
   const comunaDefault = useMemo(
@@ -41,7 +39,7 @@ const FormComuna = () => {
 
     if (validarTexto("nombre", comuna.nombre, "Nombre de comuna requerido")) valida = false;
     if (validarSelect("regionId", comuna.region, "Debe seleccionar una región")) valida = false;
-  
+
     return valida;
   };
 
@@ -49,7 +47,7 @@ const FormComuna = () => {
     const { name, value, type, checked } = e.target;
 
     if (type === "checkbox") setComuna({ ...comuna, [name]: checked });
-    else if (name === "regionId") setComuna({ ...comuna, region: { id: value } });
+    else if (name === "regionId") setComuna({ ...comuna, region: { id: value }, [name]: value });
     else setComuna({ ...comuna, [name]: value });
 
     if (type === "select-one") validarNumero(name, value);
@@ -65,9 +63,7 @@ const FormComuna = () => {
   const handleOnSubmit = async (e) => {
     e.preventDefault();
     if (validaciones()) {
-      comunaActual !== null
-        ? actualizarComuna(ComunaAEnviar())
-        : registrarComuna(ComunaAEnviar());
+      comunaActual !== null ? actualizarComuna(ComunaAEnviar()) : registrarComuna(ComunaAEnviar());
       closeModal();
       limpiaForm();
     } else {

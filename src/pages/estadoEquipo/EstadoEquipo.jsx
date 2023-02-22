@@ -14,15 +14,15 @@ const EstadoEquipo = () => {
         <Header category="Administración" title="Estado Equipo">
           <button
             type="button"
-            data-bs-toggle="modal"
-            data-bs-target="#estadoequipo-modal"
+            data-te-toggle="modal"
+            data-te-ripple-init
+            data-te-target="#estadoequipo-modal"
             style={{
               backgroundColor: currentColor,
               color: "white",
               borderRadius: "10px",
             }}
             className={`gap-5 p-3  hover:drop-shadow-xl hover:bg-${currentColor} text-center inline-flex items-center`}>
-            {" "}
             Nuevo Estado Equipo
           </button>
         </Header>
@@ -34,7 +34,7 @@ const EstadoEquipo = () => {
         </Modal>
       </div>
     </EstadoEquipoContextProvider>
-  )
-}
+  );
+};
 
-export default EstadoEquipo
+export default EstadoEquipo;

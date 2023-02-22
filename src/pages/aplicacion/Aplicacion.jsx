@@ -14,8 +14,9 @@ const Aplicacion = () => {
         <Header category="Administración" title="Aplicación">
           <button
             type="button"
-            data-bs-toggle="modal"
-            data-bs-target="#aplicacion-modal"
+            data-te-toggle="modal"
+            data-te-ripple-init
+            data-te-target="#aplicacion-modal"
             style={{
               backgroundColor: currentColor,
               color: "white",

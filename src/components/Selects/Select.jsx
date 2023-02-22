@@ -39,8 +39,9 @@ const Select = (props) => {
           <div className="grow-0 items-center">
             <button
               type="button"
-              data-bs-toggle="modal"
-              data-bs-target="#-modal"
+              data-te-toggle="modal"
+              data-te-ripple-init
+              data-te-target="#-modal"
               className="font-bold px-1 py-2.5 rounded-r-lg border-gray-300 border-t-1 border-r-1 border-b-1 text-gray-600">
               <VscDiffAdded />
             </button>

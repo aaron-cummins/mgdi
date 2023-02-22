@@ -14,8 +14,9 @@ const AvisoDesmontaje = () => {
         <Header category="Administración" title="Aviso Desmontaje">
           <button
             type="button"
-            data-bs-toggle="modal"
-            data-bs-target="#ad-modal"
+            data-te-toggle="modal"
+            data-te-ripple-init
+            data-te-target="#ad-modal"
             style={{
               backgroundColor: currentColor,
               color: "white",

@@ -63,7 +63,7 @@ const FormMontaje = (props) => {
       eemmAct.esnId = eemm?.esn?.id;*/
       eemmAct.hrEquipoInstalacion = HHequipo;
 
-      console.log(HHequipo);
+      //console.log(HHequipo);
 
       setEemm(eemmAct);
     }

@@ -39,7 +39,7 @@ const IndexEemm = () => {
     navigate("desmontaje");
   };
   const handleChange = (e) => {
-    console.log(e);
+    //console.log(e);
 
     const { name, value } = e.target;
 

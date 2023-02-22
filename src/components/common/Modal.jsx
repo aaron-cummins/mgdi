@@ -4,32 +4,35 @@ import { AiOutlineCloseCircle } from "react-icons/ai";
 const Modal = (props) => {
   return (
     <div
-      className="modal fade fixed top-10 left-0 hidden w-full h-full outline-none overflow-x-hidden overflow-y-auto"
+      data-te-modal-init
+      className="fixed top-0 left-0 z-[1055] hidden h-full w-full overflow-y-auto overflow-x-hidden outline-none"
       id={props.modalId}
       tabIndex="-1"
-      aria-labelledby="modal"
-      aria-modal="true"
-      role="dialog">
+      aria-labelledby="ModalLabel"
+      aria-hidden="true">
       <div
-        className={`modal-dialog modal-${
-          !props.dimension ? "lg" : props.dimension
-        } relative w-auto pointer-events-none`}>
-        <div className="modal-content border-none shadow-lg relative flex flex-col w-full pointer-events-auto bg-white bg-clip-padding rounded-md outline-none text-current">
-          <div className="modal-header flex flex-shrink-0 items-center justify-between p-4 border-b border-gray-200 rounded-t-md">
-            <h5 className="text-xl font-medium leading-normal text-gray-800" id="exampleModalXlLabel">
+        data-te-modal-dialog-ref
+        className={`pointer-events-none relative w-auto translate-y-[-50px] opacity-0 transition-all duration-300 ease-in-out 
+              min-[576px]:mx-auto min-[576px]:mt-7 min-[576px]:max-w-[500px] ${
+                props.dimension === "xl" ? "min-[1200px]:max-w-[1140px]" : "min-[992px]:max-w-[800px]"
+              }`}>
+        <div className="pointer-events-auto relative flex w-full flex-col rounded-md border-none bg-white bg-clip-padding text-current shadow-lg outline-none dark:bg-neutral-600">
+          <div className="flex flex-shrink-0 items-center justify-between rounded-t-md border-b-2 border-neutral-100 border-opacity-100 p-4 dark:border-opacity-50">
+            <h5 className="text-xl font-medium leading-normal text-neutral-800 dark:text-neutral-200" id="ModalLabel">
               {props.ModalTitle}
             </h5>
             <button
               type="button"
               id="cerrar_modal_"
-              style={{ color: "rgb(153, 171, 180)", borderRadius: "50%" }}
-              className="text-2xl p-3 hover:drop-shadow-xl hover:bg-light-gray hover:rounded-full hover:text-white"
-              data-bs-dismiss="modal"
+              className="box-content rounded-none border-none hover:no-underline hover:opacity-75 focus:opacity-100 focus:shadow-none focus:outline-none"
+              data-te-modal-dismiss
               aria-label="Close">
               <AiOutlineCloseCircle />
             </button>
           </div>
-          <div className="modal-body relative p-4">{props.children}</div>
+          <div className="relative flex-auto p-4" data-te-modal-body-ref>
+            {props.children}
+          </div>
         </div>
       </div>
     </div>

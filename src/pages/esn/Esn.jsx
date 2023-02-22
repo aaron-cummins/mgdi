@@ -14,8 +14,9 @@ const Esn = () => {
         <Header category="Administración" title="ESN">
           <button
             type="button"
-            data-bs-toggle="modal"
-            data-bs-target="#esn-modal"
+            data-te-toggle="modal"
+            data-te-ripple-init
+            data-te-target="#esn-modal"
             style={{
               backgroundColor: currentColor,
               color: "white",

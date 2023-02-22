@@ -14,8 +14,9 @@ const TipoContrato = () => {
         <Header category="Administración" title="Tipo Contrato">
           <button
             type="button"
-            data-bs-toggle="modal"
-            data-bs-target="#tipocontrato-modal"
+            data-te-toggle="modal"
+            data-te-ripple-init
+            data-te-target="#tipocontrato-modal"
             style={{
               backgroundColor: currentColor,
               color: "white",

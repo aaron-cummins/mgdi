@@ -14,8 +14,9 @@ const AvisoMontaje = () => {
         <Header category="Administración" title="Aviso Montaje">
           <button
             type="button"
-            data-bs-toggle="modal"
-            data-bs-target="#am-modal"
+            data-te-toggle="modal"
+            data-te-ripple-init
+            data-te-target="#am-modal"
             style={{
               backgroundColor: currentColor,
               color: "white",

@@ -15,8 +15,9 @@ const Region = () => {
         <Header category="Administración" title="Región">
           <button
             type="button"
-            data-bs-toggle="modal"
-            data-bs-target="#region-modal"
+            data-te-toggle="modal"
+            data-te-ripple-init
+            data-te-target="#region-modal"
             style={{
               backgroundColor: currentColor,
               color: "white",

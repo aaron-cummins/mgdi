@@ -16,8 +16,6 @@ const useLogin = () => {
     const credenciales = loginAdapter(correo);
     const jwt = await callEndpoint(login(credenciales));
 
-    console.log(jwt.data);
-
     let respuesta = false;
 
     if (jwt && jwt.data) {

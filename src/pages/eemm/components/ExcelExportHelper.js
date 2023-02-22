@@ -236,7 +236,7 @@ const ExcelExportHelper = ({ data }) => {
 
   const addStyle = (workbookBlob) => {
     return XlsxPopulate.fromDataAsync(workbookBlob).then((workbook) => {
-      console.log(workbook.sheets(1));
+      //console.log(workbook.sheets(1));
 
       workbook.sheets().forEach((sheet) => {
         //Formato de toda la hoja

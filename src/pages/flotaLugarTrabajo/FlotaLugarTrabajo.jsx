@@ -15,8 +15,9 @@ const FlotaLugarTrabajo = () => {
         <Header category="Administración" title="Flota - Lugar de Trabajo">
           <button
             type="button"
-            data-bs-toggle="modal"
-            data-bs-target="#flotalugartrabajo-modal"
+            data-te-toggle="modal"
+            data-te-ripple-init
+            data-te-target="#flotalugartrabajo-modal"
             style={{
               backgroundColor: currentColor,
               color: "white",

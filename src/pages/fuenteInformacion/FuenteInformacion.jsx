@@ -14,8 +14,9 @@ const FuenteInformacion = () => {
         <Header category="Administración" title="Fuente de información">
           <button
             type="button"
-            data-bs-toggle="modal"
-            data-bs-target="#fuenteinformacion-modal"
+            data-te-toggle="modal"
+            data-te-ripple-init
+            data-te-target="#fuenteinformacion-modal"
             style={{
               backgroundColor: currentColor,
               color: "white",

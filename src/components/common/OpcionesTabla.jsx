@@ -25,8 +25,9 @@ const OpcionesTabla = ({
             type="button"
             onClick={() => FnEditar()}
             className={`${buttonStyle} bg-blue-light-cummins`}
-            data-bs-toggle="modal"
-            data-bs-target={`#${nombreform}-modal`}>
+            data-te-toggle="modal"
+            data-te-target={`#${nombreform}-modal`}
+            data-te-ripple-init>
             <FaRegEdit />
           </button>
         </TooltipComponent>

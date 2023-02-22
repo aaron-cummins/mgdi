@@ -54,7 +54,7 @@ const FormVistas = () => {
     const { name, value, type, checked } = e.target;
 
     if (type === "checkbox") setVistas({ ...vistas, [name]: checked });
-    else if (name === "grupoVistasId") setVistas({ ...vistas, vistasGroupHelper: { id: value } });
+    else if (name === "grupoVistasId") setVistas({ ...vistas, vistasGroupHelper: { id: value }, [name]: value });
     else setVistas({ ...vistas, [name]: value });
 
     if (type === "select-one") validarNumero(name, value);

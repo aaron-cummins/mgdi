@@ -14,8 +14,9 @@ const Pais = () => {
         <Header category="Administración" title="País">
           <button
             type="button"
-            data-bs-toggle="modal"
-            data-bs-target="#pais-modal"
+            data-te-toggle="modal"
+            data-te-ripple-init
+            data-te-target="#pais-modal"
             style={{
               backgroundColor: currentColor,
               color: "white",

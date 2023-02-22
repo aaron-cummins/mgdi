@@ -1,12 +1,7 @@
 import React, { useContext, useEffect, useMemo, useState } from "react";
 import { useStateContext } from "contexts/ContextProvider";
 import { useSnackbar } from "notistack";
-import {
-  Buttons,
-  Checkbox,
-  InputText,
-  Select,
-} from "components";
+import { Buttons, Checkbox, InputText, Select } from "components";
 import { closeModal, formatDate, formatDateshort } from "utilities/Utiles";
 import { SelectsContext } from "contexts/SelectsContext";
 import { ContratoContext } from "../context/contratoContext";
@@ -14,7 +9,14 @@ import useValidacionForm from "hooks/useValidacionForm";
 
 const FormContrato = () => {
   const { mensaje } = useStateContext();
-  const { obtenerFlotasLugarTrabajo, tipoContratoList, monitoreoFiltroList, monitoreoMotorList, lugarTrabajoUsuarioList, flotasLugarTrabajoList } = useContext(SelectsContext);
+  const {
+    obtenerFlotasLugarTrabajo,
+    tipoContratoList,
+    monitoreoFiltroList,
+    monitoreoMotorList,
+    lugarTrabajoUsuarioList,
+    flotasLugarTrabajoList,
+  } = useContext(SelectsContext);
   const { enqueueSnackbar } = useSnackbar();
   const { obtenerContrato, contratoActual, registrarContrato, actualizarContrato } = useContext(ContratoContext);
   const { validarTexto, validarSelect, validarNumero, error, setError } = useValidacionForm();
@@ -73,25 +75,30 @@ const FormContrato = () => {
     if (validarNumero("duracion", contrato.duracion, "Duración requerida")) valida = false;
     if (validarSelect("tipoContratoId", contrato.tipoContrato, "Debe seleccionar un tipo de contrato")) valida = false;
     if (validarSelect("lugarTrabajoId", contrato.lugarTrabajo, "Debe seleccionar un lugar de trabajo")) valida = false;
-    if (validarSelect("flotasLugarTrabajoId", contrato.flotaLugarTrabajo, "Debe seleccionar una flota lugar de trabajo")) valida = false;
-    if (validarSelect("monitoreoFiltroId", contrato.monitoreoFiltro, "Debe seleccionar un monitoreo de filtro")) valida = false;
-    if (validarSelect("monitoreoMotorId", contrato.monitoreoMotor, "Debe seleccionar un monitoreo de motor")) valida = false;
-  
+    if (
+      validarSelect("flotasLugarTrabajoId", contrato.flotaLugarTrabajo, "Debe seleccionar una flota lugar de trabajo")
+    )
+      valida = false;
+    if (validarSelect("monitoreoFiltroId", contrato.monitoreoFiltro, "Debe seleccionar un monitoreo de filtro"))
+      valida = false;
+    if (validarSelect("monitoreoMotorId", contrato.monitoreoMotor, "Debe seleccionar un monitoreo de motor"))
+      valida = false;
+
     return valida;
   };
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    
+
     if (type === "checkbox") setContrato({ ...contrato, [name]: checked });
-    else if (name === "lugarTrabajoId") { 
-      setContrato({ ...contrato, [name]: value, lugarTrabajo: { id: value }});
-      obtenerFlotasLugarTrabajo(value); 
-    }
-    else if (name === "flotasLugarTrabajoId") setContrato({...contrato, [name]: value, flotaLugarTrabajo: { id: value } })
-    else if (name === "tipoContratoId") setContrato({ ...contrato, tipoContrato: { id: value }});
-    else if (name === "monitoreoFiltroId") setContrato({ ...contrato, monitoreoFiltro: { id: value } });
-    else if (name === "monitoreoMotorId") setContrato({ ...contrato, monitoreoMotor: { id: value } });
+    else if (name === "lugarTrabajoId") {
+      setContrato({ ...contrato, [name]: value, lugarTrabajo: { id: value } });
+      obtenerFlotasLugarTrabajo(value);
+    } else if (name === "flotasLugarTrabajoId")
+      setContrato({ ...contrato, [name]: value, flotaLugarTrabajo: { id: value } });
+    else if (name === "tipoContratoId") setContrato({ ...contrato, tipoContrato: { id: value }, [name]: value });
+    else if (name === "monitoreoFiltroId") setContrato({ ...contrato, monitoreoFiltro: { id: value }, [name]: value });
+    else if (name === "monitoreoMotorId") setContrato({ ...contrato, monitoreoMotor: { id: value }, [name]: value });
     else setContrato({ ...contrato, [name]: value });
 
     if (type === "select-one") validarNumero(name, value);
@@ -108,9 +115,7 @@ const FormContrato = () => {
   const handleOnSubmit = async (e) => {
     e.preventDefault();
     if (validaciones()) {
-      contratoActual !== null
-        ? actualizarContrato(contratoAEnviar())
-        : registrarContrato(contratoAEnviar());
+      contratoActual !== null ? actualizarContrato(contratoAEnviar()) : registrarContrato(contratoAEnviar());
       closeModal();
       limpiaForm();
     } else {

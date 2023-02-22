@@ -14,8 +14,9 @@ const ConversionLugarTrabajo = () => {
         <Header category="Administración" title="Conversión lugar trabajo">
           <button
             type="button"
-            data-bs-toggle="modal"
-            data-bs-target="#conversionlugartrabajo-modal"
+            data-te-toggle="modal"
+            data-te-ripple-init
+            data-te-target="#conversionlugartrabajo-modal"
             style={{
               backgroundColor: currentColor,
               color: "white",

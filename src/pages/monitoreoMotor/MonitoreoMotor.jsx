@@ -14,8 +14,9 @@ const MonitoreoMotor = () => {
         <Header category="Administración" title="Monitoreo Motor">
           <button
             type="button"
-            data-bs-toggle="modal"
-            data-bs-target="#monitoreomotor-modal"
+            data-te-toggle="modal"
+            data-te-ripple-init
+            data-te-target="#monitoreomotor-modal"
             style={{
               backgroundColor: currentColor,
               color: "white",

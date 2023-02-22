@@ -14,8 +14,9 @@ const LugarTrabajo = () => {
         <Header category="Administración" title="Lugar de trabajo">
           <button
             type="button"
-            data-bs-toggle="modal"
-            data-bs-target="#lugarTrabajo-modal"
+            data-te-toggle="modal"
+            data-te-ripple-init
+            data-te-target="#lugarTrabajo-modal"
             style={{
               backgroundColor: currentColor,
               color: "white",

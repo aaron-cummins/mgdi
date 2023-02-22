@@ -14,8 +14,9 @@ const Zona = () => {
         <Header category="Administración" title="Zona">
           <button
             type="button"
-            data-bs-toggle="modal"
-            data-bs-target="#zona-modal"
+            data-te-toggle="modal"
+            data-te-ripple-init
+            data-te-target="#zona-modal"
             style={{
               backgroundColor: currentColor,
               color: "white",

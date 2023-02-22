@@ -13,8 +13,9 @@ const Unidad = () => {
         <Header category="Administración" title="Unidad">
           <button
             type="button"
-            data-bs-toggle="modal"
-            data-bs-target="#unidad-modal"
+            data-te-toggle="modal"
+            data-te-ripple-init
+            data-te-target="#unidad-modal"
             style={{
               backgroundColor: currentColor,
               color: "white",

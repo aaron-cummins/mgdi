@@ -14,8 +14,9 @@ const MonitoreoFiltro = () => {
         <Header category="Administración" title="Monitoreo Filtro">
           <button
             type="button"
-            data-bs-toggle="modal"
-            data-bs-target="#monitoreofiltro-modal"
+            data-te-toggle="modal"
+            data-te-ripple-init
+            data-te-target="#monitoreofiltro-modal"
             style={{
               backgroundColor: currentColor,
               color: "white",

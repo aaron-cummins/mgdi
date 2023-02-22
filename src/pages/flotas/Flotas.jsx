@@ -15,8 +15,9 @@ const Flotas = () => {
         <Header category="Administración" title="Flota">
           <button
             type="button"
-            data-bs-toggle="modal"
-            data-bs-target="#flota-modal"
+            data-te-toggle="modal"
+            data-te-ripple-init
+            data-te-target="#flota-modal"
             style={{
               backgroundColor: currentColor,
               color: "white",

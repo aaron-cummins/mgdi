@@ -14,8 +14,9 @@ const PermisosGlobales = () => {
         <Header category="Administración" title="Permisos Globales">
           <button
             type="button"
-            data-bs-toggle="modal"
-            data-bs-target="#PermisoGlobal-modal"
+            data-te-toggle="modal"
+            data-te-ripple-init
+            data-te-target="#PermisoGlobal-modal"
             style={{
               backgroundColor: currentColor,
               color: "white",

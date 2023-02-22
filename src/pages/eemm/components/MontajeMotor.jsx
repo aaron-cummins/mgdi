@@ -65,7 +65,7 @@ const MontajeMotor = () => {
   const handleChange = (e) => {
     const { name, value, type } = e.target;
 
-    console.log(name, value, type);
+    //console.log(name, value, type);
 
     if (name === "lugarTrabajoId") {
       obtenerFlotasLugarTrabajo(value);

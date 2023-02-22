@@ -12,10 +12,18 @@ const FormUsuario = () => {
   const { registrarUsuario, usuarioActual, actualizarUsuario, obtenerUsuario } = useContext(UsuarioContext);
   const { mensaje } = useStateContext();
   const { enqueueSnackbar } = useSnackbar();
+  const { cargosList } = useContext(SelectsContext);
   const {
-    cargosList,
-  } = useContext(SelectsContext);
-  const { validarTexto, validarSelect, validarNumero, error, setError, validarMail, validarTelefono, validarUId, validacionRut} = useValidacionForm();
+    validarTexto,
+    validarSelect,
+    validarNumero,
+    error,
+    setError,
+    validarMail,
+    validarTelefono,
+    validarUId,
+    validacionRut,
+  } = useValidacionForm();
 
   const usuarioDefault = useMemo(() => {
     return {
@@ -63,14 +71,14 @@ const FormUsuario = () => {
     if (validarUId("uid", usuario.uid, "UID incorrecto. Inténtelo nuevamente")) valida = false;
 
     if (validarTexto("correo", usuario.correo, "Correo corporativo requerido")) valida = false;
-    if (validarMail("correo", usuario.correo, "Correo corporativo incorrecto. Inténtelo nuevamente")) valida = false
+    if (validarMail("correo", usuario.correo, "Correo corporativo incorrecto. Inténtelo nuevamente")) valida = false;
 
     if (validarTexto("telefono", usuario.telefono, "Teléfono requerido")) valida = false;
-    if (validarTelefono("telefono", usuario.telefono, "Teléfono incorrecto. Inténtelo nuevamente")) valida = false
+    if (validarTelefono("telefono", usuario.telefono, "Teléfono incorrecto. Inténtelo nuevamente")) valida = false;
 
     if (validarTexto("anexo", usuario.anexo, "Anexo requerido")) valida = false;
     if (validarSelect("cargoId", usuario.cargo, "Debe seleccionar una conversión de flotas")) valida = false;
-  
+
     return valida;
   };
 
@@ -78,7 +86,7 @@ const FormUsuario = () => {
     const { name, value, type, checked } = e.target;
 
     if (type === "checkbox") setUsuario({ ...usuario, [name]: checked });
-    else if (name === "cargoId") setUsuario({ ...usuario, cargo: { id: value } }); 
+    else if (name === "cargoId") setUsuario({ ...usuario, cargo: { id: value }, [name]: value });
     else setUsuario({ ...usuario, [name]: value });
 
     if (type === "select-one") validarNumero(name, value);
@@ -94,9 +102,7 @@ const FormUsuario = () => {
   const handleOnSubmit = async (e) => {
     e.preventDefault();
     if (validaciones()) {
-      usuarioActual !== null
-        ? actualizarUsuario(UsuarioAEnviar())
-        : registrarUsuario(UsuarioAEnviar());
+      usuarioActual !== null ? actualizarUsuario(UsuarioAEnviar()) : registrarUsuario(UsuarioAEnviar());
       closeModal();
       limpiaForm();
     } else {

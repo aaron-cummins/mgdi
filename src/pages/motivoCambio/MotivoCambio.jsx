@@ -14,8 +14,9 @@ const MotivoCambio = () => {
         <Header category="Administración" title="Motivo cambio">
           <button
             type="button"
-            data-bs-toggle="modal"
-            data-bs-target="#motivocambio-modal"
+            data-te-toggle="modal"
+            data-te-ripple-init
+            data-te-target="#motivocambio-modal"
             style={{
               backgroundColor: currentColor,
               color: "white",

@@ -13,15 +13,15 @@ const AplicacionOem = () => {
         <Header category="Administración" title="Aplicación OEM">
           <button
             type="button"
-            data-bs-toggle="modal"
-            data-bs-target="#aplicacionoem-modal"
+            data-te-toggle="modal"
+            data-te-ripple-init
+            data-te-target="#aplicacionoem-modal"
             style={{
               backgroundColor: currentColor,
               color: "white",
               borderRadius: "10px",
             }}
             className={`gap-5 p-3  hover:drop-shadow-xl hover:bg-${currentColor} text-center inline-flex items-center`}>
-            {" "}
             Nueva Aplicación OEM
           </button>
         </Header>

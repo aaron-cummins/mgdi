@@ -1,5 +1,5 @@
 import { useState, useContext, useMemo, useEffect } from "react";
-import { InputText, Buttons, Checkbox, Select} from "components";
+import { InputText, Buttons, Checkbox, Select } from "components";
 import { ConversionFlotasContext } from "../context/ConversionFlotasContext";
 import { closeModal } from "utilities/Utiles";
 import { useStateContext } from "contexts/ContextProvider";
@@ -12,11 +12,7 @@ const FormConversionFlotas = () => {
     useContext(ConversionFlotasContext);
   const { enqueueSnackbar } = useSnackbar();
   const { mensaje } = useStateContext();
-  const {
-    flotasList,
-    conversionLugarTrabajoList,
-    fuenteInformacionList,
-  } = useContext(SelectsContext);
+  const { flotasList, conversionLugarTrabajoList, fuenteInformacionList } = useContext(SelectsContext);
   const { validarTexto, validarSelect, validarNumero, error, setError } = useValidacionForm();
 
   const ConversionFlotasDefault = useMemo(() => {
@@ -43,18 +39,35 @@ const FormConversionFlotas = () => {
   const [ConversionFlotas, setConversionFlotas] = useState(ConversionFlotasDefault);
 
   useEffect(() => {
-    ConversionFlotasActual !== null ? setConversionFlotas(ConversionFlotasActual) : setConversionFlotas(ConversionFlotasDefault);
+    ConversionFlotasActual !== null
+      ? setConversionFlotas(ConversionFlotasActual)
+      : setConversionFlotas(ConversionFlotasDefault);
   }, [ConversionFlotasActual, ConversionFlotasDefault]);
- 
+
   const validaciones = () => {
     let valida = true;
 
     if (validarTexto("nombre", ConversionFlotas.nombre, "Nombre conversión de flotas requerido")) valida = false;
-    if (validarTexto("abreviacion", ConversionFlotas.abreviacion, "Abreviación de conversión de flotas requerida")) valida = false;
+    if (validarTexto("abreviacion", ConversionFlotas.abreviacion, "Abreviación de conversión de flotas requerida"))
+      valida = false;
     if (validarSelect("flotasId", ConversionFlotas.flotas, "Debe seleccionar una flota")) valida = false;
-    if (validarSelect("fuenteInformacionId", ConversionFlotas.fuenteInformacion, "Debe seleccionar una fuente de información")) valida = false;
-    if (validarSelect("conversionLugarTrabajoId", ConversionFlotas.conversionLugarTrabajo, "Debe seleccionar una conversión lugar de trabajo")) valida = false;
-  
+    if (
+      validarSelect(
+        "fuenteInformacionId",
+        ConversionFlotas.fuenteInformacion,
+        "Debe seleccionar una fuente de información"
+      )
+    )
+      valida = false;
+    if (
+      validarSelect(
+        "conversionLugarTrabajoId",
+        ConversionFlotas.conversionLugarTrabajo,
+        "Debe seleccionar una conversión lugar de trabajo"
+      )
+    )
+      valida = false;
+
     return valida;
   };
 
@@ -63,8 +76,10 @@ const FormConversionFlotas = () => {
 
     if (type === "checkbox") setConversionFlotas({ ...ConversionFlotas, [name]: checked });
     else if (name === "flotasId") setConversionFlotas({ ...ConversionFlotas, flotas: { id: value }, [name]: value });
-    else if (name === "fuenteInformacionId") setConversionFlotas({ ...ConversionFlotas, fuenteInformacion: { id: value }});
-    else if (name === "conversionLugarTrabajoId") setConversionFlotas({ ...ConversionFlotas, conversionLugarTrabajo: { id: value }});
+    else if (name === "fuenteInformacionId")
+      setConversionFlotas({ ...ConversionFlotas, fuenteInformacion: { id: value }, [name]: value });
+    else if (name === "conversionLugarTrabajoId")
+      setConversionFlotas({ ...ConversionFlotas, conversionLugarTrabajo: { id: value }, [name]: value });
     else setConversionFlotas({ ...ConversionFlotas, [name]: value });
 
     if (type === "select-one") validarNumero(name, value);
@@ -173,7 +188,13 @@ const FormConversionFlotas = () => {
           />
         </div>
         <div className="form-group mb-6">
-          <Checkbox id="activo" name="activo" onChangeFN={handleChange} checked={ConversionFlotas.activo} label="Activo" />
+          <Checkbox
+            id="activo"
+            name="activo"
+            onChangeFN={handleChange}
+            checked={ConversionFlotas.activo}
+            label="Activo"
+          />
         </div>
       </div>
 

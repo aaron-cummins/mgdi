@@ -14,8 +14,9 @@ const TipoInyeccion = () => {
         <Header category="Administración" title="Tipo Inyección">
           <button
             type="button"
-            data-bs-toggle="modal"
-            data-bs-target="#tipoinyeccion-modal"
+            data-te-toggle="modal"
+            data-te-ripple-init
+            data-te-target="#tipoinyeccion-modal"
             style={{
               backgroundColor: currentColor,
               color: "white",

@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext, useMemo } from "react";
-import { InputText, Buttons, Checkbox, Select} from "components";
+import { InputText, Buttons, Checkbox, Select } from "components";
 import { ZonaContext } from "../context/zonaContext";
 import { closeModal } from "utilities/Utiles";
 import { useStateContext } from "contexts/ContextProvider";
@@ -11,9 +11,7 @@ const FormZona = () => {
   const { registrarZona, zonaActual, actualizarZona, obtenerZona } = useContext(ZonaContext);
   const { mensaje } = useStateContext();
   const { enqueueSnackbar } = useSnackbar();
-  const {
-    paisList,
-  } = useContext(SelectsContext);
+  const { paisList } = useContext(SelectsContext);
   const { validarTexto, validarSelect, validarNumero, error, setError } = useValidacionForm();
 
   const zonaDefault = useMemo(() => {
@@ -39,7 +37,7 @@ const FormZona = () => {
 
     if (validarTexto("nombre", zona.nombre, "Nombre de zona requerido")) valida = false;
     if (validarSelect("paisId", zona.pais, "Debe seleccionar un país")) valida = false;
-  
+
     return valida;
   };
 
@@ -47,7 +45,7 @@ const FormZona = () => {
     const { name, value, type, checked } = e.target;
 
     if (type === "checkbox") setZona({ ...zona, [name]: checked });
-    else if (name === "paisId") setZona({ ...zona, pais: { id: value } });
+    else if (name === "paisId") setZona({ ...zona, pais: { id: value }, [name]: value });
     else setZona({ ...zona, [name]: value });
 
     if (type === "select-one") validarNumero(name, value);
@@ -63,9 +61,7 @@ const FormZona = () => {
   const handleOnSubmit = async (e) => {
     e.preventDefault();
     if (validaciones()) {
-      zonaActual !== null
-        ? actualizarZona(ZonaAEnviar())
-        : registrarZona(ZonaAEnviar());
+      zonaActual !== null ? actualizarZona(ZonaAEnviar()) : registrarZona(ZonaAEnviar());
       closeModal();
       limpiaForm();
     } else {
@@ -97,16 +93,16 @@ const FormZona = () => {
           />
         </div>
         <div className="form-group mb-4">
-          <Select 
-            id="paisId" 
-            name="paisId" 
-            value={zona.pais?.id} 
+          <Select
+            id="paisId"
+            name="paisId"
+            value={zona.pais?.id}
             onChange={handleChange}
             label="País"
-            list={paisList} 
+            list={paisList}
             required={true}
             error={error.paisId}
-            />
+          />
         </div>
       </div>
 

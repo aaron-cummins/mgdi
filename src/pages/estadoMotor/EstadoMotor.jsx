@@ -14,8 +14,9 @@ const EstadoMotor = () => {
         <Header category="Administración" title="Estado motor ">
           <button
             type="button"
-            data-bs-toggle="modal"
-            data-bs-target="#estadomotor-modal"
+            data-te-toggle="modal"
+            data-te-ripple-init
+            data-te-target="#estadomotor-modal"
             style={{
               backgroundColor: currentColor,
               color: "white",

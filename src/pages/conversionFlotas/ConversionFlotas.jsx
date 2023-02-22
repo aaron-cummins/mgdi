@@ -14,12 +14,13 @@ const ConversionFlotas = () => {
         <Header category="Administración" title="Conversión flotas">
           <button
             type="button"
-            data-bs-toggle="modal"
-            data-bs-target="#conversionflotas-modal"
+            data-te-toggle="modal"
+            data-te-ripple-init
+            data-te-target="#conversionflotas-modal"
             style={{
               backgroundColor: currentColor,
               color: "white",
-              borderRadius: "10px"
+              borderRadius: "10px",
             }}
             className={`gap-5 p-3  hover:drop-shadow-xl hover:bg-${currentColor} text-center inline-flex items-center`}>
             Nueva Conversión Flotas

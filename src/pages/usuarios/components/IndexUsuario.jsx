@@ -11,8 +11,9 @@ const IndexUsuario = () => {
       <Header category="Administración" title="Usuario">
         <button
           type="button"
-          data-bs-toggle="modal"
-          data-bs-target="#usuario-modal"
+          data-te-toggle="modal"
+          data-te-ripple-init
+          data-te-target="#usuario-modal"
           style={{
             backgroundColor: currentColor,
             color: "white",

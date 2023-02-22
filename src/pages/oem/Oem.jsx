@@ -14,8 +14,9 @@ const Oem = () => {
         <Header category="Administración" title="OEM">
           <button
             type="button"
-            data-bs-toggle="modal"
-            data-bs-target="#oem-modal"
+            data-te-toggle="modal"
+            data-te-ripple-init
+            data-te-target="#oem-modal"
             style={{
               backgroundColor: currentColor,
               color: "white",

@@ -14,8 +14,9 @@ const TipoBlock = () => {
         <Header category="Administración" title="Tipo block">
           <button
             type="button"
-            data-bs-toggle="modal"
-            data-bs-target="#tipoblock-modal"
+            data-te-toggle="modal"
+            data-te-ripple-init
+            data-te-target="#tipoblock-modal"
             style={{
               backgroundColor: currentColor,
               color: "white",

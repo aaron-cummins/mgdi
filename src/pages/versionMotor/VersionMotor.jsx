@@ -14,8 +14,9 @@ const VersionMotor = () => {
         <Header category="Administración" title="Versión Motor">
           <button
             type="button"
-            data-bs-toggle="modal"
-            data-bs-target="#versionmotor-modal"
+            data-te-toggle="modal"
+            data-te-ripple-init
+            data-te-target="#versionmotor-modal"
             style={{
               backgroundColor: currentColor,
               color: "white",

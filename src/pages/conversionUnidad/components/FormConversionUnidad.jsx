@@ -12,10 +12,7 @@ const FormConversionUnidad = () => {
     useContext(ConversionUnidadContext);
   const { enqueueSnackbar } = useSnackbar();
   const { mensaje } = useStateContext();
-  const {
-    unidadesList,
-    conversionFlotaList,
-  } = useContext(SelectsContext);
+  const { unidadesList, conversionFlotaList } = useContext(SelectsContext);
   const { validarTexto, validarSelect, validarNumero, error, setError } = useValidacionForm();
 
   const ConversionUnidadDefault = useMemo(() => {
@@ -26,7 +23,7 @@ const FormConversionUnidad = () => {
       conversionFlotas: {
         id: 0,
       },
-      unidadId: 0, 
+      unidadId: 0,
       unidad: {
         id: 0,
       },
@@ -37,16 +34,25 @@ const FormConversionUnidad = () => {
   const [ConversionUnidad, setConversionUnidad] = useState(ConversionUnidadDefault);
 
   useEffect(() => {
-    ConversionUnidadActual !== null ? setConversionUnidad(ConversionUnidadActual) : setConversionUnidad(ConversionUnidadDefault);
+    ConversionUnidadActual !== null
+      ? setConversionUnidad(ConversionUnidadActual)
+      : setConversionUnidad(ConversionUnidadDefault);
   }, [ConversionUnidadActual, ConversionUnidadDefault]);
 
   const validaciones = () => {
     let valida = true;
 
     if (validarTexto("nombre", ConversionUnidad.nombre, "Nombre requerido")) valida = false;
-    if (validarSelect("conversionFlotasId", ConversionUnidad.conversionFlotas, "Debe seleccionar una conversión de flotas")) valida = false;
+    if (
+      validarSelect(
+        "conversionFlotasId",
+        ConversionUnidad.conversionFlotas,
+        "Debe seleccionar una conversión de flotas"
+      )
+    )
+      valida = false;
     if (validarSelect("unidadId", ConversionUnidad.unidad, "Debe seleccionar una unidad")) valida = false;
-  
+
     return valida;
   };
 
@@ -54,8 +60,9 @@ const FormConversionUnidad = () => {
     const { name, value, type, checked } = e.target;
 
     if (type === "checkbox") setConversionUnidad({ ...ConversionUnidad, [name]: checked });
-    else if (name === "conversionFlotasId") setConversionUnidad({ ...ConversionUnidad, conversionFlotas: { id: value } });
-    else if (name === "unidadId") setConversionUnidad({ ...ConversionUnidad, unidad: { id: value } });
+    else if (name === "conversionFlotasId")
+      setConversionUnidad({ ...ConversionUnidad, conversionFlotas: { id: value }, [name]: value });
+    else if (name === "unidadId") setConversionUnidad({ ...ConversionUnidad, unidad: { id: value }, [name]: value });
     else setConversionUnidad({ ...ConversionUnidad, [name]: value });
 
     if (type === "select-one") validarNumero(name, value);
@@ -106,9 +113,15 @@ const FormConversionUnidad = () => {
           />
         </div>
         <div className="grid grid-cols-2 gap-4">
-            <div className="form-group mb-6">
-                <Checkbox id="activo" name="activo" onChangeFN={handleChange} checked={ConversionUnidad.activo} label="Activo" />
-            </div>
+          <div className="form-group mb-6">
+            <Checkbox
+              id="activo"
+              name="activo"
+              onChangeFN={handleChange}
+              checked={ConversionUnidad.activo}
+              label="Activo"
+            />
+          </div>
         </div>
       </div>
 

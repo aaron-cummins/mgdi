@@ -14,8 +14,9 @@ const Ub = () => {
         <Header category="Administración" title="Ub">
           <button
             type="button"
-            data-bs-toggle="modal"
-            data-bs-target="#ub-modal"
+            data-te-toggle="modal"
+            data-te-ripple-init
+            data-te-target="#ub-modal"
             style={{
               backgroundColor: currentColor,
               color: "white",

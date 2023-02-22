@@ -15,8 +15,9 @@ const Vistas = () => {
         <Header category="Administración" title="Vistas">
           <button
             type="button"
-            data-bs-toggle="modal"
-            data-bs-target="#vistas-modal"
+            data-te-toggle="modal"
+            data-te-ripple-init
+            data-te-target="#vistas-modal"
             style={{
               backgroundColor: currentColor,
               color: "white",

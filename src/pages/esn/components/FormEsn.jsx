@@ -6,6 +6,7 @@ import { closeModal } from "utilities/Utiles";
 import { useSnackbar } from "notistack";
 import { SelectsContext } from "contexts/SelectsContext";
 import useValidacionForm from "hooks/useValidacionForm";
+import { getUsuarioId } from "utilities/Login_utiles";
 
 const FormEsn = () => {
   const { registrarEsn, esnActual, actualizarEsn, obtenerEsn } = useContext(EsnContext);
@@ -80,7 +81,7 @@ const FormEsn = () => {
   const EsnAEnviar = () => {
     let esnTmp = { ...esn };
     esnTmp.versionMotorId = esn.versionMotor.id;
-    esnTmp.usuarioId = 1;
+    esnTmp.usuarioId = getUsuarioId();
     return esnTmp;
   };
 

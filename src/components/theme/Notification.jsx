@@ -9,8 +9,8 @@ const Notification = () => {
   const chatData = [
     {
       image: "img/users/d3.jpg",
-      message: "Roman Joined the Team!",
-      desc: "Congratulate him",
+      message: "Bienvenido!",
+      desc: "Sistema de Mantenimiento Distribuidora Cummins Chile",
       time: "9:08 AM",
     },
   ];

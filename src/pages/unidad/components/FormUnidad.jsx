@@ -7,6 +7,7 @@ import { SelectsContext } from "contexts/SelectsContext";
 import { useContext } from "react";
 import { useSnackbar } from "notistack";
 import useValidacionForm from "hooks/useValidacionForm";
+import { getUsuarioId } from "utilities/Login_utiles";
 
 const FormUnidad = () => {
   const { registrarUnidad, unidadActual, actualizarUnidad, obtenerUnidad } = useContext(UnidadContext);
@@ -135,7 +136,7 @@ const FormUnidad = () => {
     unidadTmp.oemId = unidad.oem.id;
     unidadTmp.aplicacionOemId = unidad.aplicacionOem.id;
     unidadTmp.versionId = unidad.version.id;
-    unidadTmp.usuarioId = 1;
+    unidadTmp.usuarioId = getUsuarioId();
     return unidadTmp;
   };
 

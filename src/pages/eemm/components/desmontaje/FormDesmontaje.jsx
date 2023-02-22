@@ -6,6 +6,7 @@ import { useStateContext } from "contexts/ContextProvider";
 import { useSnackbar } from "notistack";
 import { SelectsContext } from "contexts/SelectsContext";
 import useValidacionForm from "hooks/useValidacionForm";
+import { getUsuarioId } from "utilities/Login_utiles";
 
 const FormDesmontaje = (props) => {
   const {
@@ -153,7 +154,7 @@ const FormDesmontaje = (props) => {
     desmontajeTmp.adId = eemm.ad.id;
     desmontajeTmp.ubId = eemm.ub.id;
     desmontajeTmp.activo = false;
-
+    desmontajeTmp.usuarioId = getUsuarioId();
     return desmontajeTmp;
   };
 

@@ -17,7 +17,10 @@ const NavButton = ({ title, customFunc, icon, color, dotColor }) => (
       onClick={() => customFunc()}
       style={{ color }}
       className="relative text-xl rounded-full p-3 dark:text-white hover:bg-light-gray-2">
-      <span style={{ background: dotColor }} className="absolute inline-flex rounded-full h-2 w-2 right-2 top-2" />
+      <span
+        style={{ background: dotColor }}
+        className="absolute inline-flex rounded-full h-2 w-2 right-2 top-2 dark:text-gray-200"
+      />
       {icon}
     </button>
   </TooltipComponent>
@@ -49,7 +52,7 @@ const Navbar = () => {
 
   return (
     <div className="flex justify-between p-1 md:ml-6 md:mr-6 relative">
-      <NavButton title="Menu" customFunc={handleActiveMenu} color={"black"} icon={<AiOutlineMenu />} />
+      <NavButton title="Menu" customFunc={handleActiveMenu} color={"gray"} icon={<AiOutlineMenu />} />
 
       {/*<div className="flex">
         <p>
@@ -65,7 +68,7 @@ const Navbar = () => {
           title="Notificaciones"
           dotColor="rgb(254, 201, 15)"
           customFunc={() => handleClick("notification")}
-          color={"black"}
+          color={"gray"}
           icon={<RiNotification3Line />}
         />
         <TooltipComponent content="Perfil" position="BottomCenter">

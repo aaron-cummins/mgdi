@@ -24,7 +24,8 @@ const Modal = (props) => {
             <button
               type="button"
               id="cerrar_modal_"
-              className="box-content rounded-none border-none hover:no-underline hover:opacity-75 focus:opacity-100 focus:shadow-none focus:outline-none"
+              //className="box-content rounded-none border-none hover:no-underline hover:opacity-75 focus:opacity-100 focus:shadow-none focus:outline-none"
+              className="relative text-xl rounded-full p-3 dark:text-white hover:bg-light-gray-2"
               data-te-modal-dismiss
               aria-label="Close">
               <AiOutlineCloseCircle />

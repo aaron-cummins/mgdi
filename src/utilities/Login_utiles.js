@@ -122,3 +122,7 @@ export const PermisosUsuario = (permisos) => {
   //if(grupoID !== item.grupoId) grupoID = item.grupoId ;
   return permisosU;
 };
+
+export const getUsuarioId = () => {
+  return JSON.parse(sessionStorage.getItem("user_info"))["id"];
+};

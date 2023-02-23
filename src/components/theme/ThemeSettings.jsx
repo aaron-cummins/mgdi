@@ -6,7 +6,6 @@ import { MdOutlineCancel } from "react-icons/md";
 import { useStateContext } from "contexts/ContextProvider";
 import { LoginContext } from "contexts/LoginContext";
 import { setUsuarioLugarTrabajo } from "utilities/Login_utiles";
-import { Select } from "../";
 import { useContext } from "react";
 import { getUsuarioLugarTrabajo } from "utilities/Login_utiles";
 import { useEffect } from "react";
@@ -17,17 +16,18 @@ const ThemeSettings = () => {
   const { setMode, currentMode, setThemeSettings, setLugarTrabajoSelected } = useStateContext();
   const { setMenuUsuario } = useContext(LoginContext);
   const { lugarTrabajoUsuarioList } = useContext(SelectsContext);
+
   const handleOnChange = (e) => {
-    setUsuarioLugarTrabajo(e.target.value);
+    setUsuarioLugarTrabajo(e.target.value, e.target.options[e.target.selectedIndex].innerText);
     setLugarTrabajoSelected(e.target.value);
     setMenuUsuario(e.target.value);
     SetLugarActual(e.target.value);
   };
 
-  const [lugarActual, SetLugarActual] = useState(1);
+  const [lugarActual, SetLugarActual] = useState(getUsuarioLugarTrabajo());
 
   useEffect(() => {
-    SetLugarActual(getUsuarioLugarTrabajo);
+    SetLugarActual(getUsuarioLugarTrabajo());
   }, []);
 
   return (
@@ -46,14 +46,19 @@ const ThemeSettings = () => {
         <div className="flex-col border-t-1 border-color p-4 ml-4">
           <p className="font-semibold text-xl ">Faena</p>
           <div className="mt-4">
-            <Select
+            <select
               onChange={handleOnChange}
               value={lugarActual}
               name="lugar_trabajo_global"
               id="lugar_trabajo_global"
               label="Sleccione Lugar de Trabajo"
-              list={lugarTrabajoUsuarioList}
-            />
+              className="form-control block w-full px-3 py-1.5 border border-solid rounded border-gray-300 text-gray-600 pl-1">
+              {lugarTrabajoUsuarioList.map((item) => (
+                <option key={"_" + item.id} value={item.id}>
+                  {item.nombre}
+                </option>
+              ))}
+            </select>
           </div>
         </div>
         <div className="flex-col border-t-1 border-color p-4 ml-4">

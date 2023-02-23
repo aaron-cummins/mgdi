@@ -75,7 +75,7 @@ const FormMotor = () => {
 
   const MotorEnviar = () => {
     let motorTmp = { ...motor };
-    motorTmp.aplicacionId = document.querySelector("#aplicacionId").value;
+    motorTmp.aplicacionId = motor.aplicacion.id;
     return motorTmp;
   };
 

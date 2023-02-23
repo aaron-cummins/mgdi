@@ -5,7 +5,7 @@ const Modal = (props) => {
   return (
     <div
       data-te-modal-init
-      className="fixed top-0 left-0 z-[1055] hidden h-full w-full overflow-y-auto overflow-x-hidden outline-none"
+      className="fixed top-0 mt-4 left-0 z-[1055] hidden h-full w-full overflow-y-auto overflow-x-hidden outline-none"
       id={props.modalId}
       tabIndex="-1"
       aria-labelledby="ModalLabel"
@@ -17,8 +17,8 @@ const Modal = (props) => {
                 props.dimension === "xl" ? "min-[1200px]:max-w-[1140px]" : "min-[992px]:max-w-[800px]"
               }`}>
         <div className="pointer-events-auto relative flex w-full flex-col rounded-md border-none bg-white bg-clip-padding text-current shadow-lg outline-none dark:bg-neutral-600">
-          <div className="flex flex-shrink-0 items-center justify-between rounded-t-md border-b-2 border-neutral-100 border-opacity-100 p-4 dark:border-opacity-50">
-            <h5 className="text-xl font-medium leading-normal text-neutral-800 dark:text-neutral-200" id="ModalLabel">
+          <div className="mt-5 flex flex-shrink-0 items-center justify-between rounded-t-md border-b-2 border-neutral-100 border-opacity-100 p-4 dark:border-opacity-50">
+            <h5 className="text-xl font-medium leading-normal text-neutral-800 dark:text-neutral-200 " id="ModalLabel">
               {props.ModalTitle}
             </h5>
             <button

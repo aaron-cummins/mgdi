@@ -37,11 +37,8 @@ const FormAvisoDesmontaje = () => {
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-
     type === "checkbox" ? setAd({ ...ad, [name]: checked }) : setAd({ ...ad, [name]: value });
-
-    if (type === "select-one") validarNumero(name, value);
-    else validarTexto(name, value);
+    type === "select-one" ? validarNumero(name, value) : validarTexto(name, value);
   };
 
   const limpiaForm = () => {
@@ -70,7 +67,7 @@ const FormAvisoDesmontaje = () => {
   };
 
   return (
-    <form onSubmit={handleOnSubmit}>
+    <form onSubmit={(e) => handleOnSubmit(e)}>
       {mensaje.mensaje ? enqueueSnackbar(mensaje.mensaje, { variant: mensaje.tipoAlerta }) : null}
       <div className="grid grid-cols-3 gap-4">
         <div className="form-group mb-8">
@@ -80,8 +77,7 @@ const FormAvisoDesmontaje = () => {
             placeholder="Nombre"
             label="Nombre"
             value={ad?.nombre}
-            onChangeFN={handleChange}
-            onBlur={handleChange}
+            onChangeFN={(e) => handleChange(e)}
             //required={true}
             error={error?.nombre}
           />
@@ -94,15 +90,14 @@ const FormAvisoDesmontaje = () => {
             name="fecha"
             placeholder="Fecha"
             label="Fecha"
-            value={formatDateshort(ad?.fecha)}
-            onChangeFN={handleChange}
-            onBlur={handleChange}
+            value={ad.fecha && formatDateshort(ad?.fecha)}
+            onChangeFN={(e) => handleChange(e)}
             //required={true}
             error={error?.fecha}
           />
         </div>
         <div className="form-group mb-4">
-          <Checkbox id="activo" name="activo" onChangeFN={handleChange} checked={ad?.activo} label="Activo" />
+          <Checkbox id="activo" name="activo" onChangeFN={(e) => handleChange(e)} checked={ad?.activo} label="Activo" />
         </div>
       </div>
       <div className="modal-footer flex flex-shrink-0 flex-wrap items-center justify-end p-4 border-t border-gray-200 rounded-b-md">

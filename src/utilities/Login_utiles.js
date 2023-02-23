@@ -58,8 +58,9 @@ export const getUsuarioPersist = () => {
   return userPerfil;
 };
 
-export const setUsuarioLugarTrabajo = (id_lugar_trabajo) => {
-  return sessionStorage.setItem("user_info_lugarTrabajo_actual", id_lugar_trabajo);
+export const setUsuarioLugarTrabajo = (id_lugar_trabajo, name_lugar_trabajo) => {
+  sessionStorage.setItem("user_info_lugarTrabajo_actual", id_lugar_trabajo);
+  sessionStorage.setItem("user_info_lugarTrabajo_actual_name", name_lugar_trabajo);
   //return localStorage.setItem("user_info_lugarTrabajo_actual", id_lugar_trabajo);
 };
 
@@ -67,6 +68,12 @@ export const getUsuarioLugarTrabajo = () => {
   let lt = sessionStorage.getItem("user_info_lugarTrabajo_actual");
   //let lt = localStorage.getItem("user_info_lugarTrabajo_actual");
   return lt;
+};
+
+export const getUsuarioLugarTrabajoName = () => {
+  let ltn = sessionStorage.getItem("user_info_lugarTrabajo_actual_name");
+  //let lt = localStorage.getItem("user_info_lugarTrabajo_actual");
+  return ltn;
 };
 
 export const getUsuarioLugaresTrabajoList = () => {
@@ -125,4 +132,8 @@ export const PermisosUsuario = (permisos) => {
 
 export const getUsuarioId = () => {
   return JSON.parse(sessionStorage.getItem("user_info"))["id"];
+};
+
+export const getUsuarioEmail = () => {
+  return JSON.parse(sessionStorage.getItem("user_info"))["correo"];
 };

@@ -83,7 +83,6 @@ const PermisosUsuario = () => {
 
     checkedState.forEach((item) => {
       if (item.activo === true) {
-        console.log(item);
         PermisoTmp.push({
           id: 0,
           lugarTrabajoId: item.lugarTrabajoId,

@@ -22,7 +22,7 @@ const TablaAvisoDesmontaje = () => {
     },
     {
       name: "Acciones",
-      cell: (props) => <OpcionesTabla editar={true} FnEditar={() => getAvisoDesmontaje(props)} nombreform="am" />,
+      cell: (props) => <OpcionesTabla editar={true} FnEditar={() => getAvisoDesmontaje(props)} nombreform="ad" />,
     },
   ];
 

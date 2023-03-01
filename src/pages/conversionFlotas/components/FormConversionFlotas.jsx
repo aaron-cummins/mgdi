@@ -108,9 +108,9 @@ const FormConversionFlotas = () => {
 
   const ConversionFlotasEnviar = () => {
     let ConversionFlotasTmp = { ...ConversionFlotas };
-    ConversionFlotasTmp.flotasId = document.querySelector("#flotasId").value;
-    ConversionFlotasTmp.fuenteInformacionId = document.querySelector("#fuenteInformacionId").value;
-    ConversionFlotasTmp.conversionLugarTrabajoId = document.querySelector("#conversionLugarTrabajoId").value;
+    ConversionFlotasTmp.flotasId = ConversionFlotas.flotas.id;
+    ConversionFlotasTmp.fuenteInformacionId = ConversionFlotas.fuenteInformacion.id;
+    ConversionFlotasTmp.conversionLugarTrabajoId = ConversionFlotas.conversionLugarTrabajo.id;
     return ConversionFlotasTmp;
   };
 

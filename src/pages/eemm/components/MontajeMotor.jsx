@@ -69,20 +69,27 @@ const MontajeMotor = () => {
 
     if (name === "lugarTrabajoId") {
       obtenerFlotasLugarTrabajo(value);
-      setEemm({ ...eemm, lugarTrabajo: { id: value }, [name]: value });
+      setEemm({
+        ...eemm,
+        lugarTrabajo: { id: value },
+        flotaLugarTrabajo: { id: 0 },
+        unidad: { id: 0 },
+        esn: { id: 0 },
+        [name]: value,
+      });
       limpiarFlotasLugarTrabajo();
       limpiarUnidades();
       limpiarEsn();
       setVisible(false);
     } else if (name === "flotaLugarTrabajoId") {
       obtenerUnidades(value);
-      setEemm({ ...eemm, flotaLugarTrabajo: { id: value }, [name]: value });
+      setEemm({ ...eemm, flotaLugarTrabajo: { id: value }, unidad: { id: 0 }, esn: { id: 0 }, [name]: value });
       limpiarUnidades();
       limpiarEsn();
       setVisible(false);
     } else if (name === "unidadId") {
       obtenerEsn(false);
-      setEemm({ ...eemm, unidad: { id: value }, [name]: value });
+      setEemm({ ...eemm, unidad: { id: value }, esn: { id: 0 }, [name]: value });
       setVisible(false);
     } else if (name === "esnId") {
       setEemm({ ...eemm, esn: { id: value }, [name]: value });
@@ -137,7 +144,7 @@ const MontajeMotor = () => {
             label="Lugar Trabajo"
             list={lugarTrabajoUsuarioList}
             value={eemm?.lugarTrabajo?.id}
-            onChange={(e) => handleChange(e)}
+            onChange={handleChange}
             required={true}
             error={error.lugarTrabajoId}
           />
@@ -150,7 +157,7 @@ const MontajeMotor = () => {
             label="Flota"
             list={flotasLugarTrabajoList}
             value={eemm?.flotaLugarTrabajo?.id}
-            onChange={(e) => handleChange(e)}
+            onChange={handleChange}
             required={true}
             error={error.flotaLugarTrabajoId}
           />
@@ -163,7 +170,7 @@ const MontajeMotor = () => {
             label="Unidad"
             list={unidadesList}
             value={eemm?.unidad?.id}
-            onChange={(e) => handleChange(e)}
+            onChange={handleChange}
             required={true}
             error={error.unidadId}
           />
@@ -177,7 +184,7 @@ const MontajeMotor = () => {
             label="ESN"
             list={esnList}
             value={eemm?.esn?.id}
-            onChange={(e) => handleChange(e)}
+            onChange={handleChange}
             required={true}
             error={error.esnId}
           />

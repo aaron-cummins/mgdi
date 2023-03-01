@@ -15,14 +15,11 @@ const IndexEemm = () => {
   const {
     obtenerFlotasLugarTrabajo,
     obtenerUnidades,
-    obtenerEsn,
     limpiarFlotasLugarTrabajo,
     limpiarUnidades,
-    limpiarEsn,
     lugarTrabajoUsuarioList,
     flotasLugarTrabajoList,
     unidadesList,
-    esnList,
   } = useContext(SelectsContext);
 
   useEffect(() => {
@@ -45,20 +42,15 @@ const IndexEemm = () => {
 
     if (name === "lugarTrabajoId") {
       obtenerFlotasLugarTrabajo(value);
-      setEemm({ ...eemm, lugarTrabajo: { id: value }, [name]: value });
+      setEemm({ ...eemm, lugarTrabajo: { id: value }, flotaLugarTrabajo: { id: 0 }, unidad: { id: 0 }, [name]: value });
       limpiarFlotasLugarTrabajo();
       limpiarUnidades();
-      limpiarEsn();
     } else if (name === "flotaLugarTrabajoId") {
       obtenerUnidades(value);
-      setEemm({ ...eemm, flotaLugarTrabajo: { id: value }, [name]: value });
+      setEemm({ ...eemm, flotaLugarTrabajo: { id: value }, unidad: { id: 0 }, [name]: value });
       limpiarUnidades();
-      limpiarEsn();
     } else if (name === "unidadId") {
-      obtenerEsn(false);
       setEemm({ ...eemm, unidad: { id: value }, [name]: value });
-    } else if (name === "esnId") {
-      setEemm({ ...eemm, esn: { id: value }, [name]: value });
     } else setEemm({ ...eemm, [name]: value });
   };
 
@@ -94,7 +86,7 @@ const IndexEemm = () => {
           </button>
         </div>
       </Header>
-      <Filtros Fn={handleSearch}>
+      <Filtros columnas="3" Fn={handleSearch}>
         <div className="form-group">
           <Select
             id="lugarTrabajoId"
@@ -131,23 +123,10 @@ const IndexEemm = () => {
             required={true}
           />
         </div>
-
-        <div className="form-group">
-          <Select
-            id="esnId"
-            name="esnId"
-            placeholder="ESN"
-            label="ESN"
-            list={esnList}
-            value={eemm?.esn?.id}
-            onChange={(e) => handleChange(e)}
-            required={true}
-          />
-        </div>
       </Filtros>
       <Seccion titulo="Descarga Estado motor" visible="true">
         <ExcelExportHelper data={eemmList} />
-        <TablaEemm />
+        {eemmList.length > 0 && <TablaEemm />}
       </Seccion>
     </>
   );

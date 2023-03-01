@@ -74,7 +74,7 @@ const FormComuna = () => {
 
   const ComunaAEnviar = () => {
     let comunaTmp = { ...comuna };
-    comunaTmp.regionId = document.querySelector("#regionId").value;
+    comunaTmp.regionId = comuna.region.id;
     return comunaTmp;
   };
 

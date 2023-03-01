@@ -1,12 +1,12 @@
 import React from "react";
 import { useStateContext } from "contexts/ContextProvider";
-import { Link, NavLink } from "react-router-dom";
-import { MdOutlineCancel } from "react-icons/md";
-import { TooltipComponent } from "@syncfusion/ej2-react-popups";
+import { NavLink } from "react-router-dom";
+//import { MdOutlineCancel } from "react-icons/md";
+//import { TooltipComponent } from "@syncfusion/ej2-react-popups";
 import { RiArrowRightSLine } from "react-icons/ri";
 import { BiCategoryAlt } from "react-icons/bi";
 
-import logo from "assets/img/DBM2.0.png";
+//import logo from "assets/img/DBM2.0.png";
 
 const initialState = {
   chat: false,
@@ -16,7 +16,7 @@ const initialState = {
 };
 
 const Menu = (props) => {
-  const { currentColor, activeMenu, setActiveMenu, setIsClicked } = useStateContext();
+  const { currentColor, setActiveMenu, setIsClicked } = useStateContext();
 
   //const handleActiveMenu = () => setActiveMenu(!activeMenu);
 
@@ -45,28 +45,6 @@ const Menu = (props) => {
       id={`control-${props.controller}`}
       name="submenu"
       className="flex-none bg-gray-cummins p-1 flex-col overflow-auto hidden">
-      {/* LOGO */}
-      <div className="flex justify-between items-center">
-        <Link
-          to="/"
-          onClick={handleCloseSideBar}
-          className="items-center gap-3 ml-3 flex text-xl font-extrabold tracking-tightdark:text-white text-white">
-          {/*<img src='img/logo/logo_blanco-icono.png' width='40px' alt='cummins' /> */}
-          <span>
-            <img src={logo} width="100%" alt="cummins" />
-          </span>
-        </Link>
-        <TooltipComponent content="Menu" position="BottomCenter">
-          <button
-            type="button"
-            onClick={() => setActiveMenu(!activeMenu)}
-            style={{ color: currentColor }}
-            className="text-xl rounded-full p-3 hover:bg-light-gray-2 mt-4 block md:hidden">
-            <MdOutlineCancel />
-          </button>
-        </TooltipComponent>
-      </div>
-
       <div className="flex-grow border-t border-gray-400 mt-2 mb-3"></div>
 
       {/* NOMBRE MODULO */}

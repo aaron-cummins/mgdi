@@ -72,7 +72,7 @@ const FormZona = () => {
 
   const ZonaAEnviar = () => {
     let zonaTmp = { ...zona };
-    zonaTmp.paisId = document.querySelector("#paisId").value;
+    zonaTmp.paisId = zona.pais.id;
     return zonaTmp;
   };
 

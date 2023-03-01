@@ -5,7 +5,9 @@ import { Link } from "react-router-dom";
 import { TooltipComponent } from "@syncfusion/ej2-react-popups";
 import { getUsuarioLugarTrabajo } from "utilities/Login_utiles";
 import { iconModulo } from "data/iconos";
+import { MdOutlineCancel } from "react-icons/md";
 import Menu from "./Menu";
+import logo from "assets/img/DBM2.0.png";
 
 const initialState = {
   chat: false,
@@ -26,7 +28,7 @@ const MenuInit = [
 
 const Sidebar2 = () => {
   const [menu, setMenu] = useState(MenuInit);
-  const { activeMenu, setActiveMenu, setIsClicked } = useStateContext();
+  const { currentColor, activeMenu, setActiveMenu, setIsClicked } = useStateContext();
   const { menuUsuario, setMenuUsuario } = useContext(LoginContext);
 
   const handleActiveMenu = (e, controlador) => {
@@ -120,6 +122,27 @@ const Sidebar2 = () => {
       </div>
 
       <div className={`${activeMenu ? "flex" : "hidden"} w-64 flex-none overflow-auto bg-gray-cummins p-2 flex-col`}>
+        {/* LOGO */}
+        <div className="flex justify-between items-center">
+          <Link
+            to="/"
+            onClick={handleCloseSideBar}
+            className="items-center gap-3 ml-3 flex text-xl font-extrabold tracking-tightdark:text-white text-white">
+            {/*<img src='img/logo/logo_blanco-icono.png' width='40px' alt='cummins' /> */}
+            <span>
+              <img src={logo} width="100%" alt="cummins" />
+            </span>
+          </Link>
+          <TooltipComponent content="Menu" position="BottomCenter">
+            <button
+              type="button"
+              onClick={() => setActiveMenu(!activeMenu)}
+              style={{ color: currentColor }}
+              className="text-xl rounded-full p-3 hover:bg-light-gray-2 mt-4 block md:hidden">
+              <MdOutlineCancel />
+            </button>
+          </TooltipComponent>
+        </div>
         {menu?.map(
           (item) =>
             item.grupo && (

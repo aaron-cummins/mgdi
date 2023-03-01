@@ -75,7 +75,7 @@ const FormVistasGroup = () => {
 
   const VistasGroupAEnviar = () => {
     let vistasgroupTmp = { ...vistasgroup };
-    vistasgroupTmp.moduloId = document.querySelector("#moduloId").value;
+    vistasgroupTmp.moduloId = vistasgroup.modulos.id;
     return vistasgroupTmp;
   };
 

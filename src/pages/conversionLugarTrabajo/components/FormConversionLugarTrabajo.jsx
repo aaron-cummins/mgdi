@@ -101,8 +101,8 @@ const FormConversionLugarTrabajo = () => {
 
   const ConversionLugarTrabajoEnviar = () => {
     let ConversionLugarTrabajoTmp = { ...ConversionLugarTrabajo };
-    ConversionLugarTrabajoTmp.lugarTrabajoId = document.querySelector("#lugarTrabajoId").value;
-    ConversionLugarTrabajoTmp.fuenteInformacionId = document.querySelector("#fuenteInformacionId").value;
+    ConversionLugarTrabajoTmp.lugarTrabajoId = ConversionLugarTrabajo.lugarTrabajo.id;
+    ConversionLugarTrabajoTmp.fuenteInformacionId = ConversionLugarTrabajo.fuenteInformacion.id;
     return ConversionLugarTrabajoTmp;
   };
 

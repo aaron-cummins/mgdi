@@ -103,9 +103,9 @@ const FormLugarTrabajo = () => {
 
   const lugarTrabajoAEnviar = () => {
     let lugarTrabajoTmp = { ...lugarTrabajo };
-    lugarTrabajoTmp.comunaId = lugarTrabajo.comuna.id; //document.querySelector("#comunaId").value;
-    lugarTrabajoTmp.zonaId = lugarTrabajo.zona.id; //document.querySelector("#zonaId").value;
-    lugarTrabajoTmp.tipoLugarTrabajoId = lugarTrabajo.tipoLugarTrabajo.id; //document.querySelector("#tipoLugarTrabajoId").value;
+    lugarTrabajoTmp.comunaId = lugarTrabajo.comuna.id;
+    lugarTrabajoTmp.zonaId = lugarTrabajo.zona.id;
+    lugarTrabajoTmp.tipoLugarTrabajoId = lugarTrabajo.tipoLugarTrabajo.id;
     return lugarTrabajoTmp;
   };
 

@@ -64,13 +64,13 @@ const DesmontajeMotor = () => {
 
     if (name === "lugarTrabajoId") {
       obtenerFlotasLugarTrabajo(value);
-      setEemm({ ...eemm, lugarTrabajo: { id: value }, [name]: value });
+      setEemm({ ...eemm, lugarTrabajo: { id: value }, flotaLugarTrabajo: { id: 0 }, unidad: { id: 0 }, [name]: value });
       limpiarFlotasLugarTrabajo();
       limpiarUnidades();
       setVisible(false);
     } else if (name === "flotaLugarTrabajoId") {
       obtenerUnidades(value);
-      setEemm({ ...eemm, flotaLugarTrabajo: { id: value }, [name]: value });
+      setEemm({ ...eemm, flotaLugarTrabajo: { id: value }, unidad: { id: 0 }, [name]: value });
       limpiarUnidades();
       setVisible(false);
     } else if (name === "unidadId") {
@@ -125,7 +125,7 @@ const DesmontajeMotor = () => {
             label="Lugar Trabajo"
             list={lugarTrabajoUsuarioList}
             value={eemm?.lugarTrabajo?.id}
-            onChange={(e) => handleChange(e)}
+            onChange={handleChange}
             required={true}
             error={error.lugarTrabajoId}
           />
@@ -138,7 +138,7 @@ const DesmontajeMotor = () => {
             label="Flota"
             list={flotasLugarTrabajoList}
             value={eemm?.flotaLugarTrabajo?.id}
-            onChange={(e) => handleChange(e)}
+            onChange={handleChange}
             required={true}
             error={error.flotaLugarTrabajoId}
           />
@@ -151,7 +151,7 @@ const DesmontajeMotor = () => {
             label="Unidad"
             list={unidadesList}
             value={eemm?.unidad?.id}
-            onChange={(e) => handleChange(e)}
+            onChange={handleChange}
             required={true}
             error={error.unidadId}
           />

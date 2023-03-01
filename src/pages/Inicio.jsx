@@ -1,8 +1,8 @@
-import { Button } from "components";
+//import { Button } from "components";
 import React from "react";
 import { useStateContext } from "../contexts/ContextProvider";
 import { MdOutlineSupervisorAccount } from "react-icons/md";
-import { BsBoxSeam, BsCurrencyDollar } from "react-icons/bs";
+import { BsBoxSeam } from "react-icons/bs";
 import { FiBarChart } from "react-icons/fi";
 import { HiOutlineRefresh } from "react-icons/hi";
 
@@ -12,8 +12,8 @@ const Inicio = () => {
   const earningData = [
     {
       icon: <MdOutlineSupervisorAccount />,
-      amount: "39,354",
-      percentage: "-4%",
+      amount: "1003",
+      percentage: "100%",
       title: "Usuarios",
       iconColor: "#03C9D7",
       iconBg: "#E5FAFB",
@@ -21,7 +21,7 @@ const Inicio = () => {
     },
     {
       icon: <BsBoxSeam />,
-      amount: "4,396",
+      amount: "80",
       percentage: "+23%",
       title: "Productos",
       iconColor: "rgb(255, 244, 229)",
@@ -30,7 +30,7 @@ const Inicio = () => {
     },
     {
       icon: <FiBarChart />,
-      amount: "423,39",
+      amount: "$1.000.423,39",
       percentage: "+38%",
       title: "Ventas",
       iconColor: "rgb(228, 106, 118)",
@@ -40,7 +40,7 @@ const Inicio = () => {
     },
     {
       icon: <HiOutlineRefresh />,
-      amount: "39,354",
+      amount: "73",
       percentage: "-12%",
       title: "Garantías",
       iconColor: "rgb(0, 194, 146)",
@@ -54,19 +54,19 @@ const Inicio = () => {
       <div className="flex flex-nowrap justify-center ">
         <div className="bg-white dark:text-gray-200 dark:bg-secondary-dark-bg h-50 rounded-xl w-full p-8 pt-9 m-3 bg-hero-pattern bg-no-repeat bg-cover bg-center">
           <div className="flex justify-between items-center">
-            <div>
+            <div className="p-3">
               <p className="font-bold text-gray-400">Ganancias</p>
-              <p className="text-2xl">$63,448.78</p>
+              <p className="text-2xl">$400.000,00</p>
             </div>
-            <button
+            {/*<button
               type="button"
               style={{ backgroundColor: currentColor }}
               className="text-2xl opacity-0.9 text-white hover:drop-shadow-xl rounded-full  p-4">
               <BsCurrencyDollar />
-            </button>
+  </button>*/}
           </div>
           <div className="mt-6">
-            <Button color="white" bgColor={currentColor} text="Download" borderRadius="10px" />
+            {/*<Button color="white" bgColor={currentColor} text="Download" borderRadius="10px" />*/}
           </div>
         </div>
 

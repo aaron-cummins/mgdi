@@ -91,8 +91,8 @@ const FormConversionUnidad = () => {
 
   const ConversionUnidadEnviar = () => {
     let ConversionUnidadTmp = { ...ConversionUnidad };
-    ConversionUnidadTmp.conversionFlotasId = document.querySelector("#conversionFlotasId").value;
-    ConversionUnidadTmp.unidadId = document.querySelector("#unidadId").value;
+    ConversionUnidadTmp.conversionFlotasId = ConversionUnidad.conversionFlotas.id;
+    ConversionUnidadTmp.unidadId = ConversionUnidad.unidad.id;
     return ConversionUnidadTmp;
   };
 

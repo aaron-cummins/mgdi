@@ -81,7 +81,7 @@ const FormVistas = () => {
 
   const VistasAEnviar = () => {
     let vistasTmp = { ...vistas };
-    vistasTmp.grupoVistasId = document.querySelector("#grupoVistasId").value;
+    vistasTmp.grupoVistasId = vistas.vistasGroupHelper.id;
     return vistasTmp;
   };
 

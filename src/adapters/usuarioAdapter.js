@@ -20,6 +20,7 @@ export const createUserAdapter = (usuario, relacion) => ({
 
   lugarTrabajos: {
     id: relacion ? relacion.relacion_base[0]["lugar_trabajo_id"] : usuario.lugarTrabajos.id,
+    nombre: relacion ? relacion.relacion_base[0]["lugar_trabajo_nombre"] : "",
   },
   //activo: usuario.activo
 });

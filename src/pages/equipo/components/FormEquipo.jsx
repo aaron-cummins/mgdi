@@ -79,8 +79,8 @@ const FormEquipo = () => {
 
   const EquipoAEnviar = () => {
     let equipoTmp = { ...equipo };
-    equipoTmp.aplicacionOemId = document.querySelector("#aplicacionOemId").value;
-    equipoTmp.oemId = document.querySelector("#oemId").value;
+    equipoTmp.aplicacionOemId = equipo.aplicacionOem.id;
+    equipoTmp.oemId = equipo.oem.id;
     return equipoTmp;
   };
 

@@ -25,6 +25,7 @@ const useLogin = () => {
 
       if (permisos && permisos.data) {
         //await entrar(correo);
+
         const adapUser = createUserAdapter(jwt.data, permisos.data);
         crearUsuario(adapUser);
         persistUsuarioState(adapUser);

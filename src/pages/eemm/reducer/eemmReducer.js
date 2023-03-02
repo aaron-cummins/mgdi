@@ -25,6 +25,7 @@ const eemmReducer = (state, action) => {
         ...state,
         eemmEsn: action.payload,
       };
+
     case REGISTRAR:
       return {
         ...state,

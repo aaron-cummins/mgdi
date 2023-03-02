@@ -4,14 +4,14 @@ import { AiOutlineMenu } from "react-icons/ai";
 //import { BsChatLeft } from 'react-icons/bs';
 import { RiNotification3Line } from "react-icons/ri";
 import { MdKeyboardArrowDown } from "react-icons/md";
-import { TooltipComponent } from "@syncfusion/ej2-react-popups";
 
 import { Cart, Chat, Notification, UserProfile } from "..";
 import { useStateContext } from "contexts/ContextProvider";
 import { LoginContext } from "contexts/LoginContext";
+import { Tooltip } from "@mui/material";
 
 const NavButton = ({ title, customFunc, icon, color, dotColor }) => (
-  <TooltipComponent content={title} position="BottomCenter">
+  <Tooltip title={title} placement="bottom" arrow>
     <button
       type="button"
       onClick={() => customFunc()}
@@ -23,7 +23,7 @@ const NavButton = ({ title, customFunc, icon, color, dotColor }) => (
       />
       {icon}
     </button>
-  </TooltipComponent>
+  </Tooltip>
 );
 
 const Navbar = () => {
@@ -71,7 +71,7 @@ const Navbar = () => {
           color={"gray"}
           icon={<RiNotification3Line />}
         />
-        <TooltipComponent content="Perfil" position="BottomCenter">
+        <Tooltip title="Perfil" placement="bottom" arrow>
           <div
             className="flex items-center gap-2 cursor-pointer p-1 hover:bg-light-gray-2 rounded-lg"
             onClick={() => handleClick("userProfile")}>
@@ -81,7 +81,7 @@ const Navbar = () => {
             </p>
             <MdKeyboardArrowDown className="text-gray-400 text-14" />
           </div>
-        </TooltipComponent>
+        </Tooltip>
 
         {isClicked.cart && <Cart />}
         {isClicked.chat && <Chat />}

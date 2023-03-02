@@ -1,8 +1,6 @@
 import React from "react";
 import { useStateContext } from "contexts/ContextProvider";
 import { NavLink } from "react-router-dom";
-//import { MdOutlineCancel } from "react-icons/md";
-//import { TooltipComponent } from "@syncfusion/ej2-react-popups";
 import { RiArrowRightSLine } from "react-icons/ri";
 import { BiCategoryAlt } from "react-icons/bi";
 

@@ -2,12 +2,13 @@ import React, { useContext, useEffect, useState } from "react";
 import { useStateContext } from "contexts/ContextProvider";
 import { LoginContext } from "contexts/LoginContext";
 import { Link } from "react-router-dom";
-import { TooltipComponent } from "@syncfusion/ej2-react-popups";
 import { getUsuarioLugarTrabajo } from "utilities/Login_utiles";
 import { iconModulo } from "data/iconos";
 import { MdOutlineCancel } from "react-icons/md";
 import Menu from "./Menu";
 import logo from "assets/img/DBM2.0.png";
+import { Tooltip } from "@mui/material";
+//import { Tooltip } from "components";
 
 const initialState = {
   chat: false,
@@ -98,7 +99,7 @@ const Sidebar2 = () => {
               name="menubars"
               className="w-12 hover:border-l-4 hover:border-l-gray-500"
               onClick={(e) => handleMenubar(e, item.id)}>
-              <TooltipComponent key={`tooltip-${item.controller}`} content={item.nombre} position="RightCenter">
+              <Tooltip key={`tooltip-${item.controller}`} title={item.nombre} placement="right" arrow>
                 <Link
                   key={item.id}
                   to={item.accion ? item.accion : "#"}
@@ -111,7 +112,7 @@ const Sidebar2 = () => {
                     {item.nombre.length > 8 ? `${item.nombre.slice(0, 8)}.` : item.nombre}
                   </p>
                 </Link>
-              </TooltipComponent>
+              </Tooltip>
             </div>
           ))}
         </div>
@@ -133,7 +134,7 @@ const Sidebar2 = () => {
               <img src={logo} width="100%" alt="cummins" />
             </span>
           </Link>
-          <TooltipComponent content="Menu" position="BottomCenter">
+          <Tooltip title="Menu" placement="bottom" arrow>
             <button
               type="button"
               onClick={() => setActiveMenu(!activeMenu)}
@@ -141,7 +142,7 @@ const Sidebar2 = () => {
               className="text-xl rounded-full p-3 hover:bg-light-gray-2 mt-4 block md:hidden">
               <MdOutlineCancel />
             </button>
-          </TooltipComponent>
+          </Tooltip>
         </div>
         {menu?.map(
           (item) =>

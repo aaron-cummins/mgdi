@@ -10,8 +10,18 @@ import ExcelExportHelper from "./ExcelExportHelper";
 const IndexEemm = () => {
   const { currentColor } = useStateContext();
   const navigate = useNavigate();
-  const { eemm, setEemm, obtenerEemmlist, eemmList, eemmDefault, obtenerEemmEsnlist, obtenerEemmUnidadlist } =
-    useContext(EemmContext);
+  const {
+    eemm,
+    setEemm,
+    obtenerEemmlist,
+    eemmList,
+    eemmDefault,
+    obtenerEemmEsnlist,
+    obtenerEemmUnidadlist,
+    obtenerEemmFlotaLugarTrabajolist,
+    obtenerEemmLugarTrabajolist,
+    obtenerEemmUnidadDatalist,
+  } = useContext(EemmContext);
   const {
     obtenerFlotasLugarTrabajo,
     obtenerUnidades,
@@ -42,12 +52,20 @@ const IndexEemm = () => {
 
     if (name === "lugarTrabajoId") {
       obtenerFlotasLugarTrabajo(value);
-      setEemm({ ...eemm, lugarTrabajo: { id: value }, flotaLugarTrabajo: { id: 0 }, unidad: { id: 0 }, [name]: value });
+      setEemm({
+        ...eemm,
+        lugarTrabajo: { id: value },
+        flotaLugarTrabajo: { id: 0 },
+        flotaLugarTrabajoId: 0,
+        unidad: { id: 0 },
+        unidadId: 0,
+        [name]: value,
+      });
       limpiarFlotasLugarTrabajo();
       limpiarUnidades();
     } else if (name === "flotaLugarTrabajoId") {
       obtenerUnidades(value);
-      setEemm({ ...eemm, flotaLugarTrabajo: { id: value }, unidad: { id: 0 }, [name]: value });
+      setEemm({ ...eemm, flotaLugarTrabajo: { id: value }, unidad: { id: 0 }, unidadId: 0, [name]: value });
       limpiarUnidades();
     } else if (name === "unidadId") {
       setEemm({ ...eemm, unidad: { id: value }, [name]: value });
@@ -55,7 +73,15 @@ const IndexEemm = () => {
   };
 
   const handleSearch = (e) => {
-    obtenerEemmlist();
+    if (eemm.unidadId) {
+      obtenerEemmUnidadDatalist(eemm.unidadId);
+    } else if (eemm.flotaLugarTrabajoId) {
+      obtenerEemmFlotaLugarTrabajolist(eemm.flotaLugarTrabajoId);
+    } else if (eemm.lugarTrabajoId) {
+      obtenerEemmLugarTrabajolist(eemm.lugarTrabajoId);
+    } else {
+      obtenerEemmlist();
+    }
   };
 
   return (

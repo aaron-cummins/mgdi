@@ -2,7 +2,7 @@ import React from "react";
 import { FaRegEdit } from "react-icons/fa";
 import { MdOutlineDelete } from "react-icons/md";
 import { GrContactInfo } from "react-icons/gr";
-import { TooltipComponent } from "@syncfusion/ej2-react-popups";
+import { Tooltip } from "@mui/material";
 
 const OpcionesTabla = ({
   editarNoModal,
@@ -20,7 +20,7 @@ const OpcionesTabla = ({
   return (
     <>
       {editar && (
-        <TooltipComponent key={`tooltip-editar`} content="Editar" position="RightCenter">
+        <Tooltip key={`tooltip-editar`} title="Editar" placement="right" arrow>
           <button
             type="button"
             onClick={() => FnEditar()}
@@ -30,23 +30,23 @@ const OpcionesTabla = ({
             data-te-ripple-init>
             <FaRegEdit />
           </button>
-        </TooltipComponent>
+        </Tooltip>
       )}
 
       {editarNoModal && (
-        <TooltipComponent key={`tooltip-editar`} content="Editar" position="RightCenter">
+        <Tooltip key={`tooltip-editar`} title="Editar" placement="right" arrow>
           <button type="button" onClick={() => FnEditar()} className={`${buttonStyle} bg-blue-light-cummins`}>
             <FaRegEdit />
           </button>
-        </TooltipComponent>
+        </Tooltip>
       )}
 
       {info && (
-        <TooltipComponent key={`tooltip-info`} content={tooltip} position="RightCenter">
+        <Tooltip key={`tooltip-info`} title={tooltip} placement="right" arrow>
           <button type="button" onClick={() => FnInfo()} className={`${buttonStyle} bg-yellow-400`}>
             <GrContactInfo />
           </button>
-        </TooltipComponent>
+        </Tooltip>
       )}
 
       {eliminar && (

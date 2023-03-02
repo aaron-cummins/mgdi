@@ -112,6 +112,77 @@ export const EemmContextProvider = (props) => {
     }
   };
 
+  /* OBETENER LISTADO DE por Flota_lugar_trabajo EEMMS */
+  const obtenerEemmFlotaLugarTrabajolist = async (id_flota) => {
+    try {
+      const resultado = id_flota ? await callEndpoint(getList(`${urlApi}/flotalugartrabajo/${id_flota}`)) : [];
+
+      if (resultado && resultado.data) {
+        dispatch({
+          type: OBTENER_LISTA,
+          payload: resultado.data,
+        });
+      } else {
+        dispatch({
+          type: OBTENER_LISTA,
+          payload: resultado,
+        });
+      }
+    } catch (error) {
+      console.log(error);
+      setUnidadMontada(false);
+    }
+  };
+
+  /* OBETENER LISTADO DE por Flota_lugar_trabajo EEMMS */
+  const obtenerEemmLugarTrabajolist = async (id_lugar_trabajo) => {
+    try {
+      const resultado = id_lugar_trabajo
+        ? await callEndpoint(getList(`${urlApi}/lugartrabajo/${id_lugar_trabajo}`))
+        : [];
+
+      if (resultado && resultado.data) {
+        dispatch({
+          type: OBTENER_LISTA,
+          payload: resultado.data,
+        });
+      } else {
+        dispatch({
+          type: OBTENER_LISTA,
+          payload: resultado,
+        });
+      }
+    } catch (error) {
+      console.log(error);
+      setUnidadMontada(false);
+    }
+  };
+
+  /* OBETENER LISTADO DE por unidad EEMMS */
+  const obtenerEemmUnidadDatalist = async (id_unidad) => {
+    try {
+      const resultado = id_unidad ? await callEndpoint(getList(`${urlApi}/unidad/${id_unidad}`)) : [];
+
+      if (resultado && resultado.data) {
+        let em = resultado.data[resultado.data.length - 1];
+        setUnidadMontada(em ? em.activo : false);
+
+        dispatch({
+          type: OBTENER_LISTA,
+          payload: resultado.data,
+        });
+      } else {
+        dispatch({
+          type: OBTENER_LISTA,
+          payload: resultado,
+        });
+      }
+    } catch (error) {
+      console.log(error);
+      setUnidadMontada(false);
+    }
+  };
+
   /* OBETENER LISTADO DE por ESN EEMMS */
   const obtenerEemmEsnlist = async (id_esn) => {
     try {
@@ -259,8 +330,12 @@ export const EemmContextProvider = (props) => {
 
         actualizarEsn,
         obtenerEemmEsnlist,
+        obtenerEemmFlotaLugarTrabajolist,
+        obtenerEemmLugarTrabajolist,
+        obtenerEemmUnidadDatalist,
         obtenerEemmUnidadlist,
         obtenerEemmlist,
+
         obtenerEemm,
         registrarEemm,
         actualizarEemm,

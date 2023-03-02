@@ -1,11 +1,11 @@
 import { useContext, useEffect } from "react";
 import { BrowserRouter } from "react-router-dom";
 import { FiSettings } from "react-icons/fi";
-import { TooltipComponent } from "@syncfusion/ej2-react-popups";
 import { Navbar, Footer, Sidebar, ThemeSettings, Rutas } from "components";
 import { useStateContext } from "contexts/ContextProvider";
 import { SelectsContext } from "contexts/SelectsContext";
 import { getUsuarioLugaresTrabajoList } from "utilities/Login_utiles";
+import { Tooltip } from "@mui/material";
 //import LoadPage from "pages/utiles/LoadPage";
 
 const Layout = () => {
@@ -40,7 +40,7 @@ const Layout = () => {
       <BrowserRouter>
         <div className="flex relative dark:bg-main-dark-bg">
           <div className="fixed right-4 bottom-4" style={{ zIndex: "1000" }}>
-            <TooltipComponent content="Settings" position="Top">
+            <Tooltip title="Configuraciones" placement="top-start" arrow>
               <button
                 type="button"
                 className="text-3xl p-3 hover:drop-shadow-xl hover:bg-light-gray text-white"
@@ -48,7 +48,7 @@ const Layout = () => {
                 onClick={() => setThemeSettings(true)}>
                 <FiSettings />
               </button>
-            </TooltipComponent>
+            </Tooltip>
           </div>
 
           {/* SIDEBARS */}

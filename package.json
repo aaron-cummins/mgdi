@@ -11,8 +11,6 @@
     "@heroicons/react": "^1.0.6",
     "@mui/icons-material": "^5.10.3",
     "@mui/material": "^5.10.5",
-    "@syncfusion/ej2": "^19.4.48",
-    "@syncfusion/ej2-react-popups": "^19.4.52",
     "axios": "^0.27.2",
     "notistack": "^2.0.8",
     "react": "^18.2.0",

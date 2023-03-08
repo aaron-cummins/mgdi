@@ -28,7 +28,6 @@ export const ContextProvider = ({ children }) => {
 
   const [cargando, setCargando] = useState(false);
 
-
   const [mensaje, SetMensaje] = useState(initialAlertMensaje);
 
   const setMode = (e) => {
@@ -88,7 +87,8 @@ export const ContextProvider = ({ children }) => {
         setLugarTrabajoSelected,
         alerta,
         mensaje,
-        cargando, setCargando
+        cargando,
+        setCargando,
       }}>
       {children}
     </StateContext.Provider>

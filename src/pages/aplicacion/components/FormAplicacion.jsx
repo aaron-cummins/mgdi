@@ -31,7 +31,7 @@ const FormAplicacion = () => {
     let valida = true;
 
     if (validarTexto("nombre", aplicacion.nombre, "Nombre requerido")) valida = false;
-  
+
     return valida;
   };
 
@@ -54,9 +54,7 @@ const FormAplicacion = () => {
   const handleOnSubmit = async (e) => {
     e.preventDefault();
     if (validaciones()) {
-      aplicacionActual !== null
-        ? actualizarAplicacion(AplicacionEnviar())
-        : registrarAplicacion(AplicacionEnviar());
+      aplicacionActual !== null ? actualizarAplicacion(AplicacionEnviar()) : registrarAplicacion(AplicacionEnviar());
       closeModal();
       limpiaForm();
     } else {

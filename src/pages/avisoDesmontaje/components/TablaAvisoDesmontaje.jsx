@@ -15,6 +15,7 @@ const TablaAvisoDesmontaje = () => {
   const columns = [
     { name: "Id", selector: (row) => row.id, sortable: true },
     { name: "Nombre", selector: (row) => row.nombre, sortable: true },
+    { name: "Fecha", selector: (row) => row.fecha, sortable: true },
     {
       name: "Activo",
       cell: (props) => <ColActivoTabla activo={props.activo} />,

@@ -95,7 +95,7 @@ const TablaUsuario = () => {
         </div>
         <div className="form-group">
           <label className={labelClass}>Uid</label>
-          <input className={inputsClass} id="uid" name="uid" label="Uid" onChangeFN={(e) => onChangefilter(e)} />
+          <input className={inputsClass} id="uid" name="uid" label="Uid" onChange={(e) => onChangefilter(e)} />
         </div>
       </Filtros>
 

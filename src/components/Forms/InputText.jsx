@@ -8,7 +8,7 @@ const InputText = ({ id, name, placeholder, value, onChangeFN, required, label, 
     "form-control block w-full px-3 py-1.5 border border-solid rounded border-gray-300 text-gray-600 pl-1";
   return (
     <>
-      <Label className="text-sm text-gray-600">
+      <Label htmlFor={id} className="text-sm text-gray-600">
         {label} {required ? <b className="text-red-500"> * </b> : ""}
       </Label>
       <input

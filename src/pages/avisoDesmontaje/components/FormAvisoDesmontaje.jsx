@@ -2,7 +2,7 @@ import React, { useEffect, useState, useContext, useMemo } from "react";
 import { InputText, Buttons, Checkbox } from "components";
 import { AvisoDesmontajeContext } from "../context/avisoDesmontajeContext";
 import { useStateContext } from "contexts/ContextProvider";
-import { closeModal, formatDateshort } from "utilities/Utiles";
+import { closeModal } from "utilities/Utiles";
 import { useSnackbar } from "notistack";
 import useValidacionForm from "hooks/useValidacionForm";
 
@@ -31,7 +31,7 @@ const FormAvisoDesmontaje = () => {
   const validaciones = () => {
     let valida = true;
     if (validarTexto("nombre", ad.nombre, "Nombre Requerido")) valida = false;
-
+    if (validarTexto("fecha", ad.fecha, "Fecha requerida")) valida = false;
     return valida;
   };
 
@@ -44,14 +44,12 @@ const FormAvisoDesmontaje = () => {
   const limpiaForm = () => {
     setAd(adDefault);
     obtenerAvisoDesmontaje(null);
-    setError([]);
+    setError({});
   };
 
   const handleOnSubmit = (e) => {
     e.preventDefault();
-    setError(validaciones(ad));
-
-    if (Object.keys(error).length === 0) {
+    if (validaciones()) {
       avisoDesmontajeActual !== null ? actualizarAvisoDesmontaje(AdAEnviar()) : registrarAvisoDesmontaje(AdAEnviar());
       limpiaForm();
       closeModal();
@@ -90,9 +88,9 @@ const FormAvisoDesmontaje = () => {
             name="fecha"
             placeholder="Fecha"
             label="Fecha"
-            value={ad.fecha && formatDateshort(ad?.fecha)}
+            value={ad?.fecha}
             onChangeFN={(e) => handleChange(e)}
-            //required={true}
+            required={true}
             error={error?.fecha}
           />
         </div>

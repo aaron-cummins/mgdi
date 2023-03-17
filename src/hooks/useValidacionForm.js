@@ -34,9 +34,9 @@ const useValidacionForm = () => {
   };
 
   const validarMail = (campo, valor, mensaje) => {
-    let ExpresionRegularCorreo =
-      /^(([^<>()[] \\.,;:s@”]+(.[^<>()[]\\.,;:s@”]+)*)|(“.+”))@( ([[0–9]{1,3}.[0–9]{1,3}.[0–9]{1,3}.[0–9]{1,3}] )|(([a-zA-Z-0–9]+.)+[a-zA-Z]{2,}))$/;
-    let resultadoMail = ExpresionRegularCorreo.test(valor);
+    let exprReg =
+      /^(?:[^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*|"[^\n"]+")@(?:[^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,63}$/i;
+    let resultadoMail = exprReg.test(valor);
 
     if (!resultadoMail) {
       addErrorUsuario(campo, valor, mensaje);
@@ -82,8 +82,7 @@ const useValidacionForm = () => {
       var digv = tmp[1];
       var rut = tmp[0];
       if (digv === "K") digv = "k";
-
-      return Fn.dv(rut) === digv;
+      return Fn.dv(rut).toString() === digv.toString();
     },
     dv: function (T) {
       var M = 0,

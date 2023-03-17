@@ -2,14 +2,16 @@ import React, { useEffect, useState, useContext, useMemo } from "react";
 import { InputText, Buttons, Checkbox } from "components";
 import { AvisoMontajeContext } from "../context/avisoMontajeContext";
 import { useStateContext } from "contexts/ContextProvider";
-import { closeModal, formatDateshort } from "utilities/Utiles";
+import { closeModal } from "utilities/Utiles";
 import { useSnackbar } from "notistack";
+import useValidacionForm from "hooks/useValidacionForm";
 
 const FormAvisoMontaje = () => {
   const { registrarAvisoMontaje, avisoMontajeActual, actualizarAvisoMontaje, obtenerAvisoMontaje } =
     useContext(AvisoMontajeContext);
   const { mensaje } = useStateContext();
   const { enqueueSnackbar } = useSnackbar();
+  const { validarTexto, error, setError } = useValidacionForm();
 
   const amDefault = useMemo(() => {
     return {
@@ -21,24 +23,21 @@ const FormAvisoMontaje = () => {
   }, []);
 
   const [am, setAm] = useState(amDefault);
-  const [error, setError] = useState({});
 
   useEffect(() => {
     avisoMontajeActual !== null ? setAm(avisoMontajeActual) : setAm(amDefault);
   }, [avisoMontajeActual, amDefault]);
 
   const validaciones = () => {
-    let error = {};
-    if (!am.nombre.trim()) error.nombre = "Nombre Requerido";
-
-    return error;
+    let valida = true;
+    if (validarTexto("nombre", am.nombre, "Nombre requerido")) valida = false;
+    if (validarTexto("fecha", am.fecha, "Fecha requerida")) valida = false;
+    return valida;
   };
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-
     type === "checkbox" ? setAm({ ...am, [name]: checked }) : setAm({ ...am, [name]: value });
-
     setError(validaciones());
   };
 
@@ -50,10 +49,10 @@ const FormAvisoMontaje = () => {
 
   const handleOnSubmit = (e) => {
     e.preventDefault();
-    setError(validaciones(am));
-
-    if (Object.keys(error).length === 0) {
-      avisoMontajeActual !== null ? actualizarAvisoMontaje(AmAEnviar()) : registrarAvisoMontaje(AmAEnviar());
+    if (validaciones()) {
+      const amEnv = AmAEnviar();
+      console.log(amEnv);
+      avisoMontajeActual !== null ? actualizarAvisoMontaje(amEnv) : registrarAvisoMontaje(amEnv);
       limpiaForm();
       closeModal();
     } else {
@@ -92,10 +91,10 @@ const FormAvisoMontaje = () => {
             name="fecha"
             placeholder="Fecha"
             label="Fecha"
-            value={formatDateshort(am?.fecha)}
+            value={am?.fecha}
             onChangeFN={handleChange}
             onBlur={handleChange}
-            //required={true}
+            required={true}
             error={error?.fecha}
           />
         </div>

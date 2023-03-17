@@ -2,6 +2,8 @@ import { SelectsContext } from "contexts/SelectsContext";
 import React, { useContext } from "react";
 import Label from "../Forms/Label";
 import Select from "react-select";
+import { Modal } from "components";
+import { VscDiffAdded } from "react-icons/vsc";
 
 const Select_React = (props) => {
   const { styleErrorSelect } = useContext(SelectsContext);
@@ -31,16 +33,35 @@ const Select_React = (props) => {
       <Label>
         {props.label} {props.required ? <b className="text-red-500"> * </b> : ""}
       </Label>
-      <Select
-        //className={`${props.add ? styleadd : styleSetect} ${props.error ? "border border-red-500" : ""}`}
-        id={props.id}
-        name={props.name}
-        //defaultValue={props.value ? opciones.find((item) => item.value === props.value) : 0}
-        value={props.value ? opciones.find((item) => item.value === props.value) : 0}
-        onChange={props.onChange}
-        options={opciones}
-        isSearchable={true}
-      />
+      <div className="flex">
+        <div className="grow">
+          <Select
+            //className={`${props.add ? styleadd : styleSetect} ${props.error ? "border border-red-500" : ""}`}
+            id={props.id}
+            name={props.name}
+            //defaultValue={props.value ? opciones.find((item) => item.value === props.value) : 0}
+            value={props.value ? opciones.find((item) => item.value === props.value) : 0}
+            onChange={props.onChange}
+            options={opciones}
+            isSearchable={true}
+          />
+        </div>
+        {props.add ? (
+          <div className="grow-0 items-center">
+            <button
+              type="button"
+              data-te-toggle="modal"
+              data-te-ripple-init
+              data-te-target="#-modal"
+              className="font-bold px-1 py-2.5 rounded-r-lg border-gray-300 border-t-1 border-r-1 border-b-1 text-gray-300">
+              <VscDiffAdded />
+            </button>
+            <Modal ModalTitle="agregar" modalId="-modal">
+              {props.add}
+            </Modal>
+          </div>
+        ) : null}
+      </div>
       {props.error ? <span className={styleErrorSelect}>{props.error}</span> : null}
     </>
   );

@@ -81,7 +81,7 @@ const FormAplicacion = () => {
             value={aplicacion.nombre}
             onChangeFN={handleChange}
             onBlur={handleChange}
-            required={true}
+            //required={true}
             error={error?.nombre}
           />
         </div>

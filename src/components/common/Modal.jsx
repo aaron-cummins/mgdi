@@ -4,6 +4,7 @@ import { AiOutlineCloseCircle } from "react-icons/ai";
 const Modal = (props) => {
   return (
     <div
+      data-testid="modaltest"
       data-te-modal-init
       className="fixed top-0 mt-4 left-0 z-[1055] hidden h-full w-full overflow-y-auto overflow-x-hidden outline-none"
       id={props.modalId}

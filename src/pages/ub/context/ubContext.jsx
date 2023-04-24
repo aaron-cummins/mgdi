@@ -4,13 +4,10 @@ import { getList, getByID, postObject, putObject, deleteObject } from "services/
 import ubReducer from "../reducer/ubReducer";
 import useFetchAndLoad from "hooks/useFetchAndLoad";
 
-import { useStateContext } from "contexts/ContextProvider";
-
 export const UbContext = createContext();
 
 export const UbContextProvider = (props) => {
   const { callEndpoint } = useFetchAndLoad();
-  const { alerta } = useStateContext();
   const urlApi = "ub";
 
   const initialState = {
@@ -65,10 +62,16 @@ export const UbContextProvider = (props) => {
         type: REGISTRAR,
         payload: resultado.data,
       });
-      alerta("success", "Ub creada con exito!");
+      return new Promise((resolve) => resolve({ tipoAlerta: "success", mensaje: "Ub creada con exito!" }));
     } catch (error) {
       console.log(error);
-      alerta("error", `'Ocurrió un error al intentar crear la Ub. ${error}`);
+      return new Promise((resolve) =>
+        resolve({
+          tipoAlerta: "error",
+
+          mensaje: `'Ocurrió un error al intentar crear la Ub. ${error}`,
+        })
+      );
     }
   };
 
@@ -81,10 +84,16 @@ export const UbContextProvider = (props) => {
         type: ACTUALIZAR,
         payload: resultado.data,
       });
-      alerta("success", "Ub actualizada con exito!");
+      return new Promise((resolve) => resolve({ tipoAlerta: "success", mensaje: "Ub actualizada con exito!" }));
     } catch (error) {
       console.log(error);
-      alerta("error", `'Ocurrió un error al intentar actualizar la Ub. ${error}`);
+      return new Promise((resolve) =>
+        resolve({
+          tipoAlerta: "error",
+
+          mensaje: `'Ocurrió un error al intentar actualizar la Ub. ${error}`,
+        })
+      );
     }
   };
 
@@ -96,10 +105,16 @@ export const UbContextProvider = (props) => {
         type: ELIMINAR,
         payload: id,
       });
-      alerta("success", "Ub eliminada con exito!");
+      return new Promise((resolve) => resolve({ tipoAlerta: "success", mensaje: "Ub eliminada con exito!" }));
     } catch (error) {
       console.log(error);
-      alerta("error", `'Ocurrió un error al intentar eliminar la Ub. ${error}`);
+      return new Promise((resolve) =>
+        resolve({
+          tipoAlerta: "error",
+
+          mensaje: `'Ocurrió un error al intentar eliminar la Ub. ${error}`,
+        })
+      );
     }
   };
 

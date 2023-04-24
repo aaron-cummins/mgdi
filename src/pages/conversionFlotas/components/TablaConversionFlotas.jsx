@@ -3,22 +3,21 @@ import { ConversionFlotasContext } from "../context/ConversionFlotasContext";
 import { ColActivoTabla, OpcionesTabla, Tabla } from "components";
 import { SelectsContext } from "contexts/SelectsContext";
 
-const TablaConversionFlotas = () => {
-  const { ConversionFlotasList, obtenerConversionesFlotas, obtenerConversionFlotas } = useContext(ConversionFlotasContext);
+const TablaConversionFlotas = ({ openModal }) => {
+  const { ConversionFlotasList, obtenerConversionesFlotas, obtenerConversionFlotas } =
+    useContext(ConversionFlotasContext);
 
-  const {
-    obtenerFlotas,
-    obtenerFuenteInformacion,
-    obtenerConversionLugarTrabajo
-  } = useContext(SelectsContext);
+  const { obtenerFlotas, obtenerFuenteInformacion, obtenerConversionLugarTrabajo } = useContext(SelectsContext);
 
-  const getConversionFlotas = (props) => obtenerConversionFlotas(props);
+  const getConversionFlotas = (props) => {
+    obtenerConversionFlotas(props).then(openModal());
+  };
 
   useEffect(() => {
     obtenerConversionesFlotas();
     obtenerFuenteInformacion();
     obtenerFlotas();
-    obtenerConversionLugarTrabajo()
+    obtenerConversionLugarTrabajo();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

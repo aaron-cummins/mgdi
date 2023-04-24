@@ -1,16 +1,13 @@
 import React, { useEffect, useState, useContext, useMemo } from "react";
 import { InputText, Buttons, Checkbox, Select } from "components";
 import { VersionMotorContext } from "../context/versionMotorContext";
-import { useStateContext } from "contexts/ContextProvider";
-import { closeModal } from "utilities/Utiles";
 import { SelectsContext } from "contexts/SelectsContext";
 import { useSnackbar } from "notistack";
 import useValidacionForm from "hooks/useValidacionForm";
 
-const FormVersionMotor = () => {
+const FormVersionMotor = ({ closeModal }) => {
   const { registrarVersionMotor, versionmotorActual, actualizarVersionMotor, obtenerVersionMotor } =
     useContext(VersionMotorContext);
-  const { mensaje } = useStateContext();
   const { enqueueSnackbar } = useSnackbar();
   const {
     motoresList,
@@ -131,15 +128,20 @@ const FormVersionMotor = () => {
     setVersionMotor(versionmotorDefault);
     obtenerVersionMotor(null);
     setError([]);
+    closeModal();
   };
 
   const handleOnSubmit = async (e) => {
     e.preventDefault();
     if (validaciones()) {
       versionmotorActual !== null
-        ? actualizarVersionMotor(VersionMotorAEnviar())
-        : registrarVersionMotor(VersionMotorAEnviar());
-      closeModal();
+        ? actualizarVersionMotor(VersionMotorAEnviar()).then((res) =>
+            enqueueSnackbar(res.mensaje, { variant: res.tipoAlerta })
+          )
+        : registrarVersionMotor(VersionMotorAEnviar()).then((res) =>
+            enqueueSnackbar(res.mensaje, { variant: res.tipoAlerta })
+          );
+
       limpiaForm();
     } else {
       enqueueSnackbar("Debe corregir los problemas en el formulario", { variant: "error" });
@@ -165,8 +167,7 @@ const FormVersionMotor = () => {
 
   return (
     <form onSubmit={handleOnSubmit}>
-      {mensaje.mensaje ? enqueueSnackbar(mensaje.mensaje, { variant: mensaje.tipoAlerta }) : null}
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
         <div className="form-group mb-2">
           <InputText
             id="nombreComercial"
@@ -192,7 +193,7 @@ const FormVersionMotor = () => {
           />
         </div>
       </div>
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
         <div className="form-group mb-2">
           <Select
             id="motorId"
@@ -233,7 +234,7 @@ const FormVersionMotor = () => {
           />
         </div>
       </div>
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
         <div className="form-group mb-2">
           <Select
             id="tipoBlockId"
@@ -274,7 +275,7 @@ const FormVersionMotor = () => {
           />
         </div>
       </div>
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
         <div className="form-group mb-2">
           <Select
             id="tipoInyeccionId"
@@ -315,8 +316,8 @@ const FormVersionMotor = () => {
           />
         </div>
       </div>
-      <div className="grid grid-cols-3 gap-4">
-        <div className="form-group mb-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+        <div className="form-group">
           <Checkbox
             id="ecmquantum"
             name="ecmquantum"
@@ -325,7 +326,7 @@ const FormVersionMotor = () => {
             label="ECM quantum"
           />
         </div>
-        <div className="form-group mb-4">
+        <div className="form-group">
           <Checkbox
             id="ecmcence"
             name="ecmcence"
@@ -334,7 +335,7 @@ const FormVersionMotor = () => {
             label="ECM cence"
           />
         </div>
-        <div className="form-group mb-4">
+        <div className="form-group">
           <Checkbox id="activo" name="activo" onChangeFN={handleChange} checked={versionmotor.activo} label="Activo" />
         </div>
       </div>

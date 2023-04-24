@@ -4,13 +4,10 @@ import { getList, getByID, postObject, putObject, deleteObject } from "services/
 import esnReducer from "../reducer/esnReducer";
 import useFetchAndLoad from "hooks/useFetchAndLoad";
 
-import { useStateContext } from "contexts/ContextProvider";
-
 export const EsnContext = createContext();
 
 export const EsnContextProvider = (props) => {
   const { callEndpoint } = useFetchAndLoad();
-  const { alerta } = useStateContext();
   const urlApi = "esn";
 
   const initialState = {
@@ -65,10 +62,12 @@ export const EsnContextProvider = (props) => {
         type: REGISTRAR,
         payload: resultado.data,
       });
-      alerta("success", "Esn creado con exito!");
+      return new Promise((resolve) => resolve({ tipoAlerta: "success", mensaje: "Esn creado con exito!" }));
     } catch (error) {
       console.log(error);
-      alerta("error", `'Ocurrió un error al intentar crear el esn. ${error}`);
+      return new Promise((resolve) =>
+        resolve({ tipoAlerta: "error", mensaje: `'Ocurrió un error al intentar crear el esn. ${error}` })
+      );
     }
   };
 
@@ -81,10 +80,12 @@ export const EsnContextProvider = (props) => {
         type: ACTUALIZAR,
         payload: resultado.data,
       });
-      alerta("success", "Esn actualizado con exito!");
+      return new Promise((resolve) => resolve({ tipoAlerta: "success", mensaje: "Esn actualizado con exito!" }));
     } catch (error) {
       console.log(error);
-      alerta("error", `'Ocurrió un error al intentar actualizar el esn. ${error}`);
+      return new Promise((resolve) =>
+        resolve({ tipoAlerta: "error", mensaje: `'Ocurrió un error al intentar actualizar el esn. ${error}` })
+      );
     }
   };
 
@@ -96,10 +97,12 @@ export const EsnContextProvider = (props) => {
         type: ELIMINAR,
         payload: id,
       });
-      alerta("success", "Esn eliminado con exito!");
+      return new Promise((resolve) => resolve({ tipoAlerta: "success", mensaje: "Esn eliminado con exito!" }));
     } catch (error) {
       console.log(error);
-      alerta("error", `'Ocurrió un error al intentar eliminar el esn. ${error}`);
+      return new Promise((resolve) =>
+        resolve({ tipoAlerta: "error", mensaje: `'Ocurrió un error al intentar eliminar el esn. ${error}` })
+      );
     }
   };
 

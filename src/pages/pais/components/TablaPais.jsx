@@ -2,10 +2,10 @@ import React, { useEffect, useContext } from "react";
 import { PaisContext } from "../context/paisContext";
 import { ColActivoTabla, OpcionesTabla, Tabla } from "components";
 
-const TablaPais = () => {
+const TablaPais = ({ openModal }) => {
   const { paisList, obtenerPaises, obtenerPais } = useContext(PaisContext);
 
-  const getPais = (props) => obtenerPais(props);
+  const getPais = (props) => obtenerPais(props).then(openModal());
 
   useEffect(() => {
     obtenerPaises();

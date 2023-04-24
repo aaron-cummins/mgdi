@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Header, Modal } from "components";
 import { useStateContext } from "contexts/ContextProvider";
 import { EquipoContextProvider } from "./context/equipoContext";
@@ -8,6 +8,7 @@ import TablaEquipos from "./components/TablaEquipos";
 
 const Equipo = () => {
   const { currentColor } = useStateContext();
+  const [openModal, setOpenModal] = useState(false);
 
   return (
     <EquipoContextProvider>
@@ -23,15 +24,16 @@ const Equipo = () => {
               color: "white",
               borderRadius: "10px",
             }}
+            onClick={() => setOpenModal(true)}
             className={`gap-5 p-3  hover:drop-shadow-xl hover:bg-${currentColor} text-center inline-flex items-center`}>
             Nueva Equipo
           </button>
         </Header>
 
-        <TablaEquipos />
+        <TablaEquipos openModal={() => setOpenModal(true)} />
 
-        <Modal ModalTitle="Equipo" modalId="equipo-modal">
-          <FormEquipo />
+        <Modal ModalTitle="Equipo" modalId="equipo-modal" open={openModal} onClose={() => setOpenModal(false)}>
+          <FormEquipo closeModal={() => setOpenModal(false)} />
         </Modal>
       </div>
     </EquipoContextProvider>

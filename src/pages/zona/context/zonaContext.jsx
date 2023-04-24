@@ -3,13 +3,11 @@ import { OBTENER, OBTENER_LISTA, REGISTRAR, ACTUALIZAR, ELIMINAR } from "const/a
 import { getList, getByID, postObject, putObject, deleteObject } from "services/genericService";
 import zonaReducer from "../reducer/zonaReuducer";
 import useFetchAndLoad from "hooks/useFetchAndLoad";
-import { useStateContext } from "contexts/ContextProvider";
 
 export const ZonaContext = createContext();
 
 export const ZonaContextProvider = (props) => {
   const { callEndpoint } = useFetchAndLoad();
-  const { alerta } = useStateContext();
   const urlApi = "zona";
 
   const initialState = {
@@ -65,10 +63,16 @@ export const ZonaContextProvider = (props) => {
         type: REGISTRAR,
         payload: resultado.data,
       });
-      alerta("success", "Zona creada con exito!");
+      return new Promise((resolve) => resolve({ tipoAlerta: "success", mensaje: "Zona creada con exito!" }));
     } catch (error) {
       console.log(error);
-      alerta("error", `'Ocurrió un error al intentar crear la Zona. ${error}`);
+      return new Promise((resolve) =>
+        resolve({
+          tipoAlerta: "error",
+
+          mensaje: `'Ocurrió un error al intentar crear la Zona. ${error}`,
+        })
+      );
     }
   };
 
@@ -81,10 +85,16 @@ export const ZonaContextProvider = (props) => {
         type: ACTUALIZAR,
         payload: resultado.data,
       });
-      alerta("success", "Zona actualizada con exito!");
+      return new Promise((resolve) => resolve({ tipoAlerta: "success", mensaje: "Zona actualizada con exito!" }));
     } catch (error) {
       console.log(error);
-      alerta("error", `'Ocurrió un error al intentar actualizar la Zona. ${error}`);
+      return new Promise((resolve) =>
+        resolve({
+          tipoAlerta: "error",
+
+          mensaje: `'Ocurrió un error al intentar actualizar la Zona. ${error}`,
+        })
+      );
     }
   };
 
@@ -96,10 +106,16 @@ export const ZonaContextProvider = (props) => {
         type: ELIMINAR,
         payload: id,
       });
-      alerta("success", "Zona eliminada con exito!");
+      return new Promise((resolve) => resolve({ tipoAlerta: "success", mensaje: "Zona eliminada con exito!" }));
     } catch (error) {
       console.log(error);
-      alerta("error", `'Ocurrió un error al intentar eliminar la Zona. ${error}`);
+      return new Promise((resolve) =>
+        resolve({
+          tipoAlerta: "error",
+
+          mensaje: `'Ocurrió un error al intentar eliminar la Zona. ${error}`,
+        })
+      );
     }
   };
 

@@ -12,13 +12,11 @@ import {
 import { getList, getByID, postObject, putObject, deleteObject } from "services/genericService";
 import usuarioReducer from "../reducer/usuarioReducer";
 import useFetchAndLoad from "hooks/useFetchAndLoad";
-import { useStateContext } from "contexts/ContextProvider";
 
 export const UsuarioContext = createContext();
 
 export const UsuarioContextProvider = (props) => {
   const { callEndpoint } = useFetchAndLoad();
-  const { alerta } = useStateContext();
   const urlApi = "usuarios";
 
   const initialState = {
@@ -74,10 +72,16 @@ export const UsuarioContextProvider = (props) => {
         type: REGISTRAR,
         payload: resultado.data,
       });
-      alerta("success", "Usuario creado con exito!");
+      return new Promise((resolve) => resolve({ tipoAlerta: "success", mensaje: "Usuario creado con exito!" }));
     } catch (error) {
       console.log(error);
-      alerta("error", `'Ocurrió un error al intentar crear el Usuario. ${error}`);
+      return new Promise((resolve) =>
+        resolve({
+          tipoAlerta: "error",
+
+          mensaje: `'Ocurrió un error al intentar crear el Usuario. ${error}`,
+        })
+      );
     }
   };
 
@@ -90,10 +94,16 @@ export const UsuarioContextProvider = (props) => {
         type: ACTUALIZAR,
         payload: resultado.data,
       });
-      alerta("success", "Usuario actualizado con exito!");
+      return new Promise((resolve) => resolve({ tipoAlerta: "success", mensaje: "Usuario actualizado con exito!" }));
     } catch (error) {
       console.log(error);
-      alerta("error", `'Ocurrió un error al intentar actualizar el Usuario. ${error}`);
+      return new Promise((resolve) =>
+        resolve({
+          tipoAlerta: "error",
+
+          mensaje: `'Ocurrió un error al intentar actualizar el Usuario. ${error}`,
+        })
+      );
     }
   };
 
@@ -105,10 +115,16 @@ export const UsuarioContextProvider = (props) => {
         type: ELIMINAR,
         payload: id,
       });
-      alerta("success", "Usuario eliminado con exito!");
+      return new Promise((resolve) => resolve({ tipoAlerta: "success", mensaje: "Usuario eliminado con exito!" }));
     } catch (error) {
       console.log(error);
-      alerta("error", `'Ocurrió un error al intentar eliminar el Usuario. ${error}`);
+      return new Promise((resolve) =>
+        resolve({
+          tipoAlerta: "error",
+
+          mensaje: `'Ocurrió un error al intentar eliminar el Usuario. ${error}`,
+        })
+      );
     }
   };
 
@@ -123,10 +139,18 @@ export const UsuarioContextProvider = (props) => {
         });
       }
 
-      alerta("success", "Permisos de usuario asignados con exito!");
+      return new Promise((resolve) =>
+        resolve({ tipoAlerta: "success", mensaje: "Permisos de usuario asignados con exito!" })
+      );
     } catch (error) {
       console.log(error);
-      alerta("error", `'Ocurrió un error al intentar asignar los permisos al usuario. ${error}`);
+      return new Promise((resolve) =>
+        resolve({
+          tipoAlerta: "error",
+
+          mensaje: `'Ocurrió un error al intentar asignar los permisos al usuario. ${error}`,
+        })
+      );
     }
   };
 
@@ -138,10 +162,16 @@ export const UsuarioContextProvider = (props) => {
         type: ELIMINAR_OTRO,
         payload: id_usuario,
       });
-      //alerta("success", "Usuario eliminado con exito!");
+      //return new Promise((resolve) => resolve({ tipoAlerta: "success", mensaje: "Usuario eliminado con exito!"}));
     } catch (error) {
       console.log(error);
-      alerta("error", `'Ocurrió un error al intentar actualizar los permisos al usuario. ${error}`);
+      return new Promise((resolve) =>
+        resolve({
+          tipoAlerta: "error",
+
+          mensaje: `'Ocurrió un error al intentar actualizar los permisos al usuario. ${error}`,
+        })
+      );
     }
   };
 

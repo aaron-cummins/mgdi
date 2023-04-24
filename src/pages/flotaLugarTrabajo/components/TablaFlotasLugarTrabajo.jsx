@@ -3,7 +3,7 @@ import { FlotaLugarTrabajoContext } from "../context/flotaLugarTrabajoContext";
 import { ColActivoTabla, OpcionesTabla, Seccion, Select, Tabla } from "components";
 import { SelectsContext } from "contexts/SelectsContext";
 
-const TablaFlotasLugarTrabajo = () => {
+const TablaFlotasLugarTrabajo = ({ openModal }) => {
   const { flotaLugarTrabajoList, obtenerFlotasLugarTrabajoList, obtenerFlotaLugarTrabajo } =
     useContext(FlotaLugarTrabajoContext);
 
@@ -21,7 +21,7 @@ const TablaFlotasLugarTrabajo = () => {
     flotasLugarTrabajoList,
   } = useContext(SelectsContext);
 
-  const getFlota = (props) => obtenerFlotaLugarTrabajo(props);
+  const getFlota = (props) => obtenerFlotaLugarTrabajo(props).then(openModal());
 
   useEffect(() => {
     obtenerLugaresTrabajoUsuario();

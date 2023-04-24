@@ -2,11 +2,11 @@ import React, { useEffect, useContext } from "react";
 import { MotivoCambioContext } from "../context/MotivoCambioContext";
 import { ColActivoTabla, OpcionesTabla, Tabla } from "components";
 
-const TablaMotivoCambio = () => {
+const TablaMotivoCambio = ({ openModal }) => {
   const { MotivoCambioList, obtenerMotivoCambio, obtenerMotivoCambios } = useContext(MotivoCambioContext);
 
   const getMotivoCambio = (props) => {
-    obtenerMotivoCambio(props);
+    obtenerMotivoCambio(props).then(openModal());
   };
 
   useEffect(() => {

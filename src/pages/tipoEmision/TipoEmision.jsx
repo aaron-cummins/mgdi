@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Header, Modal } from "components";
 import { useStateContext } from "contexts/ContextProvider";
 import { TipoEmisionContextProvider } from "./context/tipoemisionContext";
@@ -8,6 +8,7 @@ import TablaTipoEmision from "./components/TablaTipoEmision";
 
 const TipoEmision = () => {
   const { currentColor } = useStateContext();
+  const [openModal, setOpenModal] = useState(false);
   return (
     <TipoEmisionContextProvider>
       <div className="m-1 p-7 bg-white rounded-3xl">
@@ -22,15 +23,20 @@ const TipoEmision = () => {
               color: "white",
               borderRadius: "10px",
             }}
+            onClick={() => setOpenModal(true)}
             className={`gap-5 p-3  hover:drop-shadow-xl hover:bg-${currentColor} text-center inline-flex items-center`}>
             Nuevo Tipo Emisión
           </button>
         </Header>
 
-        <TablaTipoEmision />
+        <TablaTipoEmision openModal={() => setOpenModal(true)} />
 
-        <Modal ModalTitle="Tipo Emisión" modalId="tipoemision-modal">
-          <FormTipoEmision modalid="#tipoemision-modal" />
+        <Modal
+          ModalTitle="Tipo Emisión"
+          modalId="tipoemision-modal"
+          open={openModal}
+          onClose={() => setOpenModal(false)}>
+          <FormTipoEmision modalid="#tipoemision-modal" closeModal={() => setOpenModal(false)} />
         </Modal>
       </div>
     </TipoEmisionContextProvider>

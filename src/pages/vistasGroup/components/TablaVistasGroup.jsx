@@ -3,12 +3,12 @@ import { VistasGroupContext } from "../context/vistasGroupContext";
 import { ColActivoTabla, OpcionesTabla, Tabla } from "components";
 import { SelectsContext } from "contexts/SelectsContext";
 
-const TablaVistasGroup = () => {
+const TablaVistasGroup = ({ openModal }) => {
   const { vistasgroupList, obtenerVistasGrouplist, obtenerVistasGroup } = useContext(VistasGroupContext);
 
   const { obtenerModulos } = useContext(SelectsContext);
 
-  const getVistasGroup = (props) => obtenerVistasGroup(props);
+  const getVistasGroup = (props) => obtenerVistasGroup(props).then(openModal());
 
   useEffect(() => {
     obtenerVistasGrouplist();

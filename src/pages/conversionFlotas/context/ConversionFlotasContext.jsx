@@ -3,13 +3,11 @@ import { OBTENER, OBTENER_LISTA, REGISTRAR, ACTUALIZAR, ELIMINAR } from "const/a
 import { getList, getByID, postObject, putObject, deleteObject } from "services/genericService";
 import ConversionFlotasReducer from "../reducer/ConversionFlotasReducer";
 import useFetchAndLoad from "hooks/useFetchAndLoad";
-import { useStateContext } from "contexts/ContextProvider";
 
 export const ConversionFlotasContext = createContext();
 
 export const ConversionFlotasContextProvider = (props) => {
   const { callEndpoint } = useFetchAndLoad();
-  const { alerta } = useStateContext();
   const urlApi = "conversionflotas";
 
   const initialState = {
@@ -18,7 +16,7 @@ export const ConversionFlotasContextProvider = (props) => {
 
     flotaList: [],
     fuenteInformacionList: [],
-    conversionLugarTrabajoList: []
+    conversionLugarTrabajoList: [],
   };
 
   const [state, dispatch] = useReducer(ConversionFlotasReducer, initialState);
@@ -70,10 +68,18 @@ export const ConversionFlotasContextProvider = (props) => {
         type: REGISTRAR,
         payload: resultado.data,
       });
-      alerta("success", "Conversion Flotas creada con exito!");
+      return new Promise((resolve) =>
+        resolve({ tipoAlerta: "success", mensaje: "Conversion Flotas creada con exito!" })
+      );
     } catch (error) {
       console.log(error);
-      alerta("error", `'Ocurrió un error al intentar crear la Conversion Flotas. ${error}`);
+      return new Promise((resolve) =>
+        resolve({
+          tipoAlerta: "error",
+
+          mensaje: `'Ocurrió un error al intentar crear la Conversion Flotas. ${error}`,
+        })
+      );
     }
   };
 
@@ -85,10 +91,18 @@ export const ConversionFlotasContextProvider = (props) => {
         type: ACTUALIZAR,
         payload: resultado.data,
       });
-      alerta("success", "Conversion Flotas actualizada con exito!");
+      return new Promise((resolve) =>
+        resolve({ tipoAlerta: "success", mensaje: "Conversion Flotas actualizada con exito!" })
+      );
     } catch (error) {
       console.log(error);
-      alerta("error", `'Ocurrió un error al intentar actualizar la Conversion Flotas. ${error}`);
+      return new Promise((resolve) =>
+        resolve({
+          tipoAlerta: "error",
+
+          mensaje: `'Ocurrió un error al intentar actualizar la Conversion Flotas. ${error}`,
+        })
+      );
     }
   };
 
@@ -100,10 +114,18 @@ export const ConversionFlotasContextProvider = (props) => {
         type: ELIMINAR,
         payload: id,
       });
-      alerta("success", "Conversion Flotas eliminada con exito!");
+      return new Promise((resolve) =>
+        resolve({ tipoAlerta: "success", mensaje: "Conversion Flotas eliminada con exito!" })
+      );
     } catch (error) {
       console.log(error);
-      alerta("error", `'Ocurrió un error al intentar eliminar la Conversion Flotas. ${error}`);
+      return new Promise((resolve) =>
+        resolve({
+          tipoAlerta: "error",
+
+          mensaje: `'Ocurrió un error al intentar eliminar la Conversion Flotas. ${error}`,
+        })
+      );
     }
   };
 

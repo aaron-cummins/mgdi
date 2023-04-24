@@ -2,11 +2,11 @@ import React, { useEffect, useContext } from "react";
 import { TipoContratoContext } from "../context/TipoContratoContext";
 import { ColActivoTabla, OpcionesTabla, Tabla } from "components";
 
-const TablaTipoContrato = () => {
+const TablaTipoContrato = ({ openModal }) => {
   const { TipoContratoList, obtenerTipoContrato, obtenerTipoContratos } = useContext(TipoContratoContext);
 
   const getTipoContrato = (props) => {
-    obtenerTipoContrato(props);
+    obtenerTipoContrato(props).then(openModal());
   };
 
   useEffect(() => {

@@ -155,8 +155,8 @@ const FormMontaje = (props) => {
   return (
     <form onSubmit={handleOnSubmit}>
       {mensaje.mensaje ? enqueueSnackbar(mensaje.mensaje, { variant: mensaje.tipoAlerta }) : null}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-        <div className="form-group mb-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-4">
+        <div className="form-group">
           <InputText
             type="date"
             id="fechaps"
@@ -169,7 +169,7 @@ const FormMontaje = (props) => {
             error={error?.fechaps}
           />
         </div>
-        <div className="form-group mb-4">
+        <div className="form-group">
           <InputText
             id="hrEquipoInstalacion"
             name="hrEquipoInstalacion"
@@ -181,7 +181,7 @@ const FormMontaje = (props) => {
             error={error?.hrEquipoInstalacion}
           />
         </div>
-        <div className="form-group mb-4">
+        <div className="form-group">
           <InputText
             id="hrMotorInstalacion"
             name="hrMotorInstalacion"
@@ -193,7 +193,7 @@ const FormMontaje = (props) => {
             error={error?.hrMotorInstalacion}
           />
         </div>
-        <div className="form-group mb-4">
+        <div className="form-group">
           <InputText
             id="axial"
             name="axial"
@@ -207,8 +207,8 @@ const FormMontaje = (props) => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-        <div className="form-group mb-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-4">
+        <div className="form-group">
           <Select
             id="estadoEquipoInstalacionId"
             name="estadoEquipoInstalacionId"
@@ -222,7 +222,7 @@ const FormMontaje = (props) => {
           />
         </div>
 
-        <div className="form-group mb-4">
+        <div className="form-group">
           <Select
             id="estadoMotorInstalacionId"
             name="estadoMotorInstalacionId"
@@ -236,7 +236,7 @@ const FormMontaje = (props) => {
           />
         </div>
 
-        <div className="form-group mb-4">
+        <div className="form-group">
           <Select
             id="estadoEquipoId"
             name="estadoEquipoId"
@@ -250,7 +250,7 @@ const FormMontaje = (props) => {
           />
         </div>
 
-        <div className="form-group mb-4">
+        <div className="form-group">
           <Select
             id="estadoMotorId"
             name="estadoMotorId"
@@ -265,8 +265,8 @@ const FormMontaje = (props) => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-4 gap-8">
-        <div className="form-group mb-4">
+      <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-4 gap-8 mb-4">
+        <div className="form-group">
           <Select
             id="contratoId"
             name="contratoId"
@@ -280,7 +280,7 @@ const FormMontaje = (props) => {
           />
         </div>
 
-        <div className="form-group mb-4">
+        <div className="form-group">
           <InputText
             id="intervencionId"
             name="intervencionId"
@@ -292,7 +292,7 @@ const FormMontaje = (props) => {
             error={error?.intervencionId}
           />
         </div>
-        <div className="form-group mb-4">
+        <div className="form-group">
           <Select
             id="amId"
             name="amId"

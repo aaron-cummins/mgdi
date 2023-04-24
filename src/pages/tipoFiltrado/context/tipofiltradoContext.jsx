@@ -3,13 +3,11 @@ import { OBTENER, OBTENER_LISTA, REGISTRAR, ACTUALIZAR, ELIMINAR } from "const/a
 import { getList, getByID, postObject, putObject, deleteObject } from "services/genericService";
 import tipofiltradoReducer from "../reducer/tipofiltradoReducer";
 import useFetchAndLoad from "hooks/useFetchAndLoad";
-import { useStateContext } from "contexts/ContextProvider";
 
 export const TipoFiltradoContext = createContext();
 
 export const TipoFiltradoContextProvider = (props) => {
   const { callEndpoint } = useFetchAndLoad();
-  const { alerta } = useStateContext();
   const urlApi = "tipofiltrado";
   const initialState = {
     tipofiltradoList: [],
@@ -63,10 +61,16 @@ export const TipoFiltradoContextProvider = (props) => {
         type: REGISTRAR,
         payload: resultado.data,
       });
-      alerta("success", "Tipo Filtrado creado con exito!");
+      return new Promise((resolve) => resolve({ tipoAlerta: "success", mensaje: "Tipo Filtrado creado con exito!" }));
     } catch (error) {
       console.log(error);
-      alerta("error", `'Ocurrió un error al intentar crear el tipo filtrado. ${error}`);
+      return new Promise((resolve) =>
+        resolve({
+          tipoAlerta: "error",
+
+          mensaje: `'Ocurrió un error al intentar crear el tipo filtrado. ${error}`,
+        })
+      );
     }
   };
 
@@ -78,10 +82,18 @@ export const TipoFiltradoContextProvider = (props) => {
         type: ACTUALIZAR,
         payload: resultado.data,
       });
-      alerta("success", "Tipo Filtrado actualizado con exito!");
+      return new Promise((resolve) =>
+        resolve({ tipoAlerta: "success", mensaje: "Tipo Filtrado actualizado con exito!" })
+      );
     } catch (error) {
       console.log(error);
-      alerta("error", `'Ocurrió un error al intentar actualizar el tipo filtrado. ${error}`);
+      return new Promise((resolve) =>
+        resolve({
+          tipoAlerta: "error",
+
+          mensaje: `'Ocurrió un error al intentar actualizar el tipo filtrado. ${error}`,
+        })
+      );
     }
   };
 
@@ -93,10 +105,18 @@ export const TipoFiltradoContextProvider = (props) => {
         type: ELIMINAR,
         payload: id,
       });
-      alerta("success", "Tipo Filtrado eliminado con exito!");
+      return new Promise((resolve) =>
+        resolve({ tipoAlerta: "success", mensaje: "Tipo Filtrado eliminado con exito!" })
+      );
     } catch (error) {
       console.log(error);
-      alerta("error", `'Ocurrió un error al intentar eliminar el tipo filtrado. ${error}`);
+      return new Promise((resolve) =>
+        resolve({
+          tipoAlerta: "error",
+
+          mensaje: `'Ocurrió un error al intentar eliminar el tipo filtrado. ${error}`,
+        })
+      );
     }
   };
 

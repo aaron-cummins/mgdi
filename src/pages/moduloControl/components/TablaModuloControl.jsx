@@ -2,10 +2,10 @@ import React, { useEffect, useContext } from "react";
 import { ModuloControlContext } from "../context/moduloControlContext";
 import { ColActivoTabla, OpcionesTabla, Tabla } from "components";
 
-const TablaModuloControl = () => {
+const TablaModuloControl = ({ openModal }) => {
   const { modulocontrolList, obtenerModulosControl, obtenerModuloControl } = useContext(ModuloControlContext);
 
-  const getModuloControl = (props) => obtenerModuloControl(props);
+  const getModuloControl = (props) => obtenerModuloControl(props).then(openModal());
 
   useEffect(() => {
     obtenerModulosControl();

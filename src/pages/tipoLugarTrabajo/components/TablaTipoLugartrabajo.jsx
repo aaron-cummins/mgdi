@@ -2,11 +2,11 @@ import React, { useEffect, useContext } from "react";
 import { TipolugartrabajoContext } from "../context/tipolugartrabajoContext";
 import { ColActivoTabla, OpcionesTabla, Tabla } from "components";
 
-const TablaTipolugarTrabajo = () => {
+const TablaTipolugarTrabajo = ({ openModal }) => {
   const { tipolugartrabajoList, obtenerTipolugartrabajoList, obtenerTipolugartrabajo } =
     useContext(TipolugartrabajoContext);
 
-  const getTipolugartrabajo = (props) => obtenerTipolugartrabajo(props);
+  const getTipolugartrabajo = (props) => obtenerTipolugartrabajo(props).then(openModal());
 
   useEffect(() => {
     obtenerTipolugartrabajoList();

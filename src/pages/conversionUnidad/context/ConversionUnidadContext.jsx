@@ -3,13 +3,12 @@ import { OBTENER, OBTENER_LISTA, REGISTRAR, ACTUALIZAR, ELIMINAR } from "const/a
 import { getList, getByID, postObject, putObject, deleteObject } from "services/genericService";
 import ConversionUnidadReducer from "../reducer/ConversionUnidadReducer";
 import useFetchAndLoad from "hooks/useFetchAndLoad";
-import { useStateContext } from "contexts/ContextProvider";
 
 export const ConversionUnidadContext = createContext();
 
 export const ConversionUnidadContextProvider = (props) => {
   const { callEndpoint } = useFetchAndLoad();
-  const { alerta } = useStateContext();
+
   const urlApi = "conversionunidad";
 
   const initialState = {
@@ -18,7 +17,6 @@ export const ConversionUnidadContextProvider = (props) => {
 
     conversionFlotaList: [],
     unidadList: [],
-    
   };
 
   const [state, dispatch] = useReducer(ConversionUnidadReducer, initialState);
@@ -70,10 +68,14 @@ export const ConversionUnidadContextProvider = (props) => {
         type: REGISTRAR,
         payload: resultado.data,
       });
-      alerta("success", "Conversión unidad creada con exito!");
+      return new Promise((resolve) =>
+        resolve({ tipoAlerta: "success", mensaje: "Conversión unidad creada con exito!" })
+      );
     } catch (error) {
       console.log(error);
-      alerta("error", `'Ocurrió un error al intentar crear la Conversión unidad. ${error}`);
+      return new Promise((resolve) =>
+        resolve({ tipoAlerta: "error", mensaje: `'Ocurrió un error al intentar crear la Conversión unidad. ${error}` })
+      );
     }
   };
 
@@ -85,10 +87,17 @@ export const ConversionUnidadContextProvider = (props) => {
         type: ACTUALIZAR,
         payload: resultado.data,
       });
-      alerta("success", "Conversión unidad actualizada con exito!");
+      return new Promise((resolve) =>
+        resolve({ tipoAlerta: "success", mensaje: "Conversión unidad actualizada con exito!" })
+      );
     } catch (error) {
       console.log(error);
-      alerta("error", `'Ocurrió un error al intentar actualizar la Conversión unidad. ${error}`);
+      return new Promise((resolve) =>
+        resolve({
+          tipoAlerta: "error",
+          mensaje: `'Ocurrió un error al intentar actualizar la Conversión unidad. ${error}`,
+        })
+      );
     }
   };
 
@@ -100,10 +109,17 @@ export const ConversionUnidadContextProvider = (props) => {
         type: ELIMINAR,
         payload: id,
       });
-      alerta("success", "Conversión unidad eliminada con exito!");
+      return new Promise((resolve) =>
+        resolve({ tipoAlerta: "success", mensaje: "Conversión unidad eliminada con exito!" })
+      );
     } catch (error) {
       console.log(error);
-      alerta("error", `'Ocurrió un error al intentar eliminar la Conversión unidad. ${error}`);
+      return new Promise((resolve) =>
+        resolve({
+          tipoAlerta: "error",
+          mensaje: `'Ocurrió un error al intentar eliminar la Conversión unidad. ${error}`,
+        })
+      );
     }
   };
 

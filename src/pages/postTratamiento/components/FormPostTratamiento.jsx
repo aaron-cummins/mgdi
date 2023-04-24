@@ -1,15 +1,12 @@
 import React, { useEffect, useState, useContext, useMemo } from "react";
 import { InputText, Buttons, Checkbox } from "components";
 import { PostTratamientoContext } from "../context/PostTratamientoContext";
-import { useStateContext } from "contexts/ContextProvider";
-import { closeModal } from "utilities/Utiles";
 import { useSnackbar } from "notistack";
 import useValidacionForm from "hooks/useValidacionForm";
 
-const FormPostTratamiento = () => {
+const FormPostTratamiento = ({ closeModal }) => {
   const { PostTratamientoActual, registrarPostTratamiento, actualizarPostTratamiento, obtenerPostTratamiento } =
     useContext(PostTratamientoContext);
-  const { mensaje } = useStateContext();
   const { enqueueSnackbar } = useSnackbar();
   const { validarTexto, validarNumero, error, setError } = useValidacionForm();
 
@@ -31,7 +28,7 @@ const FormPostTratamiento = () => {
     let valida = true;
 
     if (validarTexto("nombre", PostTratamiento.nombre, "Nombre de posttratamiento requerido")) valida = false;
-  
+
     return valida;
   };
 
@@ -49,15 +46,20 @@ const FormPostTratamiento = () => {
     setPostTratamiento(PostTratamientoDefault);
     obtenerPostTratamiento(null);
     setError({});
+    closeModal();
   };
 
   const handleOnSubmit = async (e) => {
     e.preventDefault();
     if (validaciones()) {
       PostTratamientoActual !== null
-        ? actualizarPostTratamiento(PostTratamientoEnviar())
-        : registrarPostTratamiento(PostTratamientoEnviar());
-      closeModal();
+        ? actualizarPostTratamiento(PostTratamientoEnviar()).then((res) =>
+            enqueueSnackbar(res.mensaje, { variant: res.tipoAlerta })
+          )
+        : registrarPostTratamiento(PostTratamientoEnviar()).then((res) =>
+            enqueueSnackbar(res.mensaje, { variant: res.tipoAlerta })
+          );
+
       limpiaForm();
     } else {
       enqueueSnackbar("Debe corregir los problemas en el formulario", { variant: "error" });
@@ -72,9 +74,8 @@ const FormPostTratamiento = () => {
 
   return (
     <form onSubmit={handleOnSubmit}>
-      {mensaje.mensaje ? enqueueSnackbar(mensaje.mensaje, { variant: mensaje.tipoAlerta }) : null}
-      <div className="grid grid-cols-2 gap-4">
-        <div className="form-group mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+        <div className="form-group">
           <InputText
             id="nombre"
             name="nombre"
@@ -86,7 +87,7 @@ const FormPostTratamiento = () => {
             error={error.nombre}
           />
         </div>
-        <div className="form-group mb-4">
+        <div className="form-group">
           <Checkbox
             id="activo"
             name="activo"

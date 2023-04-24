@@ -3,13 +3,11 @@ import { OBTENER, OBTENER_LISTA, REGISTRAR, ACTUALIZAR, ELIMINAR } from "const/a
 import { getList, getByID, postObject, putObject, deleteObject } from "services/genericService";
 import EstadoEquipoReducer from "../reducer/EstadoEquipoReducer";
 import useFetchAndLoad from "hooks/useFetchAndLoad";
-import { useStateContext } from "contexts/ContextProvider";
 
 export const EstadoEquipoContext = createContext();
 
 export const EstadoEquipoContextProvider = (props) => {
   const { callEndpoint } = useFetchAndLoad();
-  const { alerta } = useStateContext();
 
   const urlApi = "estadoequipo";
 
@@ -65,10 +63,16 @@ export const EstadoEquipoContextProvider = (props) => {
         type: REGISTRAR,
         payload: resultado.data,
       });
-      alerta("success", "Estado Equipo creado con exito!");
+      return new Promise((resolve) => resolve({ tipoAlerta: "success", mensaje: "Estado Equipo creado con exito!" }));
     } catch (error) {
       console.log(error);
-      alerta("error", `'Ocurrió un error al intentar crear el Estado Equipo. ${error}`);
+      return new Promise((resolve) =>
+        resolve({
+          tipoAlerta: "error",
+
+          mensaje: `'Ocurrió un error al intentar crear el Estado Equipo. ${error}`,
+        })
+      );
     }
   };
 
@@ -80,10 +84,18 @@ export const EstadoEquipoContextProvider = (props) => {
         type: ACTUALIZAR,
         payload: resultado.data,
       });
-      alerta("success", "Estado Equipo actualizado con exito!");
+      return new Promise((resolve) =>
+        resolve({ tipoAlerta: "success", mensaje: "Estado Equipo actualizado con exito!" })
+      );
     } catch (error) {
       console.log(error);
-      alerta("error", `'Ocurrió un error al intentar actualizar el Estado Equipo. ${error}`);
+      return new Promise((resolve) =>
+        resolve({
+          tipoAlerta: "error",
+
+          mensaje: `'Ocurrió un error al intentar actualizar el Estado Equipo. ${error}`,
+        })
+      );
     }
   };
 
@@ -95,10 +107,18 @@ export const EstadoEquipoContextProvider = (props) => {
         type: ELIMINAR,
         payload: id,
       });
-      alerta("success", "Estado Equipo eliminado con exito!");
+      return new Promise((resolve) =>
+        resolve({ tipoAlerta: "success", mensaje: "Estado Equipo eliminado con exito!" })
+      );
     } catch (error) {
       console.log(error);
-      alerta("error", `'Ocurrió un error al intentar eliminar el Estado Equipo. ${error}`);
+      return new Promise((resolve) =>
+        resolve({
+          tipoAlerta: "error",
+
+          mensaje: `'Ocurrió un error al intentar eliminar el Estado Equipo. ${error}`,
+        })
+      );
     }
   };
 

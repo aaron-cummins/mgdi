@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Header, Modal } from "components";
 import { useStateContext } from "contexts/ContextProvider";
 import { PostTratamientoContextProvider } from "./context/PostTratamientoContext";
@@ -8,6 +8,7 @@ import TablaPostTratamiento from "./components/TablaPostTratamiento";
 
 const PostTratamiento = () => {
   const { currentColor } = useStateContext();
+  const [openModal, setOpenModal] = useState(false);
   return (
     <PostTratamientoContextProvider>
       <div className="m-1 p-7 bg-white rounded-3xl">
@@ -22,15 +23,20 @@ const PostTratamiento = () => {
               color: "white",
               borderRadius: "10px",
             }}
+            onClick={() => setOpenModal(true)}
             className={`gap-5 p-3  hover:drop-shadow-xl hover:bg-${currentColor} text-center inline-flex items-center`}>
             Nuevo Post Tratamiento
           </button>
         </Header>
 
-        <TablaPostTratamiento />
+        <TablaPostTratamiento openModal={() => setOpenModal(true)} />
 
-        <Modal ModalTitle="Post Tratamiento" modalId="posttratamiento-modal">
-          <FormPostTratamiento />
+        <Modal
+          ModalTitle="Post Tratamiento"
+          modalId="posttratamiento-modal"
+          open={openModal}
+          onClose={() => setOpenModal(false)}>
+          <FormPostTratamiento closeModal={() => setOpenModal(false)} />
         </Modal>
       </div>
     </PostTratamientoContextProvider>

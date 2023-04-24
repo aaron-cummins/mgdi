@@ -3,13 +3,11 @@ import { OBTENER, OBTENER_LISTA, REGISTRAR, ACTUALIZAR, ELIMINAR } from "const/a
 import { getList, getByID, postObject, putObject, deleteObject } from "services/genericService";
 import tipoinyeccionReducer from "../reducer/tipoinyeccionReducer";
 import useFetchAndLoad from "hooks/useFetchAndLoad";
-import { useStateContext } from "contexts/ContextProvider";
 
 export const TipoInyeccionContext = createContext();
 
 export const TipoInyeccionContextProvider = (props) => {
   const { callEndpoint } = useFetchAndLoad();
-  const { alerta } = useStateContext();
   const urlApi = "tipoinyeccion";
 
   const initialState = {
@@ -64,10 +62,16 @@ export const TipoInyeccionContextProvider = (props) => {
         type: REGISTRAR,
         payload: resultado.data,
       });
-      alerta("success", "Tipo Admisión creado con exito!");
+      return new Promise((resolve) => resolve({ tipoAlerta: "success", mensaje: "Tipo Admisión creado con exito!" }));
     } catch (error) {
       console.log(error);
-      alerta("error", `'Ocurrió un error al intentar crear el tipo admisión. ${error}`);
+      return new Promise((resolve) =>
+        resolve({
+          tipoAlerta: "error",
+
+          mensaje: `'Ocurrió un error al intentar crear el tipo admisión. ${error}`,
+        })
+      );
     }
   };
 
@@ -79,10 +83,18 @@ export const TipoInyeccionContextProvider = (props) => {
         type: ACTUALIZAR,
         payload: resultado.data,
       });
-      alerta("success", "Tipo Admisión actualizado con exito!");
+      return new Promise((resolve) =>
+        resolve({ tipoAlerta: "success", mensaje: "Tipo Admisión actualizado con exito!" })
+      );
     } catch (error) {
       console.log(error);
-      alerta("error", `'Ocurrió un error al intentar actualizar el tipo admisión. ${error}`);
+      return new Promise((resolve) =>
+        resolve({
+          tipoAlerta: "error",
+
+          mensaje: `'Ocurrió un error al intentar actualizar el tipo admisión. ${error}`,
+        })
+      );
     }
   };
 
@@ -94,10 +106,18 @@ export const TipoInyeccionContextProvider = (props) => {
         type: ELIMINAR,
         payload: id,
       });
-      alerta("success", "Tipo Admisión eliminado con exito!");
+      return new Promise((resolve) =>
+        resolve({ tipoAlerta: "success", mensaje: "Tipo Admisión eliminado con exito!" })
+      );
     } catch (error) {
       console.log(error);
-      alerta("error", `'Ocurrió un error al intentar eliminar el tipo admisión. ${error}`);
+      return new Promise((resolve) =>
+        resolve({
+          tipoAlerta: "error",
+
+          mensaje: `'Ocurrió un error al intentar eliminar el tipo admisión. ${error}`,
+        })
+      );
     }
   };
 

@@ -3,13 +3,10 @@ import { OBTENER, OBTENER_LISTA, REGISTRAR, ACTUALIZAR, ELIMINAR } from "const/a
 import { getList, getByID, postObject, putObject, deleteObject } from "services/genericService";
 import FuenteInformacionReducer from "../reducer/FuenteInformacionReducer";
 import useFetchAndLoad from "hooks/useFetchAndLoad";
-import { useStateContext } from "contexts/ContextProvider";
-
 export const FuenteInformacionContext = createContext();
 
 export const FuenteInformacionContextProvider = (props) => {
   const { callEndpoint } = useFetchAndLoad();
-  const { alerta } = useStateContext();
 
   const urlApi = "fuenteinformacion";
 
@@ -65,10 +62,18 @@ export const FuenteInformacionContextProvider = (props) => {
         type: REGISTRAR,
         payload: resultado.data,
       });
-      alerta("success", "Fuente Informacion creada con exito!");
+      return new Promise((resolve) =>
+        resolve({ tipoAlerta: "success", mensaje: "Fuente Informacion creada con exito!" })
+      );
     } catch (error) {
       console.log(error);
-      alerta("error", `'Ocurrió un error al intentar crear la Fuente Informacion. ${error}`);
+      return new Promise((resolve) =>
+        resolve({
+          tipoAlerta: "error",
+
+          mensaje: `'Ocurrió un error al intentar crear la Fuente Informacion. ${error}`,
+        })
+      );
     }
   };
 
@@ -80,10 +85,18 @@ export const FuenteInformacionContextProvider = (props) => {
         type: ACTUALIZAR,
         payload: resultado.data,
       });
-      alerta("success", "Fuente Informacion actualizada con exito!");
+      return new Promise((resolve) =>
+        resolve({ tipoAlerta: "success", mensaje: "Fuente Informacion actualizada con exito!" })
+      );
     } catch (error) {
       console.log(error);
-      alerta("error", `'Ocurrió un error al intentar actualizar la Fuente Informacion. ${error}`);
+      return new Promise((resolve) =>
+        resolve({
+          tipoAlerta: "error",
+
+          mensaje: `'Ocurrió un error al intentar actualizar la Fuente Informacion. ${error}`,
+        })
+      );
     }
   };
 
@@ -95,10 +108,18 @@ export const FuenteInformacionContextProvider = (props) => {
         type: ELIMINAR,
         payload: id,
       });
-      alerta("success", "Fuente Informacion eliminada con exito!");
+      return new Promise((resolve) =>
+        resolve({ tipoAlerta: "success", mensaje: "Fuente Informacion eliminada con exito!" })
+      );
     } catch (error) {
       console.log(error);
-      alerta("error", `'Ocurrió un error al intentar eliminar la Fuente Informacion. ${error}`);
+      return new Promise((resolve) =>
+        resolve({
+          tipoAlerta: "error",
+
+          mensaje: `'Ocurrió un error al intentar eliminar la Fuente Informacion. ${error}`,
+        })
+      );
     }
   };
 

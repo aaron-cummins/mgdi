@@ -4,13 +4,10 @@ import { getList, getByID, postObject, putObject, deleteObject } from "services/
 import avisoMontajeReducer from "../reducer/avisoMontajeReducer";
 import useFetchAndLoad from "hooks/useFetchAndLoad";
 
-import { useStateContext } from "contexts/ContextProvider";
-
 export const AvisoMontajeContext = createContext();
 
 export const AvisoMontajeContextProvider = (props) => {
   const { callEndpoint } = useFetchAndLoad();
-  const { alerta } = useStateContext();
   const urlApi = "am";
 
   const initialState = {
@@ -65,10 +62,15 @@ export const AvisoMontajeContextProvider = (props) => {
         type: REGISTRAR,
         payload: resultado.data,
       });
-      alerta("success", "Aviso Montaje cread con exito!");
+      return new Promise((resolve) => resolve({ tipoAlerta: "success", mensaje: "Aviso Montaje cread con exito!" }));
     } catch (error) {
       console.log(error);
-      alerta("error", `'Ocurrió un error al intentar crear el Aviso Montaje. ${error}`);
+      return new Promise((resolve) =>
+        resolve({
+          tipoAlerta: "error",
+          mensaje: `'Ocurrió un error al intentar crear el Aviso Montaje. ${error}`,
+        })
+      );
     }
   };
 
@@ -81,10 +83,18 @@ export const AvisoMontajeContextProvider = (props) => {
         type: ACTUALIZAR,
         payload: resultado.data,
       });
-      alerta("success", "Aviso Montaje actualizado con exito!");
+      return new Promise((resolve) =>
+        resolve({ tipoAlerta: "success", mensaje: "Aviso Montaje actualizado con exito!" })
+      );
     } catch (error) {
       console.log(error);
-      alerta("error", `'Ocurrió un error al intentar actualizar el Aviso Montaje. ${error}`);
+      return new Promise((resolve) =>
+        resolve({
+          tipoAlerta: "error",
+
+          mensaje: `'Ocurrió un error al intentar actualizar el Aviso Montaje. ${error}`,
+        })
+      );
     }
   };
 
@@ -96,10 +106,18 @@ export const AvisoMontajeContextProvider = (props) => {
         type: ELIMINAR,
         payload: id,
       });
-      alerta("success", "Aviso Montaje eliminado con exito!");
+      return new Promise((resolve) =>
+        resolve({ tipoAlerta: "success", mensaje: "Aviso Montaje eliminado con exito!" })
+      );
     } catch (error) {
       console.log(error);
-      alerta("error", `'Ocurrió un error al intentar eliminar el Aviso Montaje. ${error}`);
+      return new Promise((resolve) =>
+        resolve({
+          tipoAlerta: "error",
+
+          mensaje: `'Ocurrió un error al intentar eliminar el Aviso Montaje. ${error}`,
+        })
+      );
     }
   };
 

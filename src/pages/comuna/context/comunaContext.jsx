@@ -3,13 +3,11 @@ import { OBTENER, OBTENER_LISTA, REGISTRAR, ACTUALIZAR, ELIMINAR } from "const/a
 import { getList, getByID, postObject, putObject, deleteObject } from "services/genericService";
 import comunaReducer from "../reducer/comunaReducer.js";
 import useFetchAndLoad from "hooks/useFetchAndLoad";
-import { useStateContext } from "contexts/ContextProvider";
 
 export const ComunaContext = createContext();
 
 export const ComunaContextProvider = (props) => {
   const { callEndpoint } = useFetchAndLoad();
-  const { alerta } = useStateContext();
   const urlApi = "comuna";
   const initialState = {
     comunaList: [],
@@ -65,10 +63,15 @@ export const ComunaContextProvider = (props) => {
         type: REGISTRAR,
         payload: resul,
       });
-      alerta("success", "Comuna creada con exito!");
+      return new Promise((resolve) => resolve({ tipoAlerta: "success", mensaje: "Comuna creada con exito!" }));
     } catch (error) {
       console.log(error);
-      alerta("error", `'Ocurrió un error al intentar crear la comuna. ${error}`);
+      return new Promise((resolve) =>
+        resolve({
+          tipoAlerta: "error",
+          mensaje: `'Ocurrió un error al intentar crear la comuna. ${error}`,
+        })
+      );
     }
   };
 
@@ -82,10 +85,15 @@ export const ComunaContextProvider = (props) => {
         type: ACTUALIZAR,
         payload: resul,
       });
-      alerta("success", "Comuna actualizada con exito!");
+      return new Promise((resolve) => resolve({ tipoAlerta: "success", mensaje: "Comuna actualizada con exito!" }));
     } catch (error) {
       console.log(error);
-      alerta("error", `'Ocurrió un error al intentar actualizar la comuna. ${error}`);
+      return new Promise((resolve) =>
+        resolve({
+          tipoAlerta: "error",
+          mensaje: `'Ocurrió un error al intentar actualizar la comuna. ${error}`,
+        })
+      );
     }
   };
 
@@ -97,10 +105,12 @@ export const ComunaContextProvider = (props) => {
         type: ELIMINAR,
         payload: id,
       });
-      alerta("success", "Comuna eliminada con exito!");
+      return new Promise((resolve) => resolve({ tipoAlerta: "success", mensaje: "Comuna eliminada con exito!" }));
     } catch (error) {
       console.log(error);
-      alerta("error", `'Ocurrió un error al intentar eliminar la comuna. ${error}`);
+      return new Promise((resolve) =>
+        resolve({ tipoAlerta: "error", mensaje: `'Ocurrió un error al intentar eliminar la comuna. ${error}` })
+      );
     }
   };
 

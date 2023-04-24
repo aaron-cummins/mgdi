@@ -1,14 +1,12 @@
 import React, { useEffect, useState, useContext, useMemo } from "react";
 import { InputText, Buttons, Checkbox } from "components";
 import { RolesContext } from "../context/rolesContext";
-import { closeModal, formatDate } from "utilities/Utiles";
-import { useStateContext } from "contexts/ContextProvider";
+import { formatDate } from "utilities/Utiles";
 import { useSnackbar } from "notistack";
 import useValidacionForm from "hooks/useValidacionForm";
 
-const FormRoles = () => {
+const FormRoles = ({ closeModal }) => {
   const { registrarRoles, rolesActual, actualizarRoles, obtenerRoles } = useContext(RolesContext);
-  const { mensaje } = useStateContext();
   const { enqueueSnackbar } = useSnackbar();
   const { validarTexto, validarNumero, error, setError } = useValidacionForm();
 
@@ -51,22 +49,22 @@ const FormRoles = () => {
     setRoles(rolesDefault);
     obtenerRoles(null);
     setError({});
+    closeModal();
   };
 
   const handleOnSubmit = async (e) => {
     e.preventDefault();
     if (validaciones()) {
       rolesActual !== null
-        ? actualizarRoles(RolesAEnviar())
-        : registrarRoles(RolesAEnviar());
-      closeModal();
+        ? actualizarRoles(RolesAEnviar()).then((res) => enqueueSnackbar(res.mensaje, { variant: res.tipoAlerta }))
+        : registrarRoles(RolesAEnviar()).then((res) => enqueueSnackbar(res.mensaje, { variant: res.tipoAlerta }));
+
       limpiaForm();
     } else {
       enqueueSnackbar("Debe corregir los problemas en el formulario", { variant: "error" });
       return false;
     }
   };
-
 
   const RolesAEnviar = () => {
     let rolesTmp = { ...roles };
@@ -78,8 +76,7 @@ const FormRoles = () => {
 
   return (
     <form onSubmit={handleOnSubmit}>
-      {mensaje.mensaje ? enqueueSnackbar(mensaje.mensaje, { variant: mensaje.tipoAlerta }) : null}
-      <div className="grid gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="form-group">
           <InputText
             id="nombre"
@@ -92,7 +89,7 @@ const FormRoles = () => {
             error={error.nombre}
           />
         </div>
-        <div className="form-group form-check mb-6 items-center"> 
+        <div className="form-group form-check mb-6 items-center">
           <Checkbox id="activo" name="activo" label="Activo" onChangeFN={handleChange} checked={roles.activo} />
         </div>
       </div>

@@ -3,13 +3,11 @@ import { OBTENER, OBTENER_LISTA, REGISTRAR, ACTUALIZAR, ELIMINAR } from "const/a
 import { getList, getByID, postObject, putObject, deleteObject } from "services/genericService";
 import rolesReducer from "../reducer/rolesReducer";
 import useFetchAndLoad from "hooks/useFetchAndLoad";
-import { useStateContext } from "contexts/ContextProvider";
 
 export const RolesContext = createContext();
 
 export const RolesContextProvider = (props) => {
   const { callEndpoint } = useFetchAndLoad();
-  const { alerta } = useStateContext();
   const urlApi = "roles";
 
   const initialState = {
@@ -64,10 +62,12 @@ export const RolesContextProvider = (props) => {
         type: REGISTRAR,
         payload: resultado.data,
       });
-      alerta("success", "Rol creado con exito!");
+      return new Promise((resolve) => resolve({ tipoAlerta: "success", mensaje: "Rol creado con exito!" }));
     } catch (error) {
       console.log(error);
-      alerta("error", `'Ocurrió un error al intentar crear el Rol. ${error}`);
+      return new Promise((resolve) =>
+        resolve({ tipoAlerta: "error", mensaje: `'Ocurrió un error al intentar crear el Rol. ${error}` })
+      );
     }
   };
 
@@ -80,10 +80,12 @@ export const RolesContextProvider = (props) => {
         type: ACTUALIZAR,
         payload: resultado.data,
       });
-      alerta("success", "Rol actualizado con exito!");
+      return new Promise((resolve) => resolve({ tipoAlerta: "success", mensaje: "Rol actualizado con exito!" }));
     } catch (error) {
       console.log(error);
-      alerta("error", `'Ocurrió un error al intentar actualizar el Rol. ${error}`);
+      return new Promise((resolve) =>
+        resolve({ tipoAlerta: "error", mensaje: `'Ocurrió un error al intentar actualizar el Rol. ${error}` })
+      );
     }
   };
 
@@ -95,10 +97,12 @@ export const RolesContextProvider = (props) => {
         type: ELIMINAR,
         payload: id,
       });
-      alerta("success", "Rol eliminado con exito!");
+      return new Promise((resolve) => resolve({ tipoAlerta: "success", mensaje: "Rol eliminado con exito!" }));
     } catch (error) {
       console.log(error);
-      alerta("error", `'Ocurrió un error al intentar eliminar el Rol. ${error}`);
+      return new Promise((resolve) =>
+        resolve({ tipoAlerta: "error", mensaje: `'Ocurrió un error al intentar eliminar el Rol. ${error}` })
+      );
     }
   };
 

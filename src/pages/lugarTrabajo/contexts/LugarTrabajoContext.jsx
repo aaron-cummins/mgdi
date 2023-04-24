@@ -3,13 +3,12 @@ import { OBTENER, OBTENER_LISTA, REGISTRAR, ACTUALIZAR, ELIMINAR } from "const/a
 import { getList, getByID, postObject, putObject, deleteObject } from "services/genericService";
 import lugartrabajoReducer from "../reducer/lugarTrabajoReducer";
 import useFetchAndLoad from "hooks/useFetchAndLoad";
-import { useStateContext } from "contexts/ContextProvider";
 
 export const LugarTrabajoContext = createContext();
 
 export const LugarTrabajoContextProvider = (props) => {
   const { callEndpoint } = useFetchAndLoad();
-  const { alerta } = useStateContext();
+
   const urlApi = "lugartrabajo";
 
   const initialState = {
@@ -71,10 +70,14 @@ export const LugarTrabajoContextProvider = (props) => {
         type: REGISTRAR,
         payload: resultado.data,
       });
-      alerta("success", "Lugar de Trabajo creado con exito!");
+      return new Promise((resolve) =>
+        resolve({ tipoAlerta: "success", mensaje: "Lugar de Trabajo creado con exito!" })
+      );
     } catch (error) {
       console.log(error);
-      alerta("error", `'Ocurrió un error al intentar crear el lugar de trabajo. ${error}`);
+      return new Promise((resolve) =>
+        resolve({ tipoAlerta: "error", mensaje: `'Ocurrió un error al intentar crear el lugar de trabajo. ${error}` })
+      );
     }
   };
 
@@ -86,10 +89,14 @@ export const LugarTrabajoContextProvider = (props) => {
         type: ACTUALIZAR,
         payload: resultado.data,
       });
-      alerta("success", "Lugar de Trabajo actualizado con exito!");
+      return new Promise((resolve) =>
+        resolve({ tipoAlerta: "success", mensaje: "Lugar de Trabajo actualizado con exito!" })
+      );
     } catch (error) {
       console.log(error);
-      alerta("error", `'Ocurrió un error al intentar actualizar el lugar trabajo. ${error}`);
+      return new Promise((resolve) =>
+        resolve({ tipoAlerta: "error", mensaje: `'Ocurrió un error al intentar actualizar el lugar trabajo. ${error}` })
+      );
     }
   };
 
@@ -101,10 +108,17 @@ export const LugarTrabajoContextProvider = (props) => {
         type: ELIMINAR,
         payload: id,
       });
-      alerta("success", "Lugar de Trabajo eliminado con exito!");
+      return new Promise((resolve) =>
+        resolve({ tipoAlerta: "success", mensaje: "Lugar de Trabajo eliminado con exito!" })
+      );
     } catch (error) {
       console.log(error);
-      alerta("error", `'Ocurrió un error al intentar eliminar el lugar de trabajo. ${error}`);
+      return new Promise((resolve) =>
+        resolve({
+          tipoAlerta: "error",
+          mensaje: `'Ocurrió un error al intentar eliminar el lugar de trabajo. ${error}`,
+        })
+      );
     }
   };
 

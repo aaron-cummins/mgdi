@@ -2,11 +2,11 @@ import React, { useEffect, useContext } from "react";
 import { TipoBlockContext } from "../context/TipoBlockContext";
 import { ColActivoTabla, OpcionesTabla, Tabla, ColExperimentalTabla } from "components";
 
-const TablaTipoBlock = () => {
+const TablaTipoBlock = ({ openModal }) => {
   const { TipoBlockList, obtenerTipoBlock, obtenerTipoBlocks } = useContext(TipoBlockContext);
 
   const getTipoBlock = (props) => {
-    obtenerTipoBlock(props);
+    obtenerTipoBlock(props).then(openModal());
   };
 
   useEffect(() => {

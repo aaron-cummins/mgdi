@@ -31,7 +31,7 @@ const FormTipoBlock = () => {
     let valida = true;
 
     if (validarTexto("nombre", TipoBlock.nombre, "Nombre de tipo block requerido")) valida = false;
-  
+
     return valida;
   };
 
@@ -54,9 +54,7 @@ const FormTipoBlock = () => {
   const handleOnSubmit = async (e) => {
     e.preventDefault();
     if (validaciones()) {
-      TipoBlockActual !== null
-        ? actualizarTipoBlock(TipoBlockEnviar())
-        : registrarTipoBlock(TipoBlockEnviar());
+      TipoBlockActual !== null ? actualizarTipoBlock(TipoBlockEnviar()) : registrarTipoBlock(TipoBlockEnviar());
       closeModal();
       limpiaForm();
     } else {
@@ -73,8 +71,8 @@ const FormTipoBlock = () => {
   return (
     <form onSubmit={handleOnSubmit}>
       {mensaje.mensaje ? enqueueSnackbar(mensaje.mensaje, { variant: mensaje.tipoAlerta }) : null}
-      <div className="grid grid-cols-2 gap-4">
-        <div className="form-group mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+        <div className="form-group">
           <InputText
             id="nombre"
             name="nombre"
@@ -86,7 +84,7 @@ const FormTipoBlock = () => {
             error={error.nombre}
           />
         </div>
-        <div className="form-group mb-4">
+        <div className="form-group">
           <Checkbox id="activo" name="activo" label="Activo" onChangeFN={handleChange} checked={TipoBlock.activo} />
           <Checkbox
             id="experimental"

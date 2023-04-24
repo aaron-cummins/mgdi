@@ -2,12 +2,12 @@ import React, { useEffect, useContext } from "react";
 import { EstadoMotorInstalacionContext } from "../context/EstadoMotorInstalacionContext";
 import { ColActivoTabla, OpcionesTabla, Tabla } from "components";
 
-const TablaEstadoMotorInstalacion = () => {
+const TablaEstadoMotorInstalacion = ({ openModal }) => {
   const { EstadoMotorInstalacionList, obtenerEstadoMotorInstalacion, obtenerEstadoMotorInstalaciones } =
     useContext(EstadoMotorInstalacionContext);
 
   const getEstadoMotorInstalacion = (props) => {
-    obtenerEstadoMotorInstalacion(props);
+    obtenerEstadoMotorInstalacion(props).then(openModal());
   };
 
   useEffect(() => {

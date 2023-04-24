@@ -4,13 +4,11 @@ import { getList, getByID, postObject, putObject, deleteObject } from "services/
 import monitoreoFiltroReducer from "../reducer/monitoreoFiltroReducer";
 import useFetchAndLoad from "hooks/useFetchAndLoad";
 
-import { useStateContext } from "contexts/ContextProvider";
-
 export const MonitoreoFiltroContext = createContext();
 
 export const MonitoreoFiltroContextProvider = (props) => {
   const { callEndpoint } = useFetchAndLoad();
-  const { alerta } = useStateContext();
+
   const urlApi = "monitoreofiltro";
 
   const initialState = {
@@ -65,10 +63,14 @@ export const MonitoreoFiltroContextProvider = (props) => {
         type: REGISTRAR,
         payload: resultado.data,
       });
-      alerta("success", "Monitoreo Filtro creado con exito!");
+      return new Promise((resolve) =>
+        resolve({ tipoAlerta: "success", mensaje: "Monitoreo Filtro creado con exito!" })
+      );
     } catch (error) {
       console.log(error);
-      alerta("error", `'Ocurrió un error al intentar crear el monitoreo filtro. ${error}`);
+      return new Promise((resolve) =>
+        resolve({ tipoAlerta: "error", mensaje: `'Ocurrió un error al intentar crear el monitoreo filtro. ${error}` })
+      );
     }
   };
 
@@ -81,10 +83,17 @@ export const MonitoreoFiltroContextProvider = (props) => {
         type: ACTUALIZAR,
         payload: resultado.data,
       });
-      alerta("success", "Monitoreo Filtro actualizado con exito!");
+      return new Promise((resolve) =>
+        resolve({ tipoAlerta: "success", mensaje: "Monitoreo Filtro actualizado con exito!" })
+      );
     } catch (error) {
       console.log(error);
-      alerta("error", `'Ocurrió un error al intentar actualizar el monitoreo filtro. ${error}`);
+      return new Promise((resolve) =>
+        resolve({
+          tipoAlerta: "error",
+          mensaje: `'Ocurrió un error al intentar actualizar el monitoreo filtro. ${error}`,
+        })
+      );
     }
   };
 
@@ -96,10 +105,17 @@ export const MonitoreoFiltroContextProvider = (props) => {
         type: ELIMINAR,
         payload: id,
       });
-      alerta("success", "Monitoreo Filtro eliminado con exito!");
+      return new Promise((resolve) =>
+        resolve({ tipoAlerta: "success", mensaje: "Monitoreo Filtro eliminado con exito!" })
+      );
     } catch (error) {
       console.log(error);
-      alerta("error", `'Ocurrió un error al intentar eliminar el monitoreo filtro. ${error}`);
+      return new Promise((resolve) =>
+        resolve({
+          tipoAlerta: "error",
+          mensaje: `'Ocurrió un error al intentar eliminar el monitoreo filtro. ${error}`,
+        })
+      );
     }
   };
 

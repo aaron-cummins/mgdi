@@ -3,9 +3,11 @@ import { EquipoContext } from "../context/equipoContext";
 import { SelectsContext } from "contexts/SelectsContext";
 import { ColActivoTabla, OpcionesTabla, Tabla } from "components";
 
-const TablaEquipos = () => {
+const TablaEquipos = ({ openModal }) => {
   const { equipoList, obtenerEquipos, obtenerEquipo } = useContext(EquipoContext);
-  const getEquipo = (props) => obtenerEquipo(props);
+  const getEquipo = (props) => {
+    obtenerEquipo(props).then(openModal());
+  };
 
   const { obtenerAplicacionOems, obtenerOems } = useContext(SelectsContext);
 

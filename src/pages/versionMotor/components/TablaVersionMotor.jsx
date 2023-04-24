@@ -3,7 +3,7 @@ import { VersionMotorContext } from "../context/versionMotorContext";
 import { ColActivoTabla, OpcionesTabla, Tabla } from "components";
 import { SelectsContext } from "contexts/SelectsContext";
 
-const TablaVersionMotor = () => {
+const TablaVersionMotor = ({ openModal }) => {
   const { versionmotorList, obtenerVersionMotores, obtenerVersionMotor } = useContext(VersionMotorContext);
   const {
     obtenerMotores,
@@ -17,7 +17,7 @@ const TablaVersionMotor = () => {
     obtenerPostTratamiento,
   } = useContext(SelectsContext);
 
-  const getVersionMotor = (props) => obtenerVersionMotor(props);
+  const getVersionMotor = (props) => obtenerVersionMotor(props).then(openModal());
 
   useEffect(() => {
     obtenerVersionMotores();

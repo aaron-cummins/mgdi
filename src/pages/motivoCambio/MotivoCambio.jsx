@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Header, Modal } from "components";
 import { useStateContext } from "contexts/ContextProvider";
 import { MotivoCambioContextProvider } from "./context/MotivoCambioContext";
@@ -8,6 +8,7 @@ import TablaMotivoCambio from "./components/TablaMotivoCambio";
 
 const MotivoCambio = () => {
   const { currentColor } = useStateContext();
+  const [openModal, setOpenModal] = useState(false);
   return (
     <MotivoCambioContextProvider>
       <div className="m-1 p-7 bg-white rounded-3xl">
@@ -22,15 +23,20 @@ const MotivoCambio = () => {
               color: "white",
               borderRadius: "10px",
             }}
+            onClick={() => setOpenModal(true)}
             className={`gap-5 p-3  hover:drop-shadow-xl hover:bg-${currentColor} text-center inline-flex items-center`}>
             Nuevo Motivo Cambio
           </button>
         </Header>
 
-        <TablaMotivoCambio />
+        <TablaMotivoCambio openModal={() => setOpenModal(true)} />
 
-        <Modal ModalTitle="Motivo Cambio" modalId="motivocambio-modal">
-          <FormMotivoCambio />
+        <Modal
+          ModalTitle="Motivo Cambio"
+          modalId="motivocambio-modal"
+          open={openModal}
+          onClose={() => setOpenModal(false)}>
+          <FormMotivoCambio closeModal={() => setOpenModal(false)} />
         </Modal>
       </div>
     </MotivoCambioContextProvider>

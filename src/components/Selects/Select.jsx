@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { SelectsContext } from "contexts/SelectsContext";
 import { VscDiffAdded } from "react-icons/vsc";
 import Label from "../Forms/Label";
@@ -6,6 +6,7 @@ import { Modal } from "components";
 
 const Select = (props) => {
   const { styleSetect, styleErrorSelect } = useContext(SelectsContext);
+  const [openModal, setOpenModal] = useState(false);
   const styleadd =
     "form-control block w-full px-3 py-1.5 rounded-l-lg border-t-1 border-l-1 border-b-1 border-solid border-gray-300 text-gray-600 pl-1";
   return (
@@ -42,10 +43,11 @@ const Select = (props) => {
               data-te-toggle="modal"
               data-te-ripple-init
               data-te-target="#-modal"
-              className="font-bold px-1 py-2.5 rounded-r-lg border-gray-300 border-t-1 border-r-1 border-b-1 text-gray-600">
+              className="font-bold px-1 py-2.5 rounded-r-lg border-gray-300 border-t-1 border-r-1 border-b-1 text-gray-600"
+              onClick={() => setOpenModal(true)}>
               <VscDiffAdded />
             </button>
-            <Modal ModalTitle="agregar" modalId="-modal">
+            <Modal open={openModal} onClose={() => setOpenModal(false)}>
               {props.add}
             </Modal>
           </div>

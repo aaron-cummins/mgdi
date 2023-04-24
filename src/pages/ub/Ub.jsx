@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Header, Modal } from "components";
 import { useStateContext } from "contexts/ContextProvider";
 import { UbContextProvider } from "./context/ubContext";
@@ -8,6 +8,7 @@ import TablaUb from "./components/TablaUb";
 
 const Ub = () => {
   const { currentColor } = useStateContext();
+  const [openModal, setOpenModal] = useState(false);
   return (
     <UbContextProvider>
       <div className="m-1 p-7 bg-white rounded-3xl">
@@ -22,15 +23,16 @@ const Ub = () => {
               color: "white",
               borderRadius: "10px",
             }}
+            onClick={() => setOpenModal(true)}
             className={`gap-5 p-3  hover:drop-shadow-xl hover:bg-${currentColor} text-center inline-flex items-center`}>
             Nueva UB
           </button>
         </Header>
 
-        <TablaUb />
+        <TablaUb openModal={() => setOpenModal(true)} />
 
-        <Modal ModalTitle="Ub" modalId="ub-modal">
-          <FormUb modalid="#ub-modal" />
+        <Modal ModalTitle="Ub" modalId="ub-modal" open={openModal} onClose={() => setOpenModal(false)}>
+          <FormUb modalid="#ub-modal" closeModal={() => setOpenModal(false)} />
         </Modal>
       </div>
     </UbContextProvider>

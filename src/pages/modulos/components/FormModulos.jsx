@@ -1,14 +1,12 @@
 import React, { useEffect, useState, useContext, useMemo } from "react";
 import { InputText, Buttons, Checkbox } from "components";
 import { ModulosContext } from "../context/modulosContext";
-import { closeModal, formatDate } from "utilities/Utiles";
-import { useStateContext } from "contexts/ContextProvider";
+import { formatDate } from "utilities/Utiles";
 import { useSnackbar } from "notistack";
 import useValidacionForm from "hooks/useValidacionForm";
 
-const FormModulos = () => {
+const FormModulos = ({ closeModal }) => {
   const { registrarModulos, modulosActual, actualizarModulos, obtenerModulos } = useContext(ModulosContext);
-  const { mensaje } = useStateContext();
   const { enqueueSnackbar } = useSnackbar();
   const { validarTexto, validarNumero, error, setError } = useValidacionForm();
 
@@ -38,7 +36,7 @@ const FormModulos = () => {
     if (validarTexto("nombre", modulos.nombre, "Nombre de modulos requerido")) valida = false;
     if (validarTexto("controller", modulos.controller, "Nombre controller requerido")) valida = false;
     if (validarTexto("icono", modulos.icono, "Nombre del icono requerido")) valida = false;
-  
+
     return valida;
   };
 
@@ -56,15 +54,16 @@ const FormModulos = () => {
     setModulos(modulosDefault);
     obtenerModulos(null);
     setError({});
+    closeModal();
   };
 
   const handleOnSubmit = async (e) => {
     e.preventDefault();
     if (validaciones()) {
       modulosActual !== null
-        ? actualizarModulos(ModulosAEnviar())
-        : registrarModulos(ModulosAEnviar());
-      closeModal();
+        ? actualizarModulos(ModulosAEnviar()).then((res) => enqueueSnackbar(res.mensaje, { variant: res.tipoAlerta }))
+        : registrarModulos(ModulosAEnviar()).then((res) => enqueueSnackbar(res.mensaje, { variant: res.tipoAlerta }));
+
       limpiaForm();
     } else {
       enqueueSnackbar("Debe corregir los problemas en el formulario", { variant: "error" });
@@ -82,9 +81,8 @@ const FormModulos = () => {
 
   return (
     <form onSubmit={handleOnSubmit}>
-      {mensaje.mensaje ? enqueueSnackbar(mensaje.mensaje, { variant: mensaje.tipoAlerta }) : null}
-      <div className="grid grid-cols-2 gap-4">
-        <div className="form-group mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+        <div className="form-group">
           <InputText
             id="nombre"
             name="nombre"
@@ -96,7 +94,7 @@ const FormModulos = () => {
             error={error.nombre}
           />
         </div>
-        <div className="form-group mb-4">
+        <div className="form-group">
           <InputText
             id="controller"
             name="controller"
@@ -109,8 +107,8 @@ const FormModulos = () => {
           />
         </div>
       </div>
-      <div className="grid grid-cols-2 gap-4">
-        <div className="form-group mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+        <div className="form-group">
           <InputText
             id="icono"
             name="icono"

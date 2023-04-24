@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Header, Modal } from "components";
 import { useStateContext } from "contexts/ContextProvider";
 import { ComunaContextProvider } from "./context/comunaContext";
@@ -8,6 +8,7 @@ import TablaComunas from "./components/TablaComunas";
 
 const Comuna = () => {
   const { currentColor } = useStateContext();
+  const [openModal, setOpenModal] = useState(false);
 
   return (
     <ComunaContextProvider>
@@ -23,15 +24,16 @@ const Comuna = () => {
               color: "white",
               borderRadius: "10px",
             }}
+            onClick={() => setOpenModal(true)}
             className={`gap-5 p-3  hover:drop-shadow-xl hover:bg-${currentColor} text-center inline-flex items-center`}>
             Nueva Comuna
           </button>
         </Header>
 
-        <TablaComunas />
+        <TablaComunas openModal={() => setOpenModal(true)} />
 
-        <Modal ModalTitle="Comuna" modalId="comuna-modal">
-          <FormComuna />
+        <Modal ModalTitle="Comuna" modalId="comuna-modal" open={openModal} onClose={() => setOpenModal(false)}>
+          <FormComuna closeModal={() => setOpenModal(false)} />
         </Modal>
       </div>
     </ComunaContextProvider>

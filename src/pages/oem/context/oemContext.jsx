@@ -3,13 +3,12 @@ import { OBTENER, OBTENER_LISTA, REGISTRAR, ACTUALIZAR, ELIMINAR } from "const/a
 import { getList, getByID, postObject, putObject, deleteObject } from "services/genericService";
 import oemReducer from "../reducer/oemReducer";
 import useFetchAndLoad from "hooks/useFetchAndLoad";
-import { useStateContext } from "contexts/ContextProvider";
 
 export const OemContext = createContext();
 
 export const OemContextProvider = (props) => {
   const { callEndpoint } = useFetchAndLoad();
-  const { alerta } = useStateContext();
+
   const urlApi = "oem";
 
   const initialState = {
@@ -64,10 +63,12 @@ export const OemContextProvider = (props) => {
         type: REGISTRAR,
         payload: resultado.data,
       });
-      alerta("success", "Oem creado con exito!");
+      return new Promise((resolve) => resolve({ tipoAlerta: "success", mensaje: "Oem creado con exito!" }));
     } catch (error) {
       console.log(error);
-      alerta("error", `'Ocurrió un error al intentar crear el oem. ${error}`);
+      return new Promise((resolve) =>
+        resolve({ tipoAlerta: "error", mensaje: `'Ocurrió un error al intentar crear el oem. ${error}` })
+      );
     }
   };
 
@@ -80,10 +81,12 @@ export const OemContextProvider = (props) => {
         type: ACTUALIZAR,
         payload: resultado.data,
       });
-      alerta("success", "Oem actualizado con exito!");
+      return new Promise((resolve) => resolve({ tipoAlerta: "success", mensaje: "Oem actualizado con exito!" }));
     } catch (error) {
       console.log(error);
-      alerta("error", `'Ocurrió un error al intentar actualizar el oem. ${error}`);
+      return new Promise((resolve) =>
+        resolve({ tipoAlerta: "error", mensaje: `'Ocurrió un error al intentar actualizar el oem. ${error}` })
+      );
     }
   };
 
@@ -95,10 +98,12 @@ export const OemContextProvider = (props) => {
         type: ELIMINAR,
         payload: id,
       });
-      alerta("success", "Oem eliminado con exito!");
+      return new Promise((resolve) => resolve({ tipoAlerta: "success", mensaje: "Oem eliminado con exito!" }));
     } catch (error) {
       console.log(error);
-      alerta("error", `'Ocurrió un error al intentar eliminar el oem. ${error}`);
+      return new Promise((resolve) =>
+        resolve({ tipoAlerta: "error", mensaje: `'Ocurrió un error al intentar eliminar el oem. ${error}` })
+      );
     }
   };
 

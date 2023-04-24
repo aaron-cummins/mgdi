@@ -2,10 +2,10 @@ import React, { useEffect, useContext } from "react";
 import { MonitoreoFiltroContext } from "../context/monitoreoFiltroContext";
 import { ColActivoTabla, OpcionesTabla, Tabla } from "components";
 
-const TablaMonitoreoFiltro = () => {
+const TablaMonitoreoFiltro = ({ openModal }) => {
   const { monitoreofiltroList, obtenerMonitoreoFiltros, obtenerMonitoreoFiltro } = useContext(MonitoreoFiltroContext);
 
-  const getMonitoreoFiltro = (props) => obtenerMonitoreoFiltro(props);
+  const getMonitoreoFiltro = (props) => obtenerMonitoreoFiltro(props).then(openModal());
 
   useEffect(() => {
     obtenerMonitoreoFiltros();

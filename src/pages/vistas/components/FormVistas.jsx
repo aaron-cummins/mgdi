@@ -1,15 +1,13 @@
 import React, { useEffect, useState, useContext, useMemo } from "react";
 import { InputText, Buttons, Select, Checkbox } from "components";
 import { VistasContext } from "../context/vistasContext";
-import { closeModal, formatDate } from "utilities/Utiles";
-import { useStateContext } from "contexts/ContextProvider";
+import { formatDate } from "utilities/Utiles";
 import { useSnackbar } from "notistack";
 import useValidacionForm from "hooks/useValidacionForm";
 
-const FormVistas = () => {
+const FormVistas = ({ closeModal }) => {
   const { registrarVistas, vistasActual, actualizarVistas, obtenerVistasGrouplist, obtenerVistas } =
     useContext(VistasContext);
-  const { mensaje } = useStateContext();
   const { enqueueSnackbar } = useSnackbar();
   const { vistasGroupList } = useContext(VistasContext);
   const { validarTexto, validarSelect, validarNumero, error, setError } = useValidacionForm();
@@ -65,13 +63,16 @@ const FormVistas = () => {
     setVistas(vistasDefault);
     obtenerVistas(null);
     setError({});
+    closeModal();
   };
 
   const handleOnSubmit = async (e) => {
     e.preventDefault();
     if (validaciones()) {
-      vistasActual !== null ? actualizarVistas(VistasAEnviar()) : registrarVistas(VistasAEnviar());
-      closeModal();
+      vistasActual !== null
+        ? actualizarVistas(VistasAEnviar()).then((res) => enqueueSnackbar(res.mensaje, { variant: res.tipoAlerta }))
+        : registrarVistas(VistasAEnviar()).then((res) => enqueueSnackbar(res.mensaje, { variant: res.tipoAlerta }));
+
       limpiaForm();
     } else {
       enqueueSnackbar("Debe corregir los problemas en el formulario", { variant: "error" });
@@ -87,9 +88,8 @@ const FormVistas = () => {
 
   return (
     <form onSubmit={handleOnSubmit}>
-      {mensaje.mensaje ? enqueueSnackbar(mensaje.mensaje, { variant: mensaje.tipoAlerta }) : null}
-      <div className="grid grid-cols-2 gap-4">
-        <div className="form-group mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+        <div className="form-group">
           <InputText
             id="nombre"
             name="nombre"
@@ -101,7 +101,7 @@ const FormVistas = () => {
             error={error.nombre}
           />
         </div>
-        <div className="form-group mb-4">
+        <div className="form-group">
           <Select
             id="grupoVistasId"
             name="grupoVistasId"
@@ -114,8 +114,8 @@ const FormVistas = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-3 gap-4">
-        <div className="form-group mb-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+        <div className="form-group">
           <InputText
             id="accion"
             name="accion"
@@ -127,7 +127,7 @@ const FormVistas = () => {
             error={error.accion}
           />
         </div>
-        <div className="form-group mb-4">
+        <div className="form-group">
           <InputText
             id="controller"
             name="controller"
@@ -139,7 +139,7 @@ const FormVistas = () => {
             error={error.controller}
           />
         </div>
-        <div className="form-group mb-4">
+        <div className="form-group">
           <Checkbox id="activo" name="activo" onChangeFN={handleChange} checked={vistas?.activo} label="Activo" />
         </div>
       </div>

@@ -4,13 +4,10 @@ import { getList, getByID, postObject, putObject, deleteObject } from "services/
 import aplicacionReducer from "../reducer/aplicacionReducer";
 import useFetchAndLoad from "hooks/useFetchAndLoad";
 
-import { useStateContext } from "contexts/ContextProvider";
-
 export const AplicacionContext = createContext();
 
 export const AplicacionContextProvider = (props) => {
   const { callEndpoint } = useFetchAndLoad();
-  const { alerta } = useStateContext();
   const urlApi = "aplicacion";
 
   const initialState = {
@@ -65,10 +62,12 @@ export const AplicacionContextProvider = (props) => {
         type: REGISTRAR,
         payload: resultado.data,
       });
-      alerta("success", "Aplicación creada con exito!");
+      return new Promise((resolve) => resolve({ tipoAlerta: "success", mensaje: "Aplicación creada con exito!" }));
     } catch (error) {
       console.log(error);
-      alerta("error", `'Ocurrió un error al intentar crear la aplicación. ${error}`);
+      return new Promise((resolve) =>
+        resolve({ tipoAlerta: "error", mensaje: `'Ocurrió un error al intentar crear la aplicación. ${error}` })
+      );
     }
   };
 
@@ -76,15 +75,16 @@ export const AplicacionContextProvider = (props) => {
   const actualizarAplicacion = async (aplicacion) => {
     try {
       const resultado = await callEndpoint(putObject(urlApi, aplicacion));
-
       dispatch({
         type: ACTUALIZAR,
         payload: resultado.data,
       });
-      alerta("success", "Aplicación actualizada con exito!");
+      return new Promise((resolve) => resolve({ tipoAlerta: "success", mensaje: "Aplicación actualizada con exito!" })); //return new Promise((resolve) => resolve({ tipoAlerta: "success", mensaje: "Aplicación actualizada con exito!");
     } catch (error) {
       console.log(error);
-      alerta("error", `'Ocurrió un error al intentar actualizar la aplicación. ${error}`);
+      return new Promise((resolve) =>
+        resolve({ tipoAlerta: "error", mensaje: `'Ocurrió un error al intentar actualizar la aplicación. ${error}` })
+      );
     }
   };
 
@@ -96,10 +96,12 @@ export const AplicacionContextProvider = (props) => {
         type: ELIMINAR,
         payload: id,
       });
-      alerta("success", "Aplicación eliminada con exito!");
+      return new Promise((resolve) => resolve({ tipoAlerta: "success", mensaje: "Aplicación eliminada con exito!" }));
     } catch (error) {
       console.log(error);
-      alerta("error", `'Ocurrió un error al intentar eliminar la aplicación. ${error}`);
+      return new Promise((resolve) =>
+        resolve({ tipoAlerta: "error", mensaje: `'Ocurrió un error al intentar eliminar la aplicación. ${error}` })
+      );
     }
   };
 

@@ -2,10 +2,10 @@ import React, { useEffect, useContext } from "react";
 import { VersionEquipoContext } from "../context/versionEquipoContext";
 import { ColActivoTabla, OpcionesTabla, Tabla } from "components";
 
-const TablaVersionEquipo = () => {
+const TablaVersionEquipo = ({ openModal }) => {
   const { versionequipoList, obtenerVersionEquipos, obtenerVersionEquipo } = useContext(VersionEquipoContext);
 
-  const getVersionEquipo = (props) => obtenerVersionEquipo(props);
+  const getVersionEquipo = (props) => obtenerVersionEquipo(props).then(openModal());
 
   useEffect(() => {
     obtenerVersionEquipos();

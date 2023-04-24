@@ -1,14 +1,12 @@
 import React, { useContext, useEffect, useMemo, useState } from "react";
-import { useStateContext } from "contexts/ContextProvider";
 import { useSnackbar } from "notistack";
 import { Buttons, Checkbox, InputText, Select } from "components";
-import { closeModal, formatDate, formatDateshort } from "utilities/Utiles";
+import { formatDate, formatDateshort } from "utilities/Utiles";
 import { SelectsContext } from "contexts/SelectsContext";
 import { ContratoContext } from "../context/contratoContext";
 import useValidacionForm from "hooks/useValidacionForm";
 
-const FormContrato = () => {
-  const { mensaje } = useStateContext();
+const FormContrato = ({ closeModal }) => {
   const {
     obtenerFlotasLugarTrabajo,
     tipoContratoList,
@@ -108,15 +106,17 @@ const FormContrato = () => {
   const limpiaForm = () => {
     obtenerContrato(null);
     setContrato(contatoDefault);
-    closeModal();
     setError({});
+    closeModal();
   };
 
   const handleOnSubmit = async (e) => {
     e.preventDefault();
     if (validaciones()) {
-      contratoActual !== null ? actualizarContrato(contratoAEnviar()) : registrarContrato(contratoAEnviar());
-      closeModal();
+      contratoActual !== null
+        ? actualizarContrato(contratoAEnviar()).then((res) => enqueueSnackbar(res.mensaje, { variant: res.tipoAlerta }))
+        : registrarContrato(contratoAEnviar()).then((res) => enqueueSnackbar(res.mensaje, { variant: res.tipoAlerta }));
+
       limpiaForm();
     } else {
       enqueueSnackbar("Debe corregir los problemas en el formulario", { variant: "error" });
@@ -137,8 +137,7 @@ const FormContrato = () => {
 
   return (
     <form onSubmit={handleOnSubmit}>
-      {mensaje.mensaje ? enqueueSnackbar(mensaje.mensaje, { variant: mensaje.tipoAlerta }) : null}
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
         <div className="form-group mb-2">
           <InputText
             id="nombre"
@@ -166,7 +165,7 @@ const FormContrato = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
         <div className="form-group mb-2">
           <Select
             id="lugarTrabajoId"
@@ -195,7 +194,7 @@ const FormContrato = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
         <div className="form-group mb-2">
           <InputText
             type="date"
@@ -222,7 +221,7 @@ const FormContrato = () => {
           />
         </div>
       </div>
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
         <div className="form-group mb-2">
           <InputText
             type="date"
@@ -246,7 +245,7 @@ const FormContrato = () => {
           />
         </div>
       </div>
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
         <div className="form-group mb-2">
           <Select
             id="monitoreoFiltroId"
@@ -274,8 +273,8 @@ const FormContrato = () => {
           />
         </div>
       </div>
-      <div className="grid grid-cols-2 gap-4">
-        <div className="form-group mb-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+        <div className="form-group">
           <Checkbox id="activo" name="activo" label="Activo" onChangeFN={handleChange} checked={contrato.activo} />
         </div>
       </div>

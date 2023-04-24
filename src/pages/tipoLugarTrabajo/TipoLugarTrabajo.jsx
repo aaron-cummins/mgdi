@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Header, Modal } from "components";
 import { useStateContext } from "contexts/ContextProvider";
 import { TipolugartrabajoContextProvider } from "./context/tipolugartrabajoContext";
@@ -8,6 +8,7 @@ import TablaTipolugarTrabajo from "./components/TablaTipoLugartrabajo";
 
 const TipoLugarTrabajo = () => {
   const { currentColor } = useStateContext();
+  const [openModal, setOpenModal] = useState(false);
   return (
     <TipolugartrabajoContextProvider>
       <div className="m-1 p-7 bg-white rounded-3xl">
@@ -22,15 +23,20 @@ const TipoLugarTrabajo = () => {
               color: "white",
               borderRadius: "10px",
             }}
+            onClick={() => setOpenModal(true)}
             className={`gap-5 p-3  hover:drop-shadow-xl hover:bg-${currentColor} text-center inline-flex items-center`}>
             Nuevo Tipo lugar de trabajo
           </button>
         </Header>
 
-        <TablaTipolugarTrabajo />
+        <TablaTipolugarTrabajo openModal={() => setOpenModal(true)} />
 
-        <Modal ModalTitle="Tipo lugar de trabajo" modalId="tipolugartrabajo-modal">
-          <FormTipoLugarTrabajo modalid="#tipolugartrabajo-modal" />
+        <Modal
+          ModalTitle="Tipo lugar de trabajo"
+          modalId="tipolugartrabajo-modal"
+          open={openModal}
+          onClose={() => setOpenModal(false)}>
+          <FormTipoLugarTrabajo modalid="#tipolugartrabajo-modal" closeModal={() => setOpenModal(false)} />
         </Modal>
       </div>
     </TipolugartrabajoContextProvider>

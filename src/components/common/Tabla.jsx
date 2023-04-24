@@ -3,14 +3,13 @@ import Checkbox from "@mui/material/Checkbox";
 import { ArrowDownward } from "@mui/icons-material";
 import { Spinner } from "components";
 //import useFetchAndLoad from "hooks/useFetchAndLoad";
-import { useStateContext } from "contexts/ContextProvider";
+//import { useStateContext } from "contexts/ContextProvider";
+//import { useEffect } from "react";
 
 const sortIcon = <ArrowDownward />;
 const selectProps = { indeterminate: (isIndeterminate) => isIndeterminate };
 
 const Tabla = (props) => {
-  const { cargando } = useStateContext();
-
   const customStyles = {
     rows: {
       style: {
@@ -46,7 +45,7 @@ const Tabla = (props) => {
     <>
       <div className="border-solid border-1">
         <DataTable
-          progressPending={cargando}
+          //progressPending={cargando}
           progressComponent={<Spinner />}
           customStyles={customStyles}
           pagination={!props.pagination ? true : props.pagination}

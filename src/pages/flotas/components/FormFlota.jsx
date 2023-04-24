@@ -1,15 +1,12 @@
 import React, { useEffect, useState, useContext, useMemo } from "react";
 import { InputText, Buttons, Checkbox } from "components";
 import { FlotaContext } from "../context/flotaContext";
-import { useStateContext } from "contexts/ContextProvider";
-import { closeModal } from "utilities/Utiles";
 import { useSnackbar } from "notistack";
 import useValidacionForm from "hooks/useValidacionForm";
 
-const FormFlota = () => {
+const FormFlota = ({ closeModal }) => {
   const { registrarFlota, flotaActual, actualizarFlota, obtenerFlota } = useContext(FlotaContext);
   const { enqueueSnackbar } = useSnackbar();
-  const { mensaje } = useStateContext();
   const { validarTexto, validarNumero, error, setError } = useValidacionForm();
 
   const flotaDefault = useMemo(
@@ -29,9 +26,7 @@ const FormFlota = () => {
 
   const validaciones = () => {
     let valida = true;
-
     if (validarTexto("nombre", flota.nombre, "Nombre requerido")) valida = false;
-  
     return valida;
   };
 
@@ -49,15 +44,16 @@ const FormFlota = () => {
     setFlota(flotaDefault);
     obtenerFlota(null);
     setError({});
+    closeModal();
   };
 
   const handleOnSubmit = async (e) => {
     e.preventDefault();
     if (validaciones()) {
       flotaActual !== null
-        ? actualizarFlota(FlotaEnviar())
-        : registrarFlota(FlotaEnviar());
-      closeModal();
+        ? actualizarFlota(FlotaEnviar()).then((res) => enqueueSnackbar(res.mensaje, { variant: res.tipoAlerta }))
+        : registrarFlota(FlotaEnviar()).then((res) => enqueueSnackbar(res.mensaje, { variant: res.tipoAlerta }));
+
       limpiaForm();
     } else {
       enqueueSnackbar("Debe corregir los problemas en el formulario", { variant: "error" });
@@ -72,9 +68,8 @@ const FormFlota = () => {
 
   return (
     <form onSubmit={handleOnSubmit}>
-      {mensaje.mensaje ? enqueueSnackbar(mensaje.mensaje, { variant: mensaje.tipoAlerta }) : null}
-      <div className="grid grid-cols-2 gap-4">
-        <div className="form-group mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+        <div className="form-group">
           <InputText
             id="nombre"
             name="nombre"

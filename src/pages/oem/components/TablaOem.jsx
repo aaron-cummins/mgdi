@@ -2,11 +2,11 @@ import React, { useEffect, useContext } from "react";
 import { OemContext } from "../context/oemContext";
 import { ColActivoTabla, OpcionesTabla, Tabla } from "components";
 
-const TablaOem = () => {
+const TablaOem = ({ openModal }) => {
   const { oemList, obtenerOems, obtenerOem } = useContext(OemContext);
 
   const getOem = (props) => {
-    obtenerOem(props);
+    obtenerOem(props).then(openModal());
   };
 
   useEffect(() => {

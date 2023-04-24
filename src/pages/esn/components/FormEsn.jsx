@@ -1,16 +1,13 @@
 import React, { useEffect, useState, useContext, useMemo } from "react";
 import { InputText, Buttons, Checkbox, Select, Switch } from "components";
 import { EsnContext } from "../context/esnContext";
-import { useStateContext } from "contexts/ContextProvider";
-import { closeModal } from "utilities/Utiles";
 import { useSnackbar } from "notistack";
 import { SelectsContext } from "contexts/SelectsContext";
 import useValidacionForm from "hooks/useValidacionForm";
 import { getUsuarioId } from "utilities/Login_utiles";
 
-const FormEsn = () => {
+const FormEsn = ({ closeModal }) => {
   const { registrarEsn, esnActual, actualizarEsn, obtenerEsn } = useContext(EsnContext);
-  const { mensaje } = useStateContext();
   const { enqueueSnackbar } = useSnackbar();
   const { versionMotorList } = useContext(SelectsContext);
   const { validarTexto, validarSelect, validarNumero, error, setError } = useValidacionForm();
@@ -64,13 +61,16 @@ const FormEsn = () => {
     setEsn(esnDefault);
     obtenerEsn(null);
     setError({});
+    closeModal();
   };
 
   const handleOnSubmit = async (e) => {
     e.preventDefault();
     if (validaciones()) {
-      esnActual !== null ? actualizarEsn(EsnAEnviar()) : registrarEsn(EsnAEnviar());
-      closeModal();
+      esnActual !== null
+        ? actualizarEsn(EsnAEnviar()).then((res) => enqueueSnackbar(res.mensaje, { variant: res.tipoAlerta }))
+        : registrarEsn(EsnAEnviar()).then((res) => enqueueSnackbar(res.mensaje, { variant: res.tipoAlerta }));
+
       limpiaForm();
     } else {
       enqueueSnackbar("Debe corregir los problemas en el formulario", { variant: "error" });
@@ -87,9 +87,8 @@ const FormEsn = () => {
 
   return (
     <form onSubmit={handleOnSubmit}>
-      {mensaje.mensaje ? enqueueSnackbar(mensaje.mensaje, { variant: mensaje.tipoAlerta }) : null}
-      <div className="grid grid-cols-3 gap-4">
-        <div className="form-group mb-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+        <div className="form-group">
           <InputText
             id="esn"
             name="esn"
@@ -101,7 +100,7 @@ const FormEsn = () => {
             error={error.esn}
           />
         </div>
-        <div className="form-group mb-6">
+        <div className="form-group">
           <InputText
             id="esnPlaca"
             name="esnPlaca"
@@ -113,12 +112,12 @@ const FormEsn = () => {
             error={error.esnPlaca}
           />
         </div>
-        <div className="form-group mb-4">
+        <div className="form-group">
           <Switch label="montado" id="montado" name="montado" onChange={handleChange} checked={esn.montado}></Switch>
         </div>
       </div>
-      <div className="grid grid-cols-3 gap-4">
-        <div className="form-group mb-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+        <div className="form-group">
           <Select
             id="versionMotorId"
             name="versionMotorId"
@@ -132,7 +131,7 @@ const FormEsn = () => {
           />
         </div>
 
-        <div className="form-group mb-4">
+        <div className="form-group">
           <Checkbox id="activo" name="activo" onChangeFN={handleChange} checked={esn.activo} label="Activo" />
         </div>
       </div>

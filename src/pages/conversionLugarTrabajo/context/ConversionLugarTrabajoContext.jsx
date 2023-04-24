@@ -3,13 +3,11 @@ import { OBTENER, OBTENER_LISTA, REGISTRAR, ACTUALIZAR, ELIMINAR } from "const/a
 import { getList, getByID, postObject, putObject, deleteObject } from "services/genericService";
 import ConversionLugarTrabajoReducer from "../reducer/ConversionLugarTrabajoReducer";
 import useFetchAndLoad from "hooks/useFetchAndLoad";
-import { useStateContext } from "contexts/ContextProvider";
 
 export const ConversionLugarTrabajoContext = createContext();
 
 export const ConversionLugarTrabajoContextProvider = (props) => {
   const { callEndpoint } = useFetchAndLoad();
-  const { alerta } = useStateContext();
   const urlApi = "conversionlugartrabajo";
 
   const initialState = {
@@ -17,7 +15,7 @@ export const ConversionLugarTrabajoContextProvider = (props) => {
     ConversionLugarTrabajoActual: null,
 
     fuenteInformacionList: [],
-    lugarTrabajoList: []
+    lugarTrabajoList: [],
   };
 
   const [state, dispatch] = useReducer(ConversionLugarTrabajoReducer, initialState);
@@ -69,10 +67,17 @@ export const ConversionLugarTrabajoContextProvider = (props) => {
         type: REGISTRAR,
         payload: resultado.data,
       });
-      alerta("success", "Conversion lugar de trabajo creada con exito!");
+      return new Promise((resolve) =>
+        resolve({ tipoAlerta: "success", mensaje: "Conversion lugar de trabajo creada con exito!" })
+      );
     } catch (error) {
       console.log(error);
-      alerta("error", `'Ocurrió un error al intentar crear la Conversion lugar de trabajo. ${error}`);
+      return new Promise((resolve) =>
+        resolve({
+          tipoAlerta: "error",
+          mensaje: `'Ocurrió un error al intentar crear la Conversion lugar de trabajo. ${error}`,
+        })
+      );
     }
   };
 
@@ -84,10 +89,17 @@ export const ConversionLugarTrabajoContextProvider = (props) => {
         type: ACTUALIZAR,
         payload: resultado.data,
       });
-      alerta("success", "Conversion lugar de Trabajo actualizada con exito!");
+      return new Promise((resolve) =>
+        resolve({ tipoAlerta: "success", mensaje: "Conversion lugar de Trabajo actualizada con exito!" })
+      );
     } catch (error) {
       console.log(error);
-      alerta("error", `'Ocurrió un error al intentar actualizar la Conversion lugar de trabajo. ${error}`);
+      return new Promise((resolve) =>
+        resolve({
+          tipoAlerta: "error",
+          mensaje: `'Ocurrió un error al intentar actualizar la Conversion lugar de trabajo. ${error}`,
+        })
+      );
     }
   };
 
@@ -99,10 +111,17 @@ export const ConversionLugarTrabajoContextProvider = (props) => {
         type: ELIMINAR,
         payload: id,
       });
-      alerta("success", "Conversion lugar de trabajo eliminada con exito!");
+      return new Promise((resolve) =>
+        resolve({ tipoAlerta: "success", mensaje: "Conversion lugar de trabajo eliminada con exito!" })
+      );
     } catch (error) {
       console.log(error);
-      alerta("error", `'Ocurrió un error al intentar eliminar la Conversion lugar de trabajo. ${error}`);
+      return new Promise((resolve) =>
+        resolve({
+          tipoAlerta: "error",
+          mensaje: `'Ocurrió un error al intentar eliminar la Conversion lugar de trabajo. ${error}`,
+        })
+      );
     }
   };
 

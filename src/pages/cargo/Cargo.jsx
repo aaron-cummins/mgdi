@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Header, Modal } from "components";
 import { useStateContext } from "contexts/ContextProvider";
 import { CargoContextProvider } from "./context/cargoContext";
@@ -8,6 +8,7 @@ import TablaCargo from "./components/TablaCargo";
 
 const Cargo = () => {
   const { currentColor } = useStateContext();
+  const [openModal, setOpenModal] = useState(false);
   return (
     <CargoContextProvider>
       <div className="m-1 p-7 bg-white rounded-3xl">
@@ -22,15 +23,16 @@ const Cargo = () => {
               color: "white",
               borderRadius: "10px",
             }}
+            onClick={() => setOpenModal(true)}
             className={`gap-5 p-3  hover:drop-shadow-xl hover:bg-${currentColor} text-center inline-flex items-center`}>
             Nuevo Cargo
           </button>
         </Header>
 
-        <TablaCargo />
+        <TablaCargo openModal={() => setOpenModal(true)} />
 
-        <Modal ModalTitle="Cargo" modalId="cargo-modal">
-          <FormCargo />
+        <Modal ModalTitle="Cargo" modalId="cargo-modal" open={openModal} onClose={() => setOpenModal(false)}>
+          <FormCargo closeModal={() => setOpenModal(false)} />
         </Modal>
       </div>
     </CargoContextProvider>

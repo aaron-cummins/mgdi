@@ -3,10 +3,10 @@ import { ZonaContext } from "../context/zonaContext";
 import { SelectsContext } from "contexts/SelectsContext";
 import { ColActivoTabla, OpcionesTabla, Tabla } from "components";
 
-const TablaZona = () => {
+const TablaZona = ({ openModal }) => {
   const { zonaList, obtenerZonalist, obtenerZona } = useContext(ZonaContext);
   const { obtenerPais } = useContext(SelectsContext);
-  const getZona = (props) => obtenerZona(props);
+  const getZona = (props) => obtenerZona(props).then(openModal());
 
   useEffect(() => {
     obtenerZonalist();

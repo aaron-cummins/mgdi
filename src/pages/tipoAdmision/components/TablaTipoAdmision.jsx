@@ -2,10 +2,10 @@ import React, { useEffect, useContext } from "react";
 import { TipoAdmisionContext } from "../context/tipoadmisionContext";
 import { ColActivoTabla, OpcionesTabla, Tabla } from "components";
 
-const TablaTipoAdmision = () => {
+const TablaTipoAdmision = ({ openModal }) => {
   const { tipoadmisionList, obtenerTipoAdmisiones, obtenerTipoAdmision } = useContext(TipoAdmisionContext);
 
-  const getTipoAdmision = (props) => obtenerTipoAdmision(props);
+  const getTipoAdmision = (props) => obtenerTipoAdmision(props).then(openModal());
 
   useEffect(() => {
     obtenerTipoAdmisiones();

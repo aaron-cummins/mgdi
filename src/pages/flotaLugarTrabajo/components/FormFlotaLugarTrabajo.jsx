@@ -1,21 +1,15 @@
 import React, { useEffect, useState, useContext, useMemo } from "react";
 import { Buttons, Checkbox, Select } from "components";
 import { FlotaLugarTrabajoContext } from "../context/flotaLugarTrabajoContext";
-import { useStateContext } from "contexts/ContextProvider";
-import { closeModal } from "utilities/Utiles";
 import { SelectsContext } from "contexts/SelectsContext";
 import { useSnackbar } from "notistack";
 import useValidacionForm from "hooks/useValidacionForm";
 
-const FormFlotaLugarTrabajo = () => {
+const FormFlotaLugarTrabajo = ({ closeModal }) => {
   const { registrarFlotaLugarTrabajo, flotaLugarTrabajoActual, actualizarFlotaLugarTrabajo, obtenerFlotaLugarTrabajo } =
     useContext(FlotaLugarTrabajoContext);
   const { enqueueSnackbar } = useSnackbar();
-  const { mensaje } = useStateContext();
-  const {
-    flotasList,
-    lugarTrabajoList,
-  } = useContext(SelectsContext);
+  const { flotasList, lugarTrabajoList } = useContext(SelectsContext);
   const { validarTexto, validarSelect, validarNumero, error, setError } = useValidacionForm();
 
   const flotaLugarTrabajoDefault = useMemo(
@@ -46,8 +40,9 @@ const FormFlotaLugarTrabajo = () => {
     let valida = true;
 
     if (validarSelect("flotasId", flotaLugarTrabajo.flotas, "Debe seleccionar una flota")) valida = false;
-    if (validarSelect("lugarTrabajoId", flotaLugarTrabajo.lugarTrabajo, "Debe seleccionar un lugar de trabajo")) valida = false;
-  
+    if (validarSelect("lugarTrabajoId", flotaLugarTrabajo.lugarTrabajo, "Debe seleccionar un lugar de trabajo"))
+      valida = false;
+
     return valida;
   };
 
@@ -55,8 +50,9 @@ const FormFlotaLugarTrabajo = () => {
     const { name, value, type, checked } = e.target;
 
     if (type === "checkbox") setFlotaLugarTrabajo({ ...flotaLugarTrabajo, [name]: checked });
-    else if (name === "flotasId") setFlotaLugarTrabajo({ ...flotaLugarTrabajo, flotas: { id: value }, [name]: value  });
-    else if (name === "lugarTrabajoId") setFlotaLugarTrabajo({ ...flotaLugarTrabajo, lugarTrabajo: { id: value }, [name]: value  });
+    else if (name === "flotasId") setFlotaLugarTrabajo({ ...flotaLugarTrabajo, flotas: { id: value }, [name]: value });
+    else if (name === "lugarTrabajoId")
+      setFlotaLugarTrabajo({ ...flotaLugarTrabajo, lugarTrabajo: { id: value }, [name]: value });
     else setFlotaLugarTrabajo({ ...flotaLugarTrabajo, [name]: value });
 
     if (type === "select-one") validarNumero(name, value);
@@ -67,15 +63,20 @@ const FormFlotaLugarTrabajo = () => {
     setFlotaLugarTrabajo(flotaLugarTrabajoDefault);
     obtenerFlotaLugarTrabajo(null);
     setError({});
+    closeModal();
   };
 
   const handleOnSubmit = async (e) => {
     e.preventDefault();
     if (validaciones()) {
       flotaLugarTrabajoActual !== null
-        ? actualizarFlotaLugarTrabajo(FlotaEnviar())
-        : registrarFlotaLugarTrabajo(FlotaEnviar());
-      closeModal();
+        ? actualizarFlotaLugarTrabajo(FlotaEnviar()).then((res) =>
+            enqueueSnackbar(res.mensaje, { variant: res.tipoAlerta })
+          )
+        : registrarFlotaLugarTrabajo(FlotaEnviar()).then((res) =>
+            enqueueSnackbar(res.mensaje, { variant: res.tipoAlerta })
+          );
+
       limpiaForm();
     } else {
       enqueueSnackbar("Debe corregir los problemas en el formulario", { variant: "error" });
@@ -85,17 +86,15 @@ const FormFlotaLugarTrabajo = () => {
 
   const FlotaEnviar = () => {
     let flotaTmp = { ...flotaLugarTrabajo };
-    flotaTmp.lugarTrabajoId = flotaLugarTrabajo.lugarTrabajo.id; 
-    flotaTmp.flotasId =flotaLugarTrabajo.flotas.id;
+    flotaTmp.lugarTrabajoId = flotaLugarTrabajo.lugarTrabajo.id;
+    flotaTmp.flotasId = flotaLugarTrabajo.flotas.id;
     return flotaTmp;
   };
 
   return (
     <form onSubmit={handleOnSubmit}>
-      {mensaje.mensaje ? enqueueSnackbar(mensaje.mensaje, { variant: mensaje.tipoAlerta }) : null}
-      <div className="grid grid-cols-2 gap-4">
-        
-        <div className="form-group mb-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+        <div className="form-group">
           <Select
             id="lugarTrabajoId"
             name="lugarTrabajoId"
@@ -108,7 +107,7 @@ const FormFlotaLugarTrabajo = () => {
             error={error.lugarTrabajoId}
           />
         </div>
-        <div className="form-group mb-4">
+        <div className="form-group">
           <Select
             id="flotasId"
             name="flotasId"
@@ -128,7 +127,7 @@ const FormFlotaLugarTrabajo = () => {
           name="activo"
           label="Activo"
           onChangeFN={handleChange}
-          checked={flotaLugarTrabajo.activo}  
+          checked={flotaLugarTrabajo.activo}
         />
       </div>
 

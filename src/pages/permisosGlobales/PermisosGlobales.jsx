@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Header, Modal } from "components";
 import { useStateContext } from "contexts/ContextProvider";
 import { PermisosGlobalesContextProvider } from "./context/permisosGlobalesContext";
@@ -8,6 +8,7 @@ import TablaPermisoGlobal from "./components/TablaPermisoGlobal";
 
 const PermisosGlobales = () => {
   const { currentColor } = useStateContext();
+  const [openModal, setOpenModal] = useState(false);
   return (
     <PermisosGlobalesContextProvider>
       <div className="m-1 p-7 bg-white rounded-3xl">
@@ -22,15 +23,20 @@ const PermisosGlobales = () => {
               color: "white",
               borderRadius: "10px",
             }}
+            onClick={() => setOpenModal(true)}
             className={`gap-5 p-3  hover:drop-shadow-xl hover:bg-${currentColor} text-center inline-flex items-center`}>
             Nuevo Permiso Global
           </button>
         </Header>
 
-        <TablaPermisoGlobal />
+        <TablaPermisoGlobal openModal={() => setOpenModal(true)} />
 
-        <Modal ModalTitle="Permisos Globales" modalId="PermisoGlobal-modal">
-          <FormPermisoGlobal />
+        <Modal
+          ModalTitle="Permisos Globales"
+          modalId="PermisoGlobal-modal"
+          open={openModal}
+          onClose={() => setOpenModal(false)}>
+          <FormPermisoGlobal closeModal={() => setOpenModal(false)} />
         </Modal>
       </div>
     </PermisosGlobalesContextProvider>

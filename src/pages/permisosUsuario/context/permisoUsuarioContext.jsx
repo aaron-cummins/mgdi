@@ -1,18 +1,6 @@
 import React, { createContext, useReducer } from "react";
-import {
-  OBTENER,
-  OBTENER_LISTA,
-  REGISTRAR,
-  ACTUALIZAR,
-  ELIMINAR,
-} from "const/actionTypes";
-import {
-  getList,
-  getByID,
-  postObject,
-  putObject,
-  deleteObject,
-} from "services/genericService";
+import { OBTENER, OBTENER_LISTA, REGISTRAR, ACTUALIZAR, ELIMINAR } from "const/actionTypes";
+import { getList, getByID, postObject, putObject, deleteObject } from "services/genericService";
 import permisoUsuarioReducer from "../reducer/permisoUsuarioReducer";
 import useFetchAndLoad from "hooks/useFetchAndLoad";
 import { useStateContext } from "contexts/ContextProvider";
@@ -76,13 +64,10 @@ export const PermisoUsuarioContextProvider = (props) => {
         type: REGISTRAR,
         payload: resultado.data,
       });
-      alerta("success", "permisoGlobal creado con exito!");
+      return new Promise((resolve) => resolve({ tipoAlerta: "success", mensaje: "permisoGlobal creado con exito!" }));
     } catch (error) {
       console.log(error);
-      alerta(
-        "danger",
-        `'Ocurrió un error al intentar crear el permisoGlobal. ${error}`
-      );
+      alerta("danger", `'Ocurrió un error al intentar crear el permisoGlobal. ${error}`}));
     }
   };
 
@@ -95,13 +80,12 @@ export const PermisoUsuarioContextProvider = (props) => {
         type: ACTUALIZAR,
         payload: resultado.data,
       });
-      alerta("success", "permisoGlobal actualizado con exito!");
+      return new Promise((resolve) =>
+        resolve({ tipoAlerta: "success", mensaje: "permisoGlobal actualizado con exito!" })
+      );
     } catch (error) {
       console.log(error);
-      alerta(
-        "danger",
-        `'Ocurrió un error al intentar actualizar el permisoGlobal. ${error}`
-      );
+      alerta("danger", `'Ocurrió un error al intentar actualizar el permisoGlobal. ${error}`}));
     }
   };
 
@@ -113,13 +97,12 @@ export const PermisoUsuarioContextProvider = (props) => {
         type: ELIMINAR,
         payload: id,
       });
-      alerta("success", "permisoGlobal eliminado con exito!");
+      return new Promise((resolve) =>
+        resolve({ tipoAlerta: "success", mensaje: "permisoGlobal eliminado con exito!" })
+      );
     } catch (error) {
       console.log(error);
-      alerta(
-        "danger",
-        `'Ocurrió un error al intentar eliminar el permisoGlobal. ${error}`
-      );
+      alerta("danger", `'Ocurrió un error al intentar eliminar el permisoGlobal. ${error}`}));
     }
   };
 

@@ -1,15 +1,12 @@
 import React, { useEffect, useState, useContext, useMemo } from "react";
 import { InputText, Buttons, Checkbox } from "components";
 import { MonitoreoFiltroContext } from "../context/monitoreoFiltroContext";
-import { useStateContext } from "contexts/ContextProvider";
-import { closeModal } from "utilities/Utiles";
 import { useSnackbar } from "notistack";
 import useValidacionForm from "hooks/useValidacionForm";
 
-const FormMonitoreoFiltro = () => {
+const FormMonitoreoFiltro = ({ closeModal }) => {
   const { registrarMonitoreoFiltro, monitoreofiltroActual, actualizarMonitoreoFiltro, obtenerMonitoreoFiltro } =
     useContext(MonitoreoFiltroContext);
-  const { mensaje } = useStateContext();
   const { enqueueSnackbar } = useSnackbar();
   const { validarTexto, validarNumero, error, setError } = useValidacionForm();
 
@@ -33,7 +30,7 @@ const FormMonitoreoFiltro = () => {
     let valida = true;
 
     if (validarTexto("nombre", monitoreofiltro.nombre, "Nombre de monitoreo filtro requerido")) valida = false;
-  
+
     return valida;
   };
 
@@ -51,15 +48,20 @@ const FormMonitoreoFiltro = () => {
     setMonitoreoFiltro(monitoreofiltroDefault);
     obtenerMonitoreoFiltro(null);
     setError({});
+    closeModal();
   };
 
   const handleOnSubmit = async (e) => {
     e.preventDefault();
     if (validaciones()) {
       monitoreofiltroActual !== null
-        ? actualizarMonitoreoFiltro(MonitoreoFiltroEnviar())
-        : registrarMonitoreoFiltro(MonitoreoFiltroEnviar());
-      closeModal();
+        ? actualizarMonitoreoFiltro(MonitoreoFiltroEnviar()).then((res) =>
+            enqueueSnackbar(res.mensaje, { variant: res.tipoAlerta })
+          )
+        : registrarMonitoreoFiltro(MonitoreoFiltroEnviar()).then((res) =>
+            enqueueSnackbar(res.mensaje, { variant: res.tipoAlerta })
+          );
+
       limpiaForm();
     } else {
       enqueueSnackbar("Debe corregir los problemas en el formulario", { variant: "error" });
@@ -74,9 +76,8 @@ const FormMonitoreoFiltro = () => {
 
   return (
     <form onSubmit={handleOnSubmit}>
-      {mensaje.mensaje ? enqueueSnackbar(mensaje.mensaje, { variant: mensaje.tipoAlerta }) : null}
-      <div className="grid grid-cols-2 gap-4">
-        <div className="form-group mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+        <div className="form-group">
           <InputText
             id="nombre"
             name="nombre"
@@ -88,7 +89,7 @@ const FormMonitoreoFiltro = () => {
             error={error.nombre}
           />
         </div>
-        <div className="form-group mb-4">
+        <div className="form-group">
           <Checkbox
             id="activo"
             name="activo"

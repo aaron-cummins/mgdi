@@ -3,10 +3,12 @@ import { ComunaContext } from "../context/comunaContext";
 import { SelectsContext } from "contexts/SelectsContext";
 import { ColActivoTabla, OpcionesTabla, Tabla } from "components";
 
-const TablaComunas = () => {
+const TablaComunas = ({ openModal }) => {
   const { comunaList, obtenerComunas, obtenerComuna } = useContext(ComunaContext);
   const { obtenerRegiones } = useContext(SelectsContext);
-  const getComuna = (props) => obtenerComuna(props);
+  const getComuna = (props) => {
+    obtenerComuna(props).then(openModal());
+  };
 
   useEffect(() => {
     obtenerComunas();

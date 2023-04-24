@@ -1,15 +1,12 @@
 import React, { useEffect, useState, useContext, useMemo } from "react";
 import { InputText, Buttons, Checkbox } from "components";
 import { TipolugartrabajoContext } from "../context/tipolugartrabajoContext";
-import { closeModal } from "utilities/Utiles";
-import { useStateContext } from "contexts/ContextProvider";
 import { useSnackbar } from "notistack";
 import useValidacionForm from "hooks/useValidacionForm";
 
-const FormTipolugartrabajo = () => {
+const FormTipolugartrabajo = ({ closeModal }) => {
   const { registrarTipolugartrabajo, tipolugartrabajoActual, actualizarTipolugartrabajo, obtenerTipolugartrabajo } =
     useContext(TipolugartrabajoContext);
-  const { mensaje } = useStateContext();
   const { enqueueSnackbar } = useSnackbar();
   const { validarTexto, validarNumero, error, setError } = useValidacionForm();
 
@@ -31,7 +28,7 @@ const FormTipolugartrabajo = () => {
     let valida = true;
 
     if (validarTexto("nombre", tipolugartrabajo.tipo, "Nombre de tipo lugar trabajo requerido")) valida = false;
-  
+
     return valida;
   };
 
@@ -49,15 +46,20 @@ const FormTipolugartrabajo = () => {
     setTipolugartrabajo(tipolugartrabajoDefault);
     obtenerTipolugartrabajo(null);
     setError({});
+    closeModal();
   };
 
   const handleOnSubmit = async (e) => {
     e.preventDefault();
     if (validaciones()) {
       tipolugartrabajoActual !== null
-        ? actualizarTipolugartrabajo(TipolugartrabajoAEnviar())
-        : registrarTipolugartrabajo(TipolugartrabajoAEnviar());
-      closeModal();
+        ? actualizarTipolugartrabajo(TipolugartrabajoAEnviar()).then((res) =>
+            enqueueSnackbar(res.mensaje, { variant: res.tipoAlerta })
+          )
+        : registrarTipolugartrabajo(TipolugartrabajoAEnviar()).then((res) =>
+            enqueueSnackbar(res.mensaje, { variant: res.tipoAlerta })
+          );
+
       limpiaForm();
     } else {
       enqueueSnackbar("Debe corregir los problemas en el formulario", { variant: "error" });
@@ -72,9 +74,8 @@ const FormTipolugartrabajo = () => {
 
   return (
     <form onSubmit={handleOnSubmit}>
-      {mensaje.mensaje ? enqueueSnackbar(mensaje.mensaje, { variant: mensaje.tipoAlerta }) : null}
-      <div className="grid grid-cols-2 gap-4">
-        <div className="form-group mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+        <div className="form-group">
           <InputText
             id="tipo"
             name="tipo"
@@ -86,7 +87,7 @@ const FormTipolugartrabajo = () => {
             error={error.tipo}
           />
         </div>
-        <div className="form-group mb-4">
+        <div className="form-group">
           <Checkbox
             id="activo"
             name="activo"

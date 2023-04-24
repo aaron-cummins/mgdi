@@ -2,9 +2,9 @@ import React, { useEffect, useContext } from "react";
 import { FlotaContext } from "../context/flotaContext";
 import { ColActivoTabla, OpcionesTabla, Tabla } from "components";
 
-const TablaFlotas = () => {
+const TablaFlotas = ({ openModal }) => {
   const { flotaList, obtenerFlotas, obtenerFlota } = useContext(FlotaContext);
-  const getFlota = (props) => obtenerFlota(props);
+  const getFlota = (props) => obtenerFlota(props).then(openModal());
 
   useEffect(() => {
     obtenerFlotas();

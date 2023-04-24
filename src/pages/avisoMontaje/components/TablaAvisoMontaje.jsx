@@ -2,10 +2,12 @@ import React, { useEffect, useContext } from "react";
 import { AvisoMontajeContext } from "../context/avisoMontajeContext";
 import { ColActivoTabla, OpcionesTabla, Tabla } from "components";
 
-const TablaAvisoMontaje = () => {
+const TablaAvisoMontaje = ({ openModal }) => {
   const { avisoMontajeList, obtenerAvisoMontajes, obtenerAvisoMontaje } = useContext(AvisoMontajeContext);
 
-  const getAvisoMontaje = (props) => obtenerAvisoMontaje(props);
+  const getAvisoMontaje = (props) => {
+    obtenerAvisoMontaje(props).then(openModal());
+  };
 
   useEffect(() => {
     obtenerAvisoMontajes();

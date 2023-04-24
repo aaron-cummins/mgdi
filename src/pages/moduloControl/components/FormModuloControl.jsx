@@ -1,15 +1,12 @@
 import React, { useEffect, useState, useContext, useMemo } from "react";
 import { InputText, Buttons, Checkbox } from "components";
 import { ModuloControlContext } from "../context/moduloControlContext";
-import { closeModal } from "utilities/Utiles";
-import { useStateContext } from "contexts/ContextProvider";
 import { useSnackbar } from "notistack";
 import useValidacionForm from "hooks/useValidacionForm";
 
-const FormModuloControl = () => {
+const FormModuloControl = ({ closeModal }) => {
   const { registrarModuloControl, modulocontrolActual, actualizarModuloControl, obtenerModuloControl } =
     useContext(ModuloControlContext);
-  const { mensaje } = useStateContext();
   const { enqueueSnackbar } = useSnackbar();
   const { validarTexto, validarNumero, error, setError } = useValidacionForm();
 
@@ -32,7 +29,7 @@ const FormModuloControl = () => {
     let valida = true;
 
     if (validarTexto("nombre", modulocontrol.nombre, "Nombre del modulo de control requerido")) valida = false;
-  
+
     return valida;
   };
 
@@ -50,15 +47,20 @@ const FormModuloControl = () => {
     setModuloControl(modulocontrolDefault);
     obtenerModuloControl(null);
     setError({});
+    closeModal();
   };
 
   const handleOnSubmit = async (e) => {
     e.preventDefault();
     if (validaciones()) {
       modulocontrolActual !== null
-        ? actualizarModuloControl(ModuloControlEnviar())
-        : registrarModuloControl(ModuloControlEnviar());
-      closeModal();
+        ? actualizarModuloControl(ModuloControlEnviar()).then((res) =>
+            enqueueSnackbar(res.mensaje, { variant: res.tipoAlerta })
+          )
+        : registrarModuloControl(ModuloControlEnviar()).then((res) =>
+            enqueueSnackbar(res.mensaje, { variant: res.tipoAlerta })
+          );
+
       limpiaForm();
     } else {
       enqueueSnackbar("Debe corregir los problemas en el formulario", { variant: "error" });
@@ -73,9 +75,8 @@ const FormModuloControl = () => {
 
   return (
     <form onSubmit={handleOnSubmit}>
-      {mensaje.mensaje ? enqueueSnackbar(mensaje.mensaje, { variant: mensaje.tipoAlerta }) : null}
-      <div className="grid grid-cols-2 gap-4">
-        <div className="form-group mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+        <div className="form-group">
           <InputText
             id="nombre"
             name="nombre"
@@ -87,7 +88,7 @@ const FormModuloControl = () => {
             error={error.nombre}
           />
         </div>
-        <div className="form-group mb-4">
+        <div className="form-group">
           <Checkbox id="activo" name="activo" label="Activo" onChangeFN={handleChange} checked={modulocontrol.activo} />
         </div>
       </div>

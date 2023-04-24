@@ -2,10 +2,12 @@ import React, { useEffect, useContext } from "react";
 import { AplicacionOemContext } from "../context/aplicacionOemContext";
 import { ColActivoTabla, OpcionesTabla, Tabla } from "components";
 
-const TablaAplicacionOem = () => {
+const TablaAplicacionOem = ({ openModal }) => {
   const { aplicacionOemList, obtenerAplicacionOem, obtenerAplicacionesOem } = useContext(AplicacionOemContext);
-  const getAplicacionOem = (props) => obtenerAplicacionOem(props);
 
+  const getAplicacionOem = (props) => {
+    obtenerAplicacionOem(props).then(openModal());
+  };
   useEffect(() => {
     obtenerAplicacionesOem();
     // eslint-disable-next-line react-hooks/exhaustive-deps

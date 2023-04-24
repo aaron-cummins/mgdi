@@ -4,11 +4,13 @@ import { ColActivoTabla, OpcionesTabla, Tabla } from "components";
 import { SelectsContext } from "contexts/SelectsContext";
 import { formatDateshort } from "utilities/Utiles";
 
-const TablaContrato = () => {
+const TablaContrato = ({ openModal }) => {
   const { contratoList, obtenerContratos, obtenerContrato } = useContext(ContratoContext);
   const { obtenerTipoContrato, obtenerMonitoreoFiltro, obtenerMonitoreoMotor } = useContext(SelectsContext);
 
-  const getContrato = (props) => obtenerContrato(props);
+  const getContrato = (props) => {
+    obtenerContrato(props).then(openModal());
+  };
   useEffect(() => {
     obtenerContratos();
     obtenerTipoContrato();

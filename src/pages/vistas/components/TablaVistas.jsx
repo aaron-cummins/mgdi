@@ -2,9 +2,9 @@ import React, { useEffect, useContext } from "react";
 import { VistasContext } from "../context/vistasContext";
 import { ColActivoTabla, OpcionesTabla, Tabla } from "components";
 
-const TablaVistas = () => {
+const TablaVistas = ({ openModal }) => {
   const { vistasList, obtenerVistas, obtenerVistaslist } = useContext(VistasContext);
-  const getVistas = (props) => obtenerVistas(props);
+  const getVistas = (props) => obtenerVistas(props).then(openModal());
 
   useEffect(() => {
     obtenerVistaslist();

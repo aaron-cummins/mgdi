@@ -3,13 +3,11 @@ import { OBTENER, OBTENER_LISTA, REGISTRAR, ACTUALIZAR, ELIMINAR } from "const/a
 import { getList, getByID, postObject, putObject, deleteObject } from "services/genericService";
 import EstadoEquipoInstalacionReducer from "../reducer/EstadoEquipoInstalacionReducer";
 import useFetchAndLoad from "hooks/useFetchAndLoad";
-import { useStateContext } from "contexts/ContextProvider";
 
 export const EstadoEquipoInstalacionContext = createContext();
 
 export const EstadoEquipoInstalacionContextProvider = (props) => {
   const { callEndpoint } = useFetchAndLoad();
-  const { alerta } = useStateContext();
 
   const urlApi = "estadoequipoinstalacion";
 
@@ -65,10 +63,18 @@ export const EstadoEquipoInstalacionContextProvider = (props) => {
         type: REGISTRAR,
         payload: resultado.data,
       });
-      alerta("success", "Estado Equipo Instalación creado con exito!");
+      return new Promise((resolve) =>
+        resolve({ tipoAlerta: "success", mensaje: "Estado Equipo Instalación creado con exito!" })
+      );
     } catch (error) {
       console.log(error);
-      alerta("error", `'Ocurrió un error al intentar crear el Estado Equipo Instalación. ${error}`);
+      return new Promise((resolve) =>
+        resolve({
+          tipoAlerta: "error",
+
+          mensaje: `'Ocurrió un error al intentar crear el Estado Equipo Instalación. ${error}`,
+        })
+      );
     }
   };
 
@@ -80,10 +86,18 @@ export const EstadoEquipoInstalacionContextProvider = (props) => {
         type: ACTUALIZAR,
         payload: resultado.data,
       });
-      alerta("success", "Estado Equipo Instalación actualizado con exito!");
+      return new Promise((resolve) =>
+        resolve({ tipoAlerta: "success", mensaje: "Estado Equipo Instalación actualizado con exito!" })
+      );
     } catch (error) {
       console.log(error);
-      alerta("error", `'Ocurrió un error al intentar actualizar el Estado Equipo Instalación. ${error}`);
+      return new Promise((resolve) =>
+        resolve({
+          tipoAlerta: "error",
+
+          mensaje: `'Ocurrió un error al intentar actualizar el Estado Equipo Instalación. ${error}`,
+        })
+      );
     }
   };
 
@@ -95,10 +109,18 @@ export const EstadoEquipoInstalacionContextProvider = (props) => {
         type: ELIMINAR,
         payload: id,
       });
-      alerta("success", "Estado Equipo Instalación eliminado con exito!");
+      return new Promise((resolve) =>
+        resolve({ tipoAlerta: "success", mensaje: "Estado Equipo Instalación eliminado con exito!" })
+      );
     } catch (error) {
       console.log(error);
-      alerta("error", `'Ocurrió un error al intentar eliminar el Estado Equipo Instalación. ${error}`);
+      return new Promise((resolve) =>
+        resolve({
+          tipoAlerta: "error",
+
+          mensaje: `'Ocurrió un error al intentar eliminar el Estado Equipo Instalación. ${error}`,
+        })
+      );
     }
   };
 

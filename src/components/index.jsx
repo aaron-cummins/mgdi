@@ -17,6 +17,7 @@ export { default as Alerts } from "./common/Alerts";
 export { default as ColActivoTabla } from "./common/ColActivoTabla";
 export { default as Filtros } from "./common/Filtros";
 export { default as Modal } from "./common/Modal";
+export { default as ModalMui } from "./common/Modal";
 export { default as OpcionesTabla } from "./common/OpcionesTabla";
 export { default as Tabla } from "./common/Tabla";
 export { default as Seccion } from "./common/Seccion";
@@ -29,4 +30,5 @@ export { default as InputText } from "./Forms/InputText";
 export { default as Label } from "./Forms/Label";
 export { default as Switch } from "./Forms/Switch";
 
-export { default as Select } from "./Selects/Select_React";
+//export { default as Select } from "./Selects/Select_React";
+export { default as Select } from "./Selects/Select";

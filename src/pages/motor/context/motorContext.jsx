@@ -3,13 +3,11 @@ import { OBTENER, OBTENER_LISTA, REGISTRAR, ACTUALIZAR, ELIMINAR } from "const/a
 import { getList, getByID, postObject, putObject, deleteObject } from "services/genericService";
 import motorReducer from "../reducer/motorReducer.js";
 import useFetchAndLoad from "hooks/useFetchAndLoad";
-import { useStateContext } from "contexts/ContextProvider";
 
 export const MotorContext = createContext();
 
 export const MotorContextProvider = (props) => {
   const { callEndpoint } = useFetchAndLoad();
-  const { alerta } = useStateContext();
   const urlApi = "motor";
   const initialState = {
     motorList: [],
@@ -63,10 +61,16 @@ export const MotorContextProvider = (props) => {
         type: REGISTRAR,
         payload: resultado.data,
       });
-      alerta("success", "Motor creado con exito!");
+      return new Promise((resolve) => resolve({ tipoAlerta: "success", mensaje: "Motor creado con exito!" }));
     } catch (error) {
       console.log(error);
-      alerta("error", `'Ocurrió un error al intentar crear el motor. ${error}`);
+      return new Promise((resolve) =>
+        resolve({
+          tipoAlerta: "error",
+
+          mensaje: `'Ocurrió un error al intentar crear el motor. ${error}`,
+        })
+      );
     }
   };
 
@@ -78,10 +82,16 @@ export const MotorContextProvider = (props) => {
         type: ACTUALIZAR,
         payload: resultado.data,
       });
-      alerta("success", "Motor actualizado con exito!");
+      return new Promise((resolve) => resolve({ tipoAlerta: "success", mensaje: "Motor actualizado con exito!" }));
     } catch (error) {
       console.log(error);
-      alerta("error", `'Ocurrió un error al intentar actualizar el motor. ${error}`);
+      return new Promise((resolve) =>
+        resolve({
+          tipoAlerta: "error",
+
+          mensaje: `'Ocurrió un error al intentar actualizar el motor. ${error}`,
+        })
+      );
     }
   };
 
@@ -93,10 +103,16 @@ export const MotorContextProvider = (props) => {
         type: ELIMINAR,
         payload: id,
       });
-      alerta("success", "Motor eliminado con exito!");
+      return new Promise((resolve) => resolve({ tipoAlerta: "success", mensaje: "Motor eliminado con exito!" }));
     } catch (error) {
       console.log(error);
-      alerta("error", `'Ocurrió un error al intentar eliminar el motor. ${error}`);
+      return new Promise((resolve) =>
+        resolve({
+          tipoAlerta: "error",
+
+          mensaje: `'Ocurrió un error al intentar eliminar el motor. ${error}`,
+        })
+      );
     }
   };
 

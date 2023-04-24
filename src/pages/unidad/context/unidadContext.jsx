@@ -1,15 +1,13 @@
-import React, { createContext, useReducer } from "react";
+import React, { createContext, useMemo, useReducer } from "react";
 import { OBTENER, OBTENER_LISTA, REGISTRAR, ACTUALIZAR, ELIMINAR } from "const/actionTypes";
 import { getList, getByID, postObject, putObject, deleteObject } from "services/genericService";
 import unidadReducer from "../reducer/unidadReducer";
 import useFetchAndLoad from "hooks/useFetchAndLoad";
-import { useStateContext } from "contexts/ContextProvider";
 
 export const UnidadContext = createContext();
 
 export const UnidadContextProvider = (props) => {
   const { callEndpoint } = useFetchAndLoad();
-  const { alerta } = useStateContext();
   const urlApi = "unidad";
 
   const initialState = {
@@ -46,7 +44,6 @@ export const UnidadContextProvider = (props) => {
       } else {
         unidadEncontrada = unidad;
       }
-
       dispatch({
         type: OBTENER,
         payload: unidadEncontrada,
@@ -64,10 +61,14 @@ export const UnidadContextProvider = (props) => {
         type: REGISTRAR,
         payload: resultado.data,
       });
-      alerta("success", "Unidad creada con exito!");
+      return Promise.resolve({ tipoAlerta: "success", mensaje: "Unidad creada con exito!" });
     } catch (error) {
       console.log(error);
-      alerta("error", `'Ocurrió un error al intentar crear la Unidad. ${error}`);
+      return Promise.resolve({
+        tipoAlerta: "error",
+
+        mensaje: `'Ocurrió un error al intentar crear la Unidad. ${error}`,
+      });
     }
   };
 
@@ -80,10 +81,14 @@ export const UnidadContextProvider = (props) => {
         type: ACTUALIZAR,
         payload: resultado.data,
       });
-      alerta("success", "Unidad actualizada con exito!");
+      return Promise.resolve({ tipoAlerta: "success", mensaje: "Unidad actualizada con exito!" });
     } catch (error) {
       console.log(error);
-      alerta("error", `'Ocurrió un error al intentar actualizar la Unidad. ${error}`);
+      return Promise.resolve({
+        tipoAlerta: "error",
+
+        mensaje: `'Ocurrió un error al intentar actualizar la Unidad. ${error}`,
+      });
     }
   };
 
@@ -95,26 +100,31 @@ export const UnidadContextProvider = (props) => {
         type: ELIMINAR,
         payload: id,
       });
-      alerta("success", "Unidad eliminada con exito!");
+      return Promise.resolve({ tipoAlerta: "success", mensaje: "Unidad eliminada con exito!" });
     } catch (error) {
       console.log(error);
-      alerta("error", `'Ocurrió un error al intentar eliminar la Unidad. ${error}`);
+      return Promise.resolve({
+        tipoAlerta: "error",
+
+        mensaje: `'Ocurrió un error al intentar eliminar la Unidad. ${error}`,
+      });
     }
   };
 
-  return (
-    <UnidadContext.Provider
-      value={{
-        unidadList: state.unidadList,
-        unidadActual: state.unidadActual,
+  const funciones = useMemo(
+    () => ({
+      unidadList: state.unidadList,
+      unidadActual: state.unidadActual,
 
-        obtenerUnidadlist,
-        obtenerUnidad,
-        registrarUnidad,
-        actualizarUnidad,
-        eliminarUnidad,
-      }}>
-      {props.children}
-    </UnidadContext.Provider>
+      obtenerUnidadlist,
+      obtenerUnidad,
+      registrarUnidad,
+      actualizarUnidad,
+      eliminarUnidad,
+    }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [state.unidadList, state.unidadActual]
   );
+
+  return <UnidadContext.Provider value={funciones}>{props.children}</UnidadContext.Provider>;
 };

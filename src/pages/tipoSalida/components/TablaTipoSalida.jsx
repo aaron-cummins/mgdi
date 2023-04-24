@@ -2,11 +2,11 @@ import React, { useEffect, useContext } from "react";
 import { TipoSalidaContext } from "../context/TipoSalidaContext";
 import { ColActivoTabla, OpcionesTabla, Tabla } from "components";
 
-const TablaTipoSalida = () => {
+const TablaTipoSalida = ({ openModal }) => {
   const { TipoSalidaList, obtenerTipoSalida, obtenerTipoSalidas } = useContext(TipoSalidaContext);
 
   const getTipoSalida = (props) => {
-    obtenerTipoSalida(props);
+    obtenerTipoSalida(props).then(openModal());
   };
 
   useEffect(() => {

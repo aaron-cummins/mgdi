@@ -2,11 +2,11 @@ import React, { useEffect, useContext } from "react";
 import { EstadoEquipoContext } from "../context/EstadoEquipoContext";
 import { ColActivoTabla, OpcionesTabla, Tabla } from "components";
 
-const TablaEstadoEquipo = () => {
+const TablaEstadoEquipo = ({ openModal }) => {
   const { EstadoEquipoList, obtenerEstadoEquipo, obtenerEstadoEquipos } = useContext(EstadoEquipoContext);
 
   const getEstadoEquipo = (props) => {
-    obtenerEstadoEquipo(props);
+    obtenerEstadoEquipo(props).then(openModal);
   };
 
   useEffect(() => {

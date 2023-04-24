@@ -1,15 +1,12 @@
 import React, { useEffect, useState, useContext, useMemo } from "react";
 import { InputText, Buttons, Checkbox } from "components";
 import { MotivoCambioContext } from "../context/MotivoCambioContext";
-import { useStateContext } from "contexts/ContextProvider";
-import { closeModal } from "utilities/Utiles";
 import { useSnackbar } from "notistack";
 import useValidacionForm from "hooks/useValidacionForm";
 
-const FormMotivoCambio = () => {
+const FormMotivoCambio = ({ closeModal }) => {
   const { MotivoCambioActual, registrarMotivoCambio, actualizarMotivoCambio, obtenerMotivoCambio } =
     useContext(MotivoCambioContext);
-  const { mensaje } = useStateContext();
   const { enqueueSnackbar } = useSnackbar();
   const { validarTexto, validarNumero, error, setError } = useValidacionForm();
 
@@ -31,7 +28,7 @@ const FormMotivoCambio = () => {
     let valida = true;
 
     if (validarTexto("nombre", MotivoCambio.nombre, "Nombre motivo de cambio requerido")) valida = false;
-  
+
     return valida;
   };
 
@@ -49,15 +46,20 @@ const FormMotivoCambio = () => {
     setMotivoCambio(MotivoCambioDefault);
     obtenerMotivoCambio(null);
     setError({});
+    closeModal();
   };
 
   const handleOnSubmit = async (e) => {
     e.preventDefault();
     if (validaciones()) {
       MotivoCambioActual !== null
-        ? actualizarMotivoCambio(MotivoCambioEnviar())
-        : registrarMotivoCambio(MotivoCambioEnviar());
-      closeModal();
+        ? actualizarMotivoCambio(MotivoCambioEnviar()).then((res) =>
+            enqueueSnackbar(res.mensaje, { variant: res.tipoAlerta })
+          )
+        : registrarMotivoCambio(MotivoCambioEnviar()).then((res) =>
+            enqueueSnackbar(res.mensaje, { variant: res.tipoAlerta })
+          );
+
       limpiaForm();
     } else {
       enqueueSnackbar("Debe corregir los problemas en el formulario", { variant: "error" });
@@ -72,9 +74,8 @@ const FormMotivoCambio = () => {
 
   return (
     <form onSubmit={handleOnSubmit}>
-      {mensaje.mensaje ? enqueueSnackbar(mensaje.mensaje, { variant: mensaje.tipoAlerta }) : null}
-      <div className="grid grid-cols-2 gap-4">
-        <div className="form-group mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+        <div className="form-group">
           <InputText
             id="nombre"
             name="nombre"
@@ -86,7 +87,7 @@ const FormMotivoCambio = () => {
             error={error.nombre}
           />
         </div>
-        <div className="form-group mb-4">
+        <div className="form-group">
           <Checkbox id="activo" name="activo" label="Activo" onChangeFN={handleChange} checked={MotivoCambio.activo} />
         </div>
       </div>

@@ -85,7 +85,7 @@ const Sidebar2 = () => {
   }, [menuUsuario]);
 
   return (
-    <div className="fixed h-screen overflow-auto md:hover:overflow-auto flex flex-row bg-secondary-dark-bg">
+    <div className="h-full overflow-auto md:hover:overflow-auto flex flex-row bg-secondary-dark-bg">
       <div
         className={`flex flex-col justify-between items-center flex-none bg-secondary-dark-bg text-white ${
           activeMenu ? "w-16" : "w-0 md:w-16"
@@ -122,7 +122,10 @@ const Sidebar2 = () => {
         </div>
       </div>
 
-      <div className={`${activeMenu ? "flex" : "hidden"} w-64 flex-none overflow-auto bg-gray-cummins p-2 flex-col`}>
+      <div
+        className={`${
+          activeMenu ? "flex" : "hidden"
+        } w-5/6 sm:w-64 flex-none overflow-auto bg-gray-cummins p-2 flex-col`}>
         {/* LOGO */}
         <div className="flex justify-between items-center">
           <Link

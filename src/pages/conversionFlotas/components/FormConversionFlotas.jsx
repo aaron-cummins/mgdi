@@ -1,17 +1,14 @@
 import { useState, useContext, useMemo, useEffect } from "react";
 import { InputText, Buttons, Checkbox, Select } from "components";
 import { ConversionFlotasContext } from "../context/ConversionFlotasContext";
-import { closeModal } from "utilities/Utiles";
-import { useStateContext } from "contexts/ContextProvider";
 import { SelectsContext } from "contexts/SelectsContext";
 import { useSnackbar } from "notistack";
 import useValidacionForm from "hooks/useValidacionForm";
 
-const FormConversionFlotas = () => {
+const FormConversionFlotas = ({ closeModal }) => {
   const { obtenerConversionFlotas, ConversionFlotasActual, actualizarConversionFlotas, registrarConversionFlotas } =
     useContext(ConversionFlotasContext);
   const { enqueueSnackbar } = useSnackbar();
-  const { mensaje } = useStateContext();
   const { flotasList, conversionLugarTrabajoList, fuenteInformacionList } = useContext(SelectsContext);
   const { validarTexto, validarSelect, validarNumero, error, setError } = useValidacionForm();
 
@@ -90,15 +87,20 @@ const FormConversionFlotas = () => {
     setConversionFlotas(ConversionFlotasDefault);
     obtenerConversionFlotas(null);
     setError({});
+    closeModal();
   };
 
   const handleOnSubmit = async (e) => {
     e.preventDefault();
     if (validaciones()) {
       ConversionFlotasActual !== null
-        ? actualizarConversionFlotas(ConversionFlotasEnviar())
-        : registrarConversionFlotas(ConversionFlotasEnviar());
-      closeModal();
+        ? actualizarConversionFlotas(ConversionFlotasEnviar()).then((res) =>
+            enqueueSnackbar(res.mensaje, { variant: res.tipoAlerta })
+          )
+        : registrarConversionFlotas(ConversionFlotasEnviar()).then((res) =>
+            enqueueSnackbar(res.mensaje, { variant: res.tipoAlerta })
+          );
+
       limpiaForm();
     } else {
       enqueueSnackbar("Debe corregir los problemas en el formulario", { variant: "error" });
@@ -116,9 +118,8 @@ const FormConversionFlotas = () => {
 
   return (
     <form onSubmit={handleOnSubmit}>
-      {mensaje.mensaje ? enqueueSnackbar(mensaje.mensaje, { variant: mensaje.tipoAlerta }) : null}
-      <div className="grid grid-cols-2 gap-4">
-        <div className="form-group mb-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+        <div className="form-group">
           <InputText
             id="nombre"
             name="nombre"
@@ -144,8 +145,8 @@ const FormConversionFlotas = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-4">
-        <div className="form-group mb-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+        <div className="form-group">
           <Select
             id="flotasId"
             name="flotasId"
@@ -158,7 +159,7 @@ const FormConversionFlotas = () => {
             error={error.flotasId}
           />
         </div>
-        <div className="form-group mb-6">
+        <div className="form-group">
           <Select
             id="fuenteInformacionId"
             name="fuenteInformacionId"
@@ -173,8 +174,8 @@ const FormConversionFlotas = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-4">
-        <div className="form-group mb-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+        <div className="form-group">
           <Select
             id="conversionLugarTrabajoId"
             name="conversionLugarTrabajoId"
@@ -187,7 +188,7 @@ const FormConversionFlotas = () => {
             error={error.conversionLugarTrabajoId}
           />
         </div>
-        <div className="form-group mb-6">
+        <div className="form-group">
           <Checkbox
             id="activo"
             name="activo"

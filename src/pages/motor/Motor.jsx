@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Header, Modal } from "components";
 import { useStateContext } from "contexts/ContextProvider";
 import { MotorContextProvider } from "./context/motorContext";
@@ -8,6 +8,7 @@ import TablaMotor from "./components/TablaMotor";
 
 const Motor = () => {
   const { currentColor } = useStateContext();
+  const [openModal, setOpenModal] = useState(false);
 
   return (
     <MotorContextProvider>
@@ -23,15 +24,16 @@ const Motor = () => {
               color: "white",
               borderRadius: "10px",
             }}
+            onClick={() => setOpenModal(true)}
             className={`gap-5 p-3  hover:drop-shadow-xl hover:bg-${currentColor} text-center inline-flex items-center`}>
             Nuevo Motor
           </button>
         </Header>
 
-        <TablaMotor />
+        <TablaMotor openModal={() => setOpenModal(true)} />
 
-        <Modal ModalTitle="Motor" modalId="motor-modal">
-          <FormMotor />
+        <Modal ModalTitle="Motor" modalId="motor-modal" open={openModal} onClose={() => setOpenModal(false)}>
+          <FormMotor closeModal={() => setOpenModal(false)} />
         </Modal>
       </div>
     </MotorContextProvider>

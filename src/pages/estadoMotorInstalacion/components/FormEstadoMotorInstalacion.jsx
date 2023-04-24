@@ -1,19 +1,16 @@
 import React, { useEffect, useState, useContext, useMemo } from "react";
 import { InputText, Buttons, Checkbox } from "components";
 import { EstadoMotorInstalacionContext } from "../context/EstadoMotorInstalacionContext";
-import { useStateContext } from "contexts/ContextProvider";
-import { closeModal } from "utilities/Utiles";
 import { useSnackbar } from "notistack";
 import useValidacionForm from "hooks/useValidacionForm";
 
-const FormEstadoMotorInstalacion = () => {
+const FormEstadoMotorInstalacion = ({ closeModal }) => {
   const {
     EstadoMotorInstalacionActual,
     registrarEstadoMotorInstalacion,
     actualizarEstadoMotorInstalacion,
     obtenerEstadoMotorInstalacion,
   } = useContext(EstadoMotorInstalacionContext);
-  const { mensaje } = useStateContext();
   const { enqueueSnackbar } = useSnackbar();
   const { validarTexto, validarNumero, error, setError } = useValidacionForm();
 
@@ -37,7 +34,7 @@ const FormEstadoMotorInstalacion = () => {
     let valida = true;
 
     if (validarTexto("nombre", EstadoMotorInstalacion.nombre, "Nombre requerido")) valida = false;
-  
+
     return valida;
   };
 
@@ -55,15 +52,20 @@ const FormEstadoMotorInstalacion = () => {
     setEstadoMotorInstalacion(EstadoMotorInstalacionDefault);
     obtenerEstadoMotorInstalacion(null);
     setError({});
+    closeModal();
   };
 
   const handleOnSubmit = async (e) => {
     e.preventDefault();
     if (validaciones()) {
       EstadoMotorInstalacionActual !== null
-        ? actualizarEstadoMotorInstalacion(EstadoMotorInstalacionEnviar())
-        : registrarEstadoMotorInstalacion(EstadoMotorInstalacionEnviar());
-      closeModal();
+        ? actualizarEstadoMotorInstalacion(EstadoMotorInstalacionEnviar()).then((res) =>
+            enqueueSnackbar(res.mensaje, { variant: res.tipoAlerta })
+          )
+        : registrarEstadoMotorInstalacion(EstadoMotorInstalacionEnviar()).then((res) =>
+            enqueueSnackbar(res.mensaje, { variant: res.tipoAlerta })
+          );
+
       limpiaForm();
     } else {
       enqueueSnackbar("Debe corregir los problemas en el formulario", { variant: "error" });
@@ -78,9 +80,8 @@ const FormEstadoMotorInstalacion = () => {
 
   return (
     <form onSubmit={handleOnSubmit}>
-      {mensaje.mensaje ? enqueueSnackbar(mensaje.mensaje, { variant: mensaje.tipoAlerta }) : null}
-      <div className="grid grid-cols-2 gap-4">
-        <div className="form-group mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+        <div className="form-group">
           <InputText
             id="nombre"
             name="nombre"
@@ -92,7 +93,7 @@ const FormEstadoMotorInstalacion = () => {
             error={error.nombre}
           />
         </div>
-        <div className="form-group mb-4">
+        <div className="form-group">
           <Checkbox
             id="activo"
             name="activo"

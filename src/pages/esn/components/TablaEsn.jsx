@@ -3,11 +3,13 @@ import { EsnContext } from "../context/esnContext";
 import { ColActivoTabla, OpcionesTabla, Tabla } from "components";
 import { SelectsContext } from "contexts/SelectsContext";
 
-const TablaEsn = () => {
+const TablaEsn = ({ openModal }) => {
   const { esnList, obtenerEsnes, obtenerEsn } = useContext(EsnContext);
   const { obtenerVersionMotor } = useContext(SelectsContext);
 
-  const getEsn = (props) => obtenerEsn(props);
+  const getEsn = (props) => {
+    obtenerEsn(props).then(openModal());
+  };
 
   useEffect(() => {
     obtenerEsnes();

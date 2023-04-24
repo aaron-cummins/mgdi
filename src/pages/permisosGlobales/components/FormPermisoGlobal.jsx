@@ -2,10 +2,9 @@ import React, { useEffect, useState, useContext, useMemo } from "react";
 import { Alerts, Buttons, Select } from "components";
 import { PermisosGlobalesContext } from "../context/permisosGlobalesContext";
 import { useStateContext } from "contexts/ContextProvider";
-import { closeModal } from "utilities/Utiles";
 import { SelectsContext } from "contexts/SelectsContext";
 
-const FormPermisoGlobal = () => {
+const FormPermisoGlobal = ({ closeModal }) => {
   const { registrarPermisoGlobal, permisoGlobalActual, actualizarPermisoGlobal, obtenerPermisoGlobal } =
     useContext(PermisosGlobalesContext);
   const { modulosList, rolesList } = useContext(SelectsContext);
@@ -53,8 +52,8 @@ const FormPermisoGlobal = () => {
   return (
     <form onSubmit={handleOnSubmit}>
       {mensaje.mensaje ? <Alerts type={mensaje.tipoAlerta}>{mensaje.mensaje}</Alerts> : null}
-      <div className="grid grid-cols-2 gap-4">
-        <div className="form-group mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+        <div className="form-group">
           <Select
             id="moduloId"
             name="moduloId"
@@ -65,7 +64,7 @@ const FormPermisoGlobal = () => {
             required={true}
           />
         </div>
-        <div className="form-group mb-4">
+        <div className="form-group">
           <Select
             id="rolId"
             name="rolId"

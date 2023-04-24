@@ -1,19 +1,16 @@
 import React, { useEffect, useState, useContext, useMemo } from "react";
 import { InputText, Buttons, Checkbox } from "components";
 import { EstadoEquipoInstalacionContext } from "../context/EstadoEquipoInstalacionContext";
-import { useStateContext } from "contexts/ContextProvider";
-import { closeModal } from "utilities/Utiles";
 import { useSnackbar } from "notistack";
 import useValidacionForm from "hooks/useValidacionForm";
 
-const FormEstadoEquipoInstalacion = () => {
+const FormEstadoEquipoInstalacion = ({ closeModal }) => {
   const {
     EstadoEquipoInstalacionActual,
     registrarEstadoEquipoInstalacion,
     actualizarEstadoEquipoInstalacion,
     obtenerEstadoEquipoInstalacion,
   } = useContext(EstadoEquipoInstalacionContext);
-  const { mensaje } = useStateContext();
   const { enqueueSnackbar } = useSnackbar();
   const { validarTexto, validarNumero, error, setError } = useValidacionForm();
 
@@ -37,7 +34,7 @@ const FormEstadoEquipoInstalacion = () => {
     let valida = true;
 
     if (validarTexto("nombre", EstadoEquipoInstalacion.nombre, "Nombre requerido")) valida = false;
-  
+
     return valida;
   };
 
@@ -55,15 +52,20 @@ const FormEstadoEquipoInstalacion = () => {
     setEstadoEquipoInstalacion(EstadoEquipoInstalacionDefault);
     obtenerEstadoEquipoInstalacion(null);
     setError({});
+    closeModal();
   };
 
   const handleOnSubmit = async (e) => {
     e.preventDefault();
     if (validaciones()) {
       EstadoEquipoInstalacionActual !== null
-        ? actualizarEstadoEquipoInstalacion(EstadoEquipoInstalacionEnviar())
-        : registrarEstadoEquipoInstalacion(EstadoEquipoInstalacionEnviar());
-      closeModal();
+        ? actualizarEstadoEquipoInstalacion(EstadoEquipoInstalacionEnviar()).then((res) =>
+            enqueueSnackbar(res.mensaje, { variant: res.tipoAlerta })
+          )
+        : registrarEstadoEquipoInstalacion(EstadoEquipoInstalacionEnviar()).then((res) =>
+            enqueueSnackbar(res.mensaje, { variant: res.tipoAlerta })
+          );
+
       limpiaForm();
     } else {
       enqueueSnackbar("Debe corregir los problemas en el formulario", { variant: "error" });
@@ -78,9 +80,8 @@ const FormEstadoEquipoInstalacion = () => {
 
   return (
     <form onSubmit={handleOnSubmit}>
-      {mensaje.mensaje ? enqueueSnackbar(mensaje.mensaje, { variant: mensaje.tipoAlerta }) : null}
-      <div className="grid grid-cols-2 gap-4">
-        <div className="form-group mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+        <div className="form-group">
           <InputText
             id="nombre"
             name="nombre"
@@ -92,7 +93,7 @@ const FormEstadoEquipoInstalacion = () => {
             error={error.nombre}
           />
         </div>
-        <div className="form-group mb-4">
+        <div className="form-group">
           <Checkbox
             id="activo"
             name="activo"

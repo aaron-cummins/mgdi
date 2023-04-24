@@ -2,9 +2,9 @@ import React, { useEffect, useContext } from "react";
 import { RolesContext } from "../context/rolesContext";
 import { ColActivoTabla, OpcionesTabla, Tabla } from "components";
 
-const TablaRoles = () => {
+const TablaRoles = ({ openModal }) => {
   const { rolesList, obtenerRoleslist, obtenerRoles } = useContext(RolesContext);
-  const getRoles = (props) => obtenerRoles(props);
+  const getRoles = (props) => obtenerRoles(props).then(openModal());
 
   useEffect(() => {
     obtenerRoleslist();

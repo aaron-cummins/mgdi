@@ -3,14 +3,11 @@ import { OBTENER, OBTENER_LISTA, REGISTRAR, ACTUALIZAR, ELIMINAR } from "const/a
 import { getList, getByID, postObject, putObject, deleteObject } from "services/genericService";
 import aplicacionOemReducer from "../reducer/aplicacionOemReducer";
 import useFetchAndLoad from "hooks/useFetchAndLoad";
-import { useStateContext } from "contexts/ContextProvider";
 
 export const AplicacionOemContext = createContext();
 
 export const AplicacionOemContextProvider = (props) => {
   const { callEndpoint } = useFetchAndLoad();
-  const { alerta } = useStateContext();
-
   const urlApi = "aplicacionoem";
 
   const initialState = {
@@ -65,10 +62,12 @@ export const AplicacionOemContextProvider = (props) => {
         type: REGISTRAR,
         payload: resultado.data,
       });
-      alerta("success", "Aplicación Oem creada con exito!");
+      return new Promise((resolve) => resolve({ tipoAlerta: "success", mensaje: "Aplicación Oem creada con exito!" }));
     } catch (error) {
       console.log(error);
-      alerta("error", `'Ocurrió un error al intentar crear la aplicación oem. ${error}`);
+      return new Promise((resolve) =>
+        resolve({ tipoAlerta: "error", mensaje: `'Ocurrió un error al intentar crear la aplicación oem. ${error}` })
+      );
     }
   };
 
@@ -80,10 +79,17 @@ export const AplicacionOemContextProvider = (props) => {
         type: ACTUALIZAR,
         payload: resultado.data,
       });
-      alerta("success", "Aplicación Oem actualizada con exito!");
+      return new Promise((resolve) =>
+        resolve({ tipoAlerta: "success", mensaje: "Aplicación Oem actualizada con exito!" })
+      );
     } catch (error) {
       console.log(error);
-      alerta("error", `'Ocurrió un error al intentar actualizar la aplicación oem. ${error}`);
+      return new Promise((resolve) =>
+        resolve({
+          tipoAlerta: "error",
+          mensaje: `'Ocurrió un error al intentar actualizar la aplicación oem. ${error}`,
+        })
+      );
     }
   };
 
@@ -95,10 +101,14 @@ export const AplicacionOemContextProvider = (props) => {
         type: ELIMINAR,
         payload: id,
       });
-      alerta("success", "Aplicación Oem eliminada con exito!");
+      return new Promise((resolve) =>
+        resolve({ tipoAlerta: "success", mensaje: "Aplicación Oem eliminada con exito!" })
+      );
     } catch (error) {
       console.log(error);
-      alerta("error", `'Ocurrió un error al intentar eliminar la aplicación oem. ${error}`);
+      return new Promise((resolve) =>
+        resolve({ tipoAlerta: "error", mensaje: `'Ocurrió un error al intentar eliminar la aplicación oem. ${error}` })
+      );
     }
   };
 

@@ -1,17 +1,14 @@
 import { useState, useContext, useMemo, useEffect } from "react";
 import { InputText, Buttons, Checkbox, Select } from "components";
 import { LugarTrabajoContext } from "../contexts/LugarTrabajoContext";
-import { closeModal } from "utilities/Utiles";
-import { useStateContext } from "contexts/ContextProvider";
 import { useSnackbar } from "notistack";
 import { SelectsContext } from "contexts/SelectsContext";
 import useValidacionForm from "hooks/useValidacionForm";
 
-const FormLugarTrabajo = () => {
+const FormLugarTrabajo = ({ closeModal }) => {
   const { obtenerLugarTrabajo, lugartrabajoActual, actualizarLugarTrabajo, registrarLugarTrabajo } =
     useContext(LugarTrabajoContext);
   const { enqueueSnackbar } = useSnackbar();
-  const { mensaje } = useStateContext();
   const { zonaList, tipoLugarTrabajoList, comunaList } = useContext(SelectsContext);
   const { validarTexto, validarSelect, validarNumero, error, setError } = useValidacionForm();
 
@@ -85,15 +82,20 @@ const FormLugarTrabajo = () => {
     setLugarTrabajo(lugarTrabajoDefault);
     obtenerLugarTrabajo(null);
     setError({});
+    closeModal();
   };
 
   const handleOnSubmit = async (e) => {
     e.preventDefault();
     if (validaciones()) {
       lugartrabajoActual !== null
-        ? actualizarLugarTrabajo(lugarTrabajoAEnviar())
-        : registrarLugarTrabajo(lugarTrabajoAEnviar());
-      closeModal();
+        ? actualizarLugarTrabajo(lugarTrabajoAEnviar()).then((res) =>
+            enqueueSnackbar(res.mensaje, { variant: res.tipoAlerta })
+          )
+        : registrarLugarTrabajo(lugarTrabajoAEnviar()).then((res) =>
+            enqueueSnackbar(res.mensaje, { variant: res.tipoAlerta })
+          );
+
       limpiaForm();
     } else {
       enqueueSnackbar("Debe corregir los problemas en el formulario", { variant: "error" });
@@ -111,8 +113,7 @@ const FormLugarTrabajo = () => {
 
   return (
     <form onSubmit={handleOnSubmit}>
-      {mensaje.mensaje ? enqueueSnackbar(mensaje.mensaje, { variant: mensaje.tipoAlerta }) : null}
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
         <div className="form-group mb-2">
           <InputText
             id="nombre"
@@ -150,7 +151,7 @@ const FormLugarTrabajo = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
         <div className="form-group mb-2">
           <InputText
             id="longitud"
@@ -175,7 +176,7 @@ const FormLugarTrabajo = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
         <div className="form-group mb-2">
           <InputText
             id="direccion"
@@ -200,7 +201,7 @@ const FormLugarTrabajo = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
         <div className="form-group mb-2">
           <Select
             id="zonaId"
@@ -229,7 +230,7 @@ const FormLugarTrabajo = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
         <div className="form-group mb-2">
           <Select
             id="comunaId"

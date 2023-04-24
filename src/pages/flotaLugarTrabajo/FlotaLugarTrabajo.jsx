@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Header, Modal } from "components";
 import { useStateContext } from "contexts/ContextProvider";
 import { FlotaLugarTrabajoContextProvider } from "./context/flotaLugarTrabajoContext";
@@ -8,6 +8,7 @@ import TablaFlotasLugarTrabajo from "./components/TablaFlotasLugarTrabajo";
 
 const FlotaLugarTrabajo = () => {
   const { currentColor } = useStateContext();
+  const [openModal, setOpenModal] = useState(false);
 
   return (
     <FlotaLugarTrabajoContextProvider>
@@ -23,15 +24,20 @@ const FlotaLugarTrabajo = () => {
               color: "white",
               borderRadius: "10px",
             }}
+            onClick={() => setOpenModal(true)}
             className={`gap-5 p-3  hover:drop-shadow-xl hover:bg-${currentColor} text-center inline-flex items-center`}>
             Asignar Flota a Lugar de Trabajo
           </button>
         </Header>
 
-        <TablaFlotasLugarTrabajo />
+        <TablaFlotasLugarTrabajo openModal={() => setOpenModal(true)} />
 
-        <Modal ModalTitle="Flota - Lugar de Trabajo" modalId="flotalugartrabajo-modal">
-          <FormFlotaLugarTrabajo />
+        <Modal
+          ModalTitle="Flota - Lugar de Trabajo"
+          modalId="flotalugartrabajo-modal"
+          open={openModal}
+          onClose={() => setOpenModal(false)}>
+          <FormFlotaLugarTrabajo closeModal={() => setOpenModal(false)} />
         </Modal>
       </div>
     </FlotaLugarTrabajoContextProvider>

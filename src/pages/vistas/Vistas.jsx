@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Header, Modal } from "components";
 import { useStateContext } from "contexts/ContextProvider";
 import { VistasContextProvider } from "./context/vistasContext";
@@ -8,6 +8,7 @@ import TablaVistas from "./components/TablaVistas";
 
 const Vistas = () => {
   const { currentColor } = useStateContext();
+  const [openModal, setOpenModal] = useState(false);
 
   return (
     <VistasContextProvider>
@@ -23,15 +24,16 @@ const Vistas = () => {
               color: "white",
               borderRadius: "10px",
             }}
+            onClick={() => setOpenModal(true)}
             className={`gap-5 p-3  hover:drop-shadow-xl hover:bg-${currentColor} text-center inline-flex items-center`}>
             Nueva Vista
           </button>
         </Header>
 
-        <TablaVistas />
+        <TablaVistas openModal={() => setOpenModal(true)} />
 
-        <Modal ModalTitle="Vistas" modalId="vistas-modal">
-          <FormVistas />
+        <Modal ModalTitle="Vistas" modalId="vistas-modal" open={openModal} onClose={() => setOpenModal(false)}>
+          <FormVistas closeModal={() => setOpenModal(false)} />
         </Modal>
       </div>
     </VistasContextProvider>

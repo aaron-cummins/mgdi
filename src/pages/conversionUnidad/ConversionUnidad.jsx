@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Header, Modal } from "components";
 import { useStateContext } from "contexts/ContextProvider";
 import { ConversionUnidadContextProvider } from "./context/ConversionUnidadContext";
@@ -8,6 +8,7 @@ import TablaConversionUnidad from "./components/TablaConversionUnidad";
 
 const ConversionUnidad = () => {
   const { currentColor } = useStateContext();
+  const [openModal, setOpenModal] = useState(false);
   return (
     <ConversionUnidadContextProvider>
       <div className="m-1 p-7 bg-white rounded-3xl">
@@ -22,15 +23,20 @@ const ConversionUnidad = () => {
               color: "white",
               borderRadius: "10px",
             }}
+            onClick={() => setOpenModal(true)}
             className={`gap-5 p-3  hover:drop-shadow-xl hover:bg-${currentColor} text-center inline-flex items-center`}>
             Nueva Conversión unidad
           </button>
         </Header>
 
-        <TablaConversionUnidad />
+        <TablaConversionUnidad openModal={() => setOpenModal(true)} />
 
-        <Modal ModalTitle="Conversion unidad" modalId="conversionunidad-modal">
-          <FormConversionUnidad />
+        <Modal
+          ModalTitle="Conversion unidad"
+          modalId="conversionunidad-modal"
+          open={openModal}
+          onClose={() => setOpenModal(false)}>
+          <FormConversionUnidad closeModal={() => setOpenModal(false)} />
         </Modal>
       </div>
     </ConversionUnidadContextProvider>

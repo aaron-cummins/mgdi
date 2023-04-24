@@ -14,7 +14,7 @@ const Select_React = (props) => {
     {
       target: { value: 0, name: props.name, type: "select-one", label: props.name },
       value: 0,
-      label: "Sleccione una opción",
+      label: "Seleccione una opción",
       name: props.name,
     },
   ];

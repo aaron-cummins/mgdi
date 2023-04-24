@@ -2,10 +2,10 @@ import React, { useEffect, useContext } from "react";
 import { UbContext } from "../context/ubContext";
 import { ColActivoTabla, OpcionesTabla, Tabla } from "components";
 
-const TablaUb = () => {
+const TablaUb = ({ openModal }) => {
   const { ubList, obtenerUbs, obtenerUb } = useContext(UbContext);
 
-  const getUb = (props) => obtenerUb(props);
+  const getUb = (props) => obtenerUb(props).then(openModal());
 
   useEffect(() => {
     obtenerUbs();

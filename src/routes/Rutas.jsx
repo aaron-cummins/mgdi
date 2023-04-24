@@ -57,8 +57,13 @@ import {
   AvisoDesmontaje,
   Ub,
   Inicio,
+  EemmFaenaHorometro,
+  IndexEmmFaenaHorometro,
 } from "pages";
 import AuthGuard from "./AuthGuard";
+
+import TablaAplicacionOem from "pages/aplicacionOem/components/TablaAplicacionOem";
+import FormAplicacionOem from "pages/aplicacionOem/components/FormAplicacionOem";
 
 const Rutas = () => {
   return (
@@ -75,7 +80,11 @@ const Rutas = () => {
         <Route path="/avisodesmontaje" element={<AvisoDesmontaje />}></Route>
         <Route path="/avisomontaje" element={<AvisoMontaje />}></Route>
         <Route path="/aplicacion" element={<Aplicacion />}></Route>
-        <Route path="/aplicacionoem" element={<AplicacionOem />}></Route>
+
+        <Route path="/aplicacionoem" element={<AplicacionOem />}>
+          <Route index element={<TablaAplicacionOem />}></Route>
+          <Route path="detalle" element={<FormAplicacionOem />}></Route>
+        </Route>
         <Route path="/cargo" element={<Cargo />}></Route>
         <Route path="/comuna" element={<Comuna />}></Route>
         <Route path="/contrato" element={<Contrato />}></Route>
@@ -88,6 +97,11 @@ const Rutas = () => {
           <Route path="montaje" element={<MontajeMotor />}></Route>
           <Route path="desmontaje" element={<DesmontajeMotor />}></Route>
         </Route>
+
+        <Route path="/eemmfaenahorometro" element={<EemmFaenaHorometro />}>
+          <Route index element={<IndexEmmFaenaHorometro />}></Route>
+        </Route>
+
         <Route path="/esn" element={<Esn />}></Route>
         <Route path="/estadoequipo" element={<EstadoEquipo />}></Route>
         <Route path="/estadoequipoinstalacion" element={<EstadoEquipoInstalacion />}></Route>

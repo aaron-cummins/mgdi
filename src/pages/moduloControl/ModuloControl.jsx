@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Header, Modal } from "components";
 import { useStateContext } from "contexts/ContextProvider";
 import { ModuloControlContextProvider } from "./context/moduloControlContext";
@@ -8,6 +8,7 @@ import TablaModuloControl from "./components/TablaModuloControl";
 
 const ModuloControl = () => {
   const { currentColor } = useStateContext();
+  const [openModal, setOpenModal] = useState(false);
   return (
     <ModuloControlContextProvider>
       <div className="m-1 p-7 bg-white rounded-3xl">
@@ -22,15 +23,20 @@ const ModuloControl = () => {
               color: "white",
               borderRadius: "10px",
             }}
+            onClick={() => setOpenModal(true)}
             className={`gap-5 p-3  hover:drop-shadow-xl hover:bg-${currentColor} text-center inline-flex items-center`}>
             Nuevo Módulo control
           </button>
         </Header>
 
-        <TablaModuloControl />
+        <TablaModuloControl openModal={() => setOpenModal(true)} />
 
-        <Modal ModalTitle="Módulo control" modalId="modulocontrol-modal">
-          <FormModuloControl />
+        <Modal
+          ModalTitle="Módulo control"
+          modalId="modulocontrol-modal"
+          open={openModal}
+          onClose={() => setOpenModal(false)}>
+          <FormModuloControl closeModal={() => setOpenModal(false)} />
         </Modal>
       </div>
     </ModuloControlContextProvider>

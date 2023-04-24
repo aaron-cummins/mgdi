@@ -3,15 +3,15 @@ import { ConversionLugarTrabajoContext } from "../context/ConversionLugarTrabajo
 import { ColActivoTabla, OpcionesTabla, Tabla } from "components";
 import { SelectsContext } from "contexts/SelectsContext";
 
-const TablaConversionLugarTrabajo = () => {
-  const { ConversionLugarTrabajoList, obtenerConversionLugarTrabajos, obtenerConversionLugarTrabajo } = useContext(ConversionLugarTrabajoContext);
+const TablaConversionLugarTrabajo = ({ openModal }) => {
+  const { ConversionLugarTrabajoList, obtenerConversionLugarTrabajos, obtenerConversionLugarTrabajo } =
+    useContext(ConversionLugarTrabajoContext);
 
-  const {
-    obtenerLugaresTrabajo,
-    obtenerFuenteInformacion,
-  } = useContext(SelectsContext);
+  const { obtenerLugaresTrabajo, obtenerFuenteInformacion } = useContext(SelectsContext);
 
-  const getConversionLugarTrabajo = (props) => obtenerConversionLugarTrabajo(props);
+  const getConversionLugarTrabajo = (props) => {
+    obtenerConversionLugarTrabajo(props).then(openModal());
+  };
 
   useEffect(() => {
     obtenerConversionLugarTrabajos();
@@ -34,7 +34,11 @@ const TablaConversionLugarTrabajo = () => {
     {
       name: "Acciones",
       cell: (props) => (
-        <OpcionesTabla editar={true} FnEditar={() => getConversionLugarTrabajo(props)} nombreform="conversionlugartrabajo" />
+        <OpcionesTabla
+          editar={true}
+          FnEditar={() => getConversionLugarTrabajo(props)}
+          nombreform="conversionlugartrabajo"
+        />
       ),
     },
   ];

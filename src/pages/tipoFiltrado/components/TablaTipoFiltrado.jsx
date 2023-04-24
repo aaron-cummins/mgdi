@@ -2,10 +2,10 @@ import React, { useEffect, useContext } from "react";
 import { TipoFiltradoContext } from "../context/tipofiltradoContext";
 import { ColActivoTabla, OpcionesTabla, Tabla } from "components";
 
-const TablaTipoFiltrado = () => {
+const TablaTipoFiltrado = ({ openModal }) => {
   const { tipofiltradoList, obtenerTipoFiltrados, obtenerTipoFiltrado } = useContext(TipoFiltradoContext);
 
-  const getTipoFiltrado = (props) => obtenerTipoFiltrado(props);
+  const getTipoFiltrado = (props) => obtenerTipoFiltrado(props).then(openModal());
 
   useEffect(() => {
     obtenerTipoFiltrados();

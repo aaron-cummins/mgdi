@@ -2,10 +2,10 @@ import React, { useEffect, useContext } from "react";
 import { RegionContext } from "../context/regionContext";
 import { ColActivoTabla, OpcionesTabla, Tabla } from "components";
 
-const TablaRegiones = () => {
+const TablaRegiones = ({ openModal }) => {
   const { regionList, obtenerRegiones, obtenerRegion } = useContext(RegionContext);
 
-  const getRegion = (props) => obtenerRegion(props);
+  const getRegion = (props) => obtenerRegion(props).then(openModal());
 
   useEffect(() => {
     obtenerRegiones();

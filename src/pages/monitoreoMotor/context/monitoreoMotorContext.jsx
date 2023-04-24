@@ -4,13 +4,10 @@ import { getList, getByID, postObject, putObject, deleteObject } from "services/
 import monitoreoMotorReducer from "../reducer/monitoreoMotorReducer";
 import useFetchAndLoad from "hooks/useFetchAndLoad";
 
-import { useStateContext } from "contexts/ContextProvider";
-
 export const MonitoreoMotorContext = createContext();
 
 export const MonitoreoMotorContextProvider = (props) => {
   const { callEndpoint } = useFetchAndLoad();
-  const { alerta } = useStateContext();
   const urlApi = "monitoreomotor";
 
   const initialState = {
@@ -65,10 +62,16 @@ export const MonitoreoMotorContextProvider = (props) => {
         type: REGISTRAR,
         payload: resultado.data,
       });
-      alerta("success", "Monitoreo Motor creado con exito!");
+      return new Promise((resolve) => resolve({ tipoAlerta: "success", mensaje: "Monitoreo Motor creado con exito!" }));
     } catch (error) {
       console.log(error);
-      alerta("error", `'Ocurrió un error al intentar crear el monitoreo motor. ${error}`);
+      return new Promise((resolve) =>
+        resolve({
+          tipoAlerta: "error",
+
+          mensaje: `'Ocurrió un error al intentar crear el monitoreo motor. ${error}`,
+        })
+      );
     }
   };
 
@@ -81,10 +84,18 @@ export const MonitoreoMotorContextProvider = (props) => {
         type: ACTUALIZAR,
         payload: resultado.data,
       });
-      alerta("success", "Monitoreo Motor actualizado con exito!");
+      return new Promise((resolve) =>
+        resolve({ tipoAlerta: "success", mensaje: "Monitoreo Motor actualizado con exito!" })
+      );
     } catch (error) {
       console.log(error);
-      alerta("error", `'Ocurrió un error al intentar actualizar el monitoreo motor. ${error}`);
+      return new Promise((resolve) =>
+        resolve({
+          tipoAlerta: "error",
+
+          mensaje: `'Ocurrió un error al intentar actualizar el monitoreo motor. ${error}`,
+        })
+      );
     }
   };
 
@@ -96,10 +107,18 @@ export const MonitoreoMotorContextProvider = (props) => {
         type: ELIMINAR,
         payload: id,
       });
-      alerta("success", "Monitoreo Motor eliminado con exito!");
+      return new Promise((resolve) =>
+        resolve({ tipoAlerta: "success", mensaje: "Monitoreo Motor eliminado con exito!" })
+      );
     } catch (error) {
       console.log(error);
-      alerta("error", `'Ocurrió un error al intentar eliminar el monitoreo motor. ${error}`);
+      return new Promise((resolve) =>
+        resolve({
+          tipoAlerta: "error",
+
+          mensaje: `'Ocurrió un error al intentar eliminar el monitoreo motor. ${error}`,
+        })
+      );
     }
   };
 

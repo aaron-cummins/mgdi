@@ -1,15 +1,12 @@
 import React, { useEffect, useState, useContext, useMemo } from "react";
 import { InputText, Buttons, Checkbox } from "components";
 import { AvisoDesmontajeContext } from "../context/avisoDesmontajeContext";
-import { useStateContext } from "contexts/ContextProvider";
-import { closeModal } from "utilities/Utiles";
 import { useSnackbar } from "notistack";
 import useValidacionForm from "hooks/useValidacionForm";
 
-const FormAvisoDesmontaje = () => {
+const FormAvisoDesmontaje = ({ closeModal }) => {
   const { registrarAvisoDesmontaje, avisoDesmontajeActual, actualizarAvisoDesmontaje, obtenerAvisoDesmontaje } =
     useContext(AvisoDesmontajeContext);
-  const { mensaje } = useStateContext();
   const { enqueueSnackbar } = useSnackbar();
   const { validarTexto, validarNumero, error, setError } = useValidacionForm();
 
@@ -45,14 +42,20 @@ const FormAvisoDesmontaje = () => {
     setAd(adDefault);
     obtenerAvisoDesmontaje(null);
     setError({});
+    closeModal();
   };
 
   const handleOnSubmit = (e) => {
     e.preventDefault();
     if (validaciones()) {
-      avisoDesmontajeActual !== null ? actualizarAvisoDesmontaje(AdAEnviar()) : registrarAvisoDesmontaje(AdAEnviar());
+      avisoDesmontajeActual !== null
+        ? actualizarAvisoDesmontaje(AdAEnviar()).then((res) =>
+            enqueueSnackbar(res.mensaje, { variant: res.tipoAlerta })
+          )
+        : registrarAvisoDesmontaje(AdAEnviar()).then((res) =>
+            enqueueSnackbar(res.mensaje, { variant: res.tipoAlerta })
+          );
       limpiaForm();
-      closeModal();
     } else {
       enqueueSnackbar("Debe corregir los problemas en el formulario", { variant: "error" });
       return false;
@@ -66,9 +69,8 @@ const FormAvisoDesmontaje = () => {
 
   return (
     <form onSubmit={(e) => handleOnSubmit(e)}>
-      {mensaje.mensaje ? enqueueSnackbar(mensaje.mensaje, { variant: mensaje.tipoAlerta }) : null}
-      <div className="grid grid-cols-3 gap-4">
-        <div className="form-group mb-8">
+      <div className="grid grid-col-1 md:grid-cols-3 gap-4 mb-4">
+        <div className="form-group">
           <InputText
             id="nombre"
             name="nombre"
@@ -81,7 +83,7 @@ const FormAvisoDesmontaje = () => {
           />
         </div>
 
-        <div className="form-group mb-8">
+        <div className="form-group">
           <InputText
             type="date"
             id="fecha"
@@ -94,7 +96,7 @@ const FormAvisoDesmontaje = () => {
             error={error?.fecha}
           />
         </div>
-        <div className="form-group mb-4">
+        <div className="form-group">
           <Checkbox id="activo" name="activo" onChangeFN={(e) => handleChange(e)} checked={ad?.activo} label="Activo" />
         </div>
       </div>

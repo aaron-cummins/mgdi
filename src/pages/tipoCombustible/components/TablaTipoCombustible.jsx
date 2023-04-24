@@ -2,10 +2,10 @@ import React, { useEffect, useContext } from "react";
 import { TipoCombustibleContext } from "../context/tipocombustibleContext";
 import { ColActivoTabla, OpcionesTabla, Tabla } from "components";
 
-const TablaTipoCombustible = () => {
+const TablaTipoCombustible = ({ openModal }) => {
   const { tipocombustibleList, obtenerTipoCombustibles, obtenerTipoCombustible } = useContext(TipoCombustibleContext);
 
-  const getTipoCombustible = (props) => obtenerTipoCombustible(props);
+  const getTipoCombustible = (props) => obtenerTipoCombustible(props).then(openModal());
 
   useEffect(() => {
     obtenerTipoCombustibles();

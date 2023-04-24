@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Header, Modal } from "components";
 import { useStateContext } from "contexts/ContextProvider";
 import { OemContextProvider } from "./context/oemContext";
@@ -8,6 +8,7 @@ import TablaOem from "./components/TablaOem";
 
 const Oem = () => {
   const { currentColor } = useStateContext();
+  const [openModal, setOpenModal] = useState(false);
   return (
     <OemContextProvider>
       <div className="m-1 p-7 bg-white rounded-3xl">
@@ -22,15 +23,16 @@ const Oem = () => {
               color: "white",
               borderRadius: "10px",
             }}
+            onClick={() => setOpenModal(true)}
             className={`gap-5 p-3  hover:drop-shadow-xl hover:bg-${currentColor} text-center inline-flex items-center`}>
             Nuevo OEM
           </button>
         </Header>
 
-        <TablaOem />
+        <TablaOem openModal={() => setOpenModal(true)} />
 
-        <Modal ModalTitle="OEM" modalId="oem-modal">
-          <FormOem />
+        <Modal ModalTitle="OEM" modalId="oem-modal" open={openModal} onClose={() => setOpenModal(false)}>
+          <FormOem closeModal={() => setOpenModal(false)} />
         </Modal>
       </div>
     </OemContextProvider>

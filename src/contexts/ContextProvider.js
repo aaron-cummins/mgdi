@@ -30,6 +30,8 @@ export const ContextProvider = ({ children }) => {
 
   const [mensaje, SetMensaje] = useState(initialAlertMensaje);
 
+  const [openModal, setOpenModal] = useState(false);
+
   const setMode = (e) => {
     setCurrentMode(e.target.value);
     localStorage.setItem("themeMode", e.target.value);
@@ -56,7 +58,7 @@ export const ContextProvider = ({ children }) => {
         mensaje: null,
         tipoAlerta: null,
       });
-    }, 1000);
+    }, 2000);
   };
 
   const handleClick = (clicked) => setIsClicked({ ...initialState, [clicked]: true });
@@ -89,6 +91,9 @@ export const ContextProvider = ({ children }) => {
         mensaje,
         cargando,
         setCargando,
+
+        openModal,
+        setOpenModal,
       }}>
       {children}
     </StateContext.Provider>

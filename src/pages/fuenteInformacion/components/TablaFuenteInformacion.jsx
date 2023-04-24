@@ -2,12 +2,12 @@ import React, { useEffect, useContext } from "react";
 import { FuenteInformacionContext } from "../context/FuenteInformacionContext";
 import { ColActivoTabla, OpcionesTabla, Tabla } from "components";
 
-const TablaFuenteInformacion = () => {
+const TablaFuenteInformacion = ({ openModal }) => {
   const { FuenteInformacionList, obtenerFuenteInformacion, obtenerFuenteInformaciones } =
     useContext(FuenteInformacionContext);
 
   const getFuenteInformacion = (props) => {
-    obtenerFuenteInformacion(props);
+    obtenerFuenteInformacion(props).then(openModal());
   };
 
   useEffect(() => {

@@ -2,11 +2,10 @@ import React, { useEffect, useState, useContext, useMemo } from "react";
 import { InputText, Buttons, Checkbox } from "components";
 import { EstadoEquipoContext } from "../context/EstadoEquipoContext";
 import { useStateContext } from "contexts/ContextProvider";
-import { closeModal } from "utilities/Utiles";
 import { useSnackbar } from "notistack";
 import useValidacionForm from "hooks/useValidacionForm";
 
-const FormEstadoEquipo = () => {
+const FormEstadoEquipo = ({ closeModal }) => {
   const { EstadoEquipoActual, registrarEstadoEquipo, actualizarEstadoEquipo, obtenerEstadoEquipo } =
     useContext(EstadoEquipoContext);
   const { mensaje } = useStateContext();
@@ -29,15 +28,12 @@ const FormEstadoEquipo = () => {
 
   const validaciones = () => {
     let valida = true;
-
     if (validarTexto("nombre", EstadoEquipo.nombre, "Nombre de estado equipo requerido")) valida = false;
-  
     return valida;
   };
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-
     if (type === "checkbox") setEstadoEquipo({ ...EstadoEquipo, [name]: checked });
     else setEstadoEquipo({ ...EstadoEquipo, [name]: value });
 
@@ -49,16 +45,34 @@ const FormEstadoEquipo = () => {
     setEstadoEquipo(EstadoEquipoDefault);
     obtenerEstadoEquipo(null);
     setError({});
+    closeModal();
   };
 
   const handleOnSubmit = async (e) => {
     e.preventDefault();
     if (validaciones()) {
-      EstadoEquipoActual !== null
-        ? actualizarEstadoEquipo(EstadoEquipoEnviar())
-        : registrarEstadoEquipo(EstadoEquipoEnviar());
-      closeModal();
-      limpiaForm();
+      if (EstadoEquipoActual !== null) {
+        actualizarEstadoEquipo(EstadoEquipoEnviar())
+          .then((res) => {
+            enqueueSnackbar("Datos actualizados correctamente", { variant: "success" });
+            limpiaForm();
+          })
+          .catch((res) => {
+            enqueueSnackbar("Ocurrio un error al actualizar los datos " + res, { variant: "error" });
+            return false;
+          });
+      } else {
+        registrarEstadoEquipo(EstadoEquipoEnviar())
+          .then((res) => {
+            enqueueSnackbar("Datos registrados correctamente", { variant: "success" });
+            limpiaForm();
+          })
+          .catch((res) => {
+            enqueueSnackbar("Ocurrio un error al registrar los datos " + res, { variant: "error" });
+            return false;
+          });
+      }
+      //limpiaForm();
     } else {
       enqueueSnackbar("Debe corregir los problemas en el formulario", { variant: "error" });
       return false;
@@ -73,8 +87,8 @@ const FormEstadoEquipo = () => {
   return (
     <form onSubmit={handleOnSubmit}>
       {mensaje.mensaje ? enqueueSnackbar(mensaje.mensaje, { variant: mensaje.tipoAlerta }) : null}
-      <div className="grid grid-cols-2 gap-4">
-        <div className="form-group mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+        <div className="form-group">
           <InputText
             id="nombre"
             name="nombre"
@@ -86,7 +100,7 @@ const FormEstadoEquipo = () => {
             error={error.nombre}
           />
         </div>
-        <div className="form-group mb-4">
+        <div className="form-group">
           <Checkbox id="activo" name="activo" label="Activo" onChangeFN={handleChange} checked={EstadoEquipo.activo} />
         </div>
       </div>

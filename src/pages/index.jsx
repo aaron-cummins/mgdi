@@ -16,6 +16,10 @@ export { default as Comuna } from "./comuna/Comuna";
 export { default as Equipo } from "./equipo/Equipo";
 export { default as Eemm } from "./eemm/Eemm";
 export { default as IndexEemm } from "./eemm/components/IndexEemm";
+
+export { default as EemmFaenaHorometro } from "./eemmFaenaHorometro/EemmFaenaHorometro";
+export { default as IndexEmmFaenaHorometro } from "./eemmFaenaHorometro/components/IndexEmmFaenaHorometro";
+
 export { default as MontajeMotor } from "./eemm/components/MontajeMotor";
 export { default as DesmontajeMotor } from "./eemm/components/DesmontajeMotor";
 export { default as Esn } from "./esn/Esn";

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Header, Modal } from "components";
 import { useStateContext } from "contexts/ContextProvider";
 import { AvisoDesmontajeContextProvider } from "./context/avisoDesmontajeContext";
@@ -8,6 +8,8 @@ import TablaAvisoDesmontaje from "./components/TablaAvisoDesmontaje";
 
 const AvisoDesmontaje = () => {
   const { currentColor } = useStateContext();
+  const [openModal, setOpenModal] = useState(false);
+
   return (
     <AvisoDesmontajeContextProvider>
       <div className="m-1 p-7 bg-white rounded-3xl">
@@ -22,15 +24,16 @@ const AvisoDesmontaje = () => {
               color: "white",
               borderRadius: "10px",
             }}
+            onClick={() => setOpenModal(true)}
             className={`gap-5 p-3  hover:drop-shadow-xl hover:bg-${currentColor} text-center inline-flex items-center`}>
             Nuevo Aviso Desmontaje
           </button>
         </Header>
 
-        <TablaAvisoDesmontaje />
+        <TablaAvisoDesmontaje openModal={() => setOpenModal(true)} />
 
-        <Modal ModalTitle="Aviso Desmontaje" modalId="ad-modal">
-          <FormAvisoDesmontaje modalid="#ad-modal" />
+        <Modal ModalTitle="Aviso Desmontaje" modalId="ad-modal" open={openModal} onClose={() => setOpenModal(false)}>
+          <FormAvisoDesmontaje modalid="#ad-modal" closeModal={() => setOpenModal(false)} />
         </Modal>
       </div>
     </AvisoDesmontajeContextProvider>

@@ -3,17 +3,20 @@ import { UnidadContext } from "../context/unidadContext";
 import { ColActivoTabla, OpcionesTabla, Tabla } from "components";
 import { SelectsContext } from "contexts/SelectsContext";
 
-const TablaUnidad = () => {
+const TablaUnidad = ({ openModal }) => {
   const { unidadList, obtenerUnidadlist, obtenerUnidad } = useContext(UnidadContext);
-  const { obtenerFlotas, obtenerVersionEquipos, obtenerLugaresTrabajo, obtenerAplicacionOems, obtenerOems } =
+  const { obtenerVersionEquipos, obtenerLugaresTrabajo, obtenerAplicacionOems, obtenerOems } =
     useContext(SelectsContext);
-  const getUnidad = (props) => obtenerUnidad(props);
+
+  const getUnidad = (props) =>
+    obtenerUnidad(props).then((resp) => {
+      openModal();
+    });
 
   useEffect(() => {
     obtenerUnidadlist();
     obtenerLugaresTrabajo();
     obtenerVersionEquipos();
-    obtenerFlotas();
     obtenerAplicacionOems();
     obtenerOems();
 

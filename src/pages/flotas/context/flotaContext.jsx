@@ -3,13 +3,11 @@ import { OBTENER, OBTENER_LISTA, REGISTRAR, ACTUALIZAR, ELIMINAR } from "const/a
 import { getList, getByID, postObject, putObject, deleteObject } from "services/genericService";
 import flotaReducer from "../reducer/flotaReducer.js";
 import useFetchAndLoad from "hooks/useFetchAndLoad";
-import { useStateContext } from "contexts/ContextProvider";
 
 export const FlotaContext = createContext();
 
 export const FlotaContextProvider = (props) => {
   const { callEndpoint } = useFetchAndLoad();
-  const { alerta } = useStateContext();
   const urlApi = "flotas";
   const initialState = {
     flotaList: [],
@@ -63,10 +61,16 @@ export const FlotaContextProvider = (props) => {
         type: REGISTRAR,
         payload: resultado.data,
       });
-      alerta("success", "Flota creada con exito!");
+      return new Promise((resolve) => resolve({ tipoAlerta: "success", mensaje: "Flota creada con exito!" }));
     } catch (error) {
       console.log(error);
-      alerta("error", `'Ocurrió un error al intentar crear la flota. ${error}`);
+      return new Promise((resolve) =>
+        resolve({
+          tipoAlerta: "error",
+
+          mensaje: `'Ocurrió un error al intentar crear la flota. ${error}`,
+        })
+      );
     }
   };
 
@@ -78,10 +82,16 @@ export const FlotaContextProvider = (props) => {
         type: ACTUALIZAR,
         payload: resultado.data,
       });
-      alerta("success", "Flota actualizada con exito!");
+      return new Promise((resolve) => resolve({ tipoAlerta: "success", mensaje: "Flota actualizada con exito!" }));
     } catch (error) {
       console.log(error);
-      alerta("error", `'Ocurrió un error al intentar actualizar la flota. ${error}`);
+      return new Promise((resolve) =>
+        resolve({
+          tipoAlerta: "error",
+
+          mensaje: `'Ocurrió un error al intentar actualizar la flota. ${error}`,
+        })
+      );
     }
   };
 
@@ -93,10 +103,16 @@ export const FlotaContextProvider = (props) => {
         type: ELIMINAR,
         payload: id,
       });
-      alerta("success", "Flota eliminada con exito!");
+      return new Promise((resolve) => resolve({ tipoAlerta: "success", mensaje: "Flota eliminada con exito!" }));
     } catch (error) {
       console.log(error);
-      alerta("error", `'Ocurrió un error al intentar eliminar la flota. ${error}`);
+      return new Promise((resolve) =>
+        resolve({
+          tipoAlerta: "error",
+
+          mensaje: `'Ocurrió un error al intentar eliminar la flota. ${error}`,
+        })
+      );
     }
   };
 

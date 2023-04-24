@@ -4,7 +4,7 @@ import { useStateContext } from "contexts/ContextProvider";
 import { SelectsContext } from "contexts/SelectsContext";
 import { useSnackbar } from "notistack";
 
-const TablaPermisoGlobal = () => {
+const TablaPermisoGlobal = ({ openModal }) => {
   const { permisoGlobalList, obtenerPermisosGlobales, registrarPermisoGlobalList } =
     useContext(PermisosGlobalesContext);
   const { obtenerModulos, obtenerRol, rolesList, modulosList } = useContext(SelectsContext);

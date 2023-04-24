@@ -1,15 +1,12 @@
 import React, { useEffect, useState, useContext, useMemo } from "react";
 import { InputText, Buttons, Checkbox } from "components";
 import { AvisoMontajeContext } from "../context/avisoMontajeContext";
-import { useStateContext } from "contexts/ContextProvider";
-import { closeModal } from "utilities/Utiles";
 import { useSnackbar } from "notistack";
 import useValidacionForm from "hooks/useValidacionForm";
 
-const FormAvisoMontaje = () => {
+const FormAvisoMontaje = ({ closeModal }) => {
   const { registrarAvisoMontaje, avisoMontajeActual, actualizarAvisoMontaje, obtenerAvisoMontaje } =
     useContext(AvisoMontajeContext);
-  const { mensaje } = useStateContext();
   const { enqueueSnackbar } = useSnackbar();
   const { validarTexto, error, setError } = useValidacionForm();
 
@@ -45,6 +42,7 @@ const FormAvisoMontaje = () => {
     setAm(amDefault);
     obtenerAvisoMontaje(null);
     setError({});
+    closeModal();
   };
 
   const handleOnSubmit = (e) => {
@@ -52,9 +50,10 @@ const FormAvisoMontaje = () => {
     if (validaciones()) {
       const amEnv = AmAEnviar();
       console.log(amEnv);
-      avisoMontajeActual !== null ? actualizarAvisoMontaje(amEnv) : registrarAvisoMontaje(amEnv);
+      avisoMontajeActual !== null
+        ? actualizarAvisoMontaje(amEnv).then((res) => enqueueSnackbar(res.mensaje, { variant: res.tipoAlerta }))
+        : registrarAvisoMontaje(amEnv).then((res) => enqueueSnackbar(res.mensaje, { variant: res.tipoAlerta }));
       limpiaForm();
-      closeModal();
     } else {
       enqueueSnackbar("Debe corregir los problemas en el formulario", { variant: "error" });
       return false;
@@ -68,9 +67,8 @@ const FormAvisoMontaje = () => {
 
   return (
     <form onSubmit={handleOnSubmit}>
-      {mensaje.mensaje ? enqueueSnackbar(mensaje.mensaje, { variant: mensaje.tipoAlerta }) : null}
-      <div className="grid grid-cols-3 gap-4">
-        <div className="form-group mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+        <div className="form-group">
           <InputText
             id="nombre"
             name="nombre"
@@ -84,7 +82,7 @@ const FormAvisoMontaje = () => {
           />
         </div>
 
-        <div className="form-group mb-8">
+        <div className="form-group">
           <InputText
             type="date"
             id="fecha"
@@ -98,7 +96,7 @@ const FormAvisoMontaje = () => {
             error={error?.fecha}
           />
         </div>
-        <div className="form-group mb-4">
+        <div className="form-group">
           <Checkbox id="activo" name="activo" onChangeFN={handleChange} checked={am?.activo} label="Activo" />
         </div>
       </div>

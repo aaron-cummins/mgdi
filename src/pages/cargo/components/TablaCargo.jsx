@@ -2,9 +2,11 @@ import React, { useEffect, useContext } from "react";
 import { CargoContext } from "../context/cargoContext";
 import { ColActivoTabla, OpcionesTabla, Tabla } from "components";
 
-const TablaCargo = () => {
+const TablaCargo = ({ openModal }) => {
   const { cargoList, obtenerCargos, obtenerCargo } = useContext(CargoContext);
-  const getCargo = (props) => obtenerCargo(props);
+  const getCargo = (props) => {
+    obtenerCargo(props).then(openModal());
+  };
   useEffect(() => {
     obtenerCargos();
     // eslint-disable-next-line react-hooks/exhaustive-deps

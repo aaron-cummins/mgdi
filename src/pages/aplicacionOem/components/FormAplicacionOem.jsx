@@ -1,15 +1,12 @@
 import React, { useEffect, useState, useContext, useMemo } from "react";
 import { InputText, Buttons, Checkbox } from "components";
 import { AplicacionOemContext } from "../context/aplicacionOemContext";
-import { useStateContext } from "contexts/ContextProvider";
-import { closeModal } from "utilities/Utiles";
 import { useSnackbar } from "notistack";
 import useValidacionForm from "hooks/useValidacionForm";
 
-const FormAplicacionOem = () => {
+const FormAplicacionOem = ({ closeModal }) => {
   const { aplicacionOemActual, registrarAplicacionOem, actualizarAplicacionOem, obtenerAplicacionOem } =
     useContext(AplicacionOemContext);
-  const { mensaje } = useStateContext();
   const { enqueueSnackbar } = useSnackbar();
   const { validarTexto, validarNumero, error, setError } = useValidacionForm();
 
@@ -29,9 +26,7 @@ const FormAplicacionOem = () => {
 
   const validaciones = () => {
     let valida = true;
-
     if (validarTexto("nombre", aplicacionoem.nombre, "Nombre aplicación oem")) valida = false;
-  
     return valida;
   };
 
@@ -49,15 +44,19 @@ const FormAplicacionOem = () => {
     setAplicacionOem(aplicacionoemDefault);
     obtenerAplicacionOem(null);
     setError({});
+    closeModal();
   };
 
   const handleOnSubmit = async (e) => {
     e.preventDefault();
     if (validaciones()) {
       aplicacionOemActual !== null
-        ? actualizarAplicacionOem(AplicacionOemAEnviar())
-        : registrarAplicacionOem(AplicacionOemAEnviar());
-      closeModal();
+        ? actualizarAplicacionOem(AplicacionOemAEnviar()).then((res) =>
+            enqueueSnackbar(res.mensaje, { variant: res.tipoAlerta })
+          )
+        : registrarAplicacionOem(AplicacionOemAEnviar()).then((res) =>
+            enqueueSnackbar(res.mensaje, { variant: res.tipoAlerta })
+          );
       limpiaForm();
     } else {
       enqueueSnackbar("Debe corregir los problemas en el formulario", { variant: "error" });
@@ -72,9 +71,8 @@ const FormAplicacionOem = () => {
 
   return (
     <form onSubmit={handleOnSubmit}>
-      {mensaje.mensaje ? enqueueSnackbar(mensaje.mensaje, { variant: mensaje.tipoAlerta }) : null}
-      <div className="grid grid-cols-2 gap-4">
-        <div className="form-group mb-8">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 mb-4">
+        <div className="form-group">
           <InputText
             id="nombre"
             name="nombre"
@@ -86,7 +84,8 @@ const FormAplicacionOem = () => {
             error={error.nombre}
           />
         </div>
-        <div className="form-group mb-4">
+
+        <div className="form-group">
           <Checkbox
             id="activo"
             name="activo"

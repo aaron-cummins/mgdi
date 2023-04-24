@@ -5,13 +5,10 @@ import { getList, getByID, postObject, putObject, deleteObject } from "services/
 import versionEquipoReducer from "../reducer/versionEquipoReducer";
 import useFetchAndLoad from "hooks/useFetchAndLoad";
 
-import { useStateContext } from "contexts/ContextProvider";
-
 export const VersionEquipoContext = createContext();
 
 export const VersionEquipoContextProvider = (props) => {
   const { callEndpoint } = useFetchAndLoad();
-  const { alerta } = useStateContext();
   const urlApi = "versionequipo";
 
   const initialState = {
@@ -66,10 +63,16 @@ export const VersionEquipoContextProvider = (props) => {
         type: REGISTRAR,
         payload: resultado.data,
       });
-      alerta("success", "Versión equipo creada con exito!");
+      return new Promise((resolve) => resolve({ tipoAlerta: "success", mensaje: "Versión equipo creada con exito!" }));
     } catch (error) {
       console.log(error);
-      alerta("error", `'Ocurrió un error al intentar crear la versión equipo. ${error}`);
+      return new Promise((resolve) =>
+        resolve({
+          tipoAlerta: "error",
+
+          mensaje: `'Ocurrió un error al intentar crear la versión equipo. ${error}`,
+        })
+      );
     }
   };
 
@@ -82,10 +85,18 @@ export const VersionEquipoContextProvider = (props) => {
         type: ACTUALIZAR,
         payload: resultado.data,
       });
-      alerta("success", "Versión equipo actualizada con exito!");
+      return new Promise((resolve) =>
+        resolve({ tipoAlerta: "success", mensaje: "Versión equipo actualizada con exito!" })
+      );
     } catch (error) {
       console.log(error);
-      alerta("error", `'Ocurrió un error al intentar actualizar la versión equipo. ${error}`);
+      return new Promise((resolve) =>
+        resolve({
+          tipoAlerta: "error",
+
+          mensaje: `'Ocurrió un error al intentar actualizar la versión equipo. ${error}`,
+        })
+      );
     }
   };
 
@@ -97,10 +108,18 @@ export const VersionEquipoContextProvider = (props) => {
         type: ELIMINAR,
         payload: id,
       });
-      alerta("success", "Versión equipo eliminada con exito!");
+      return new Promise((resolve) =>
+        resolve({ tipoAlerta: "success", mensaje: "Versión equipo eliminada con exito!" })
+      );
     } catch (error) {
       console.log(error);
-      alerta("error", `'Ocurrió un error al intentar eliminar la versión equipo. ${error}`);
+      return new Promise((resolve) =>
+        resolve({
+          tipoAlerta: "error",
+
+          mensaje: `'Ocurrió un error al intentar eliminar la versión equipo. ${error}`,
+        })
+      );
     }
   };
 

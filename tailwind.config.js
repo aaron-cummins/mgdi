@@ -4,7 +4,7 @@ module.exports = {
   content: [
     "./src/**/*.{html,js,jsx,ts,tsx}",
     "./node_modules/react-tailwindcss-select/dist/index.esm.js",
-    "./node_modules/tw-elements/dist/js/**/*.js",
+    //"./node_modules/tw-elements/dist/js/**/*.js",
   ],
   darkMode: "class",
   theme: {
@@ -65,5 +65,5 @@ module.exports = {
       },
     },
   },
-  plugins: [require("tw-elements/dist/plugin")],
+  plugins: [], //require("tw-elements/dist/plugin")],
 };

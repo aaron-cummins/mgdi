@@ -1,13 +1,11 @@
 import { useState, useContext, useMemo, useEffect } from "react";
 import { InputText, Buttons, Checkbox, Select } from "components";
 import { ConversionLugarTrabajoContext } from "../context/ConversionLugarTrabajoContext";
-import { closeModal } from "utilities/Utiles";
-import { useStateContext } from "contexts/ContextProvider";
 import { useSnackbar } from "notistack";
 import { SelectsContext } from "contexts/SelectsContext";
 import useValidacionForm from "hooks/useValidacionForm";
 
-const FormConversionLugarTrabajo = () => {
+const FormConversionLugarTrabajo = ({ closeModal }) => {
   const {
     obtenerConversionLugarTrabajo,
     ConversionLugarTrabajoActual,
@@ -15,7 +13,6 @@ const FormConversionLugarTrabajo = () => {
     registrarConversionLugarTrabajo,
   } = useContext(ConversionLugarTrabajoContext);
   const { enqueueSnackbar } = useSnackbar();
-  const { mensaje } = useStateContext();
   const { lugarTrabajoList, fuenteInformacionList } = useContext(SelectsContext);
   const { validarTexto, validarSelect, validarNumero, error, setError } = useValidacionForm();
 
@@ -83,15 +80,19 @@ const FormConversionLugarTrabajo = () => {
     setConversionLugarTrabajo(ConversionLugarTrabajoDefault);
     obtenerConversionLugarTrabajo(null);
     setError({});
+    closeModal();
   };
 
   const handleOnSubmit = async (e) => {
     e.preventDefault();
     if (validaciones()) {
       ConversionLugarTrabajoActual !== null
-        ? actualizarConversionLugarTrabajo(ConversionLugarTrabajoEnviar())
-        : registrarConversionLugarTrabajo(ConversionLugarTrabajoEnviar());
-      closeModal();
+        ? actualizarConversionLugarTrabajo(ConversionLugarTrabajoEnviar()).then((res) =>
+            enqueueSnackbar(res.mensaje, { variant: res.tipoAlerta })
+          )
+        : registrarConversionLugarTrabajo(ConversionLugarTrabajoEnviar()).then((res) =>
+            enqueueSnackbar(res.mensaje, { variant: res.tipoAlerta })
+          );
       limpiaForm();
     } else {
       enqueueSnackbar("Debe corregir los problemas en el formulario", { variant: "error" });
@@ -108,9 +109,8 @@ const FormConversionLugarTrabajo = () => {
 
   return (
     <form onSubmit={handleOnSubmit}>
-      {mensaje.mensaje ? enqueueSnackbar(mensaje.mensaje, { variant: mensaje.tipoAlerta }) : null}
-      <div className="grid grid-cols-2 gap-4">
-        <div className="form-group mb-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+        <div className="form-group">
           <InputText
             id="nombre"
             name="nombre"
@@ -136,8 +136,8 @@ const FormConversionLugarTrabajo = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-4">
-        <div className="form-group mb-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+        <div className="form-group">
           <Select
             id="lugarTrabajoId"
             name="lugarTrabajoId"
@@ -150,7 +150,7 @@ const FormConversionLugarTrabajo = () => {
             error={error.lugarTrabajoId}
           />
         </div>
-        <div className="form-group mb-6">
+        <div className="form-group">
           <Select
             id="fuenteInformacionId"
             name="fuenteInformacionId"
@@ -165,8 +165,8 @@ const FormConversionLugarTrabajo = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-4">
-        <div className="form-group mb-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+        <div className="form-group">
           <Checkbox
             id="activo"
             name="activo"

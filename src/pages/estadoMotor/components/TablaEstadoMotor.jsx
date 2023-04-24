@@ -2,10 +2,10 @@ import React, { useEffect, useContext } from "react";
 import { EstadoMotorContext } from "../context/EstadoMotorContext";
 import { ColActivoTabla, OpcionesTabla, Tabla } from "components";
 
-const TablaEstadoMotor = () => {
+const TablaEstadoMotor = ({ openModal }) => {
   const { EstadoMotorList, obtenerEstadoMotor, obtenerEstadoMotores } = useContext(EstadoMotorContext);
   const getEstadoMotor = (props) => {
-    obtenerEstadoMotor(props);
+    obtenerEstadoMotor(props).then(openModal());
   };
 
   useEffect(() => {

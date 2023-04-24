@@ -1,16 +1,13 @@
 import React, { useEffect, useState, useContext, useMemo } from "react";
 import { InputText, Buttons, Checkbox, Switch } from "components";
 import { EstadoMotorContext } from "../context/EstadoMotorContext";
-import { useStateContext } from "contexts/ContextProvider";
-import { closeModal } from "utilities/Utiles";
 import { useSnackbar } from "notistack";
 import useValidacionForm from "hooks/useValidacionForm";
 
-const FormEstadoMotor = () => {
+const FormEstadoMotor = ({ closeModal }) => {
   const { EstadoMotorActual, registrarEstadoMotor, actualizarEstadoMotor, obtenerEstadoMotor } =
     useContext(EstadoMotorContext);
   const { enqueueSnackbar } = useSnackbar();
-  const { mensaje } = useStateContext();
   const { validarTexto, validarNumero, error, setError } = useValidacionForm();
 
   const EstadoMotorDefault = useMemo(
@@ -50,15 +47,20 @@ const FormEstadoMotor = () => {
     setEstadoMotor(EstadoMotorDefault);
     obtenerEstadoMotor(null);
     setError({});
+    closeModal();
   };
 
   const handleOnSubmit = async (e) => {
     e.preventDefault();
     if (validaciones()) {
       EstadoMotorActual !== null
-        ? actualizarEstadoMotor(EstadoMotorEnviar())
-        : registrarEstadoMotor(EstadoMotorEnviar());
-      closeModal();
+        ? actualizarEstadoMotor(EstadoMotorEnviar()).then((res) =>
+            enqueueSnackbar(res.mensaje, { variant: res.tipoAlerta })
+          )
+        : registrarEstadoMotor(EstadoMotorEnviar()).then((res) =>
+            enqueueSnackbar(res.mensaje, { variant: res.tipoAlerta })
+          );
+
       limpiaForm();
     } else {
       enqueueSnackbar("Debe corregir los problemas en el formulario", { variant: "error" });
@@ -73,9 +75,8 @@ const FormEstadoMotor = () => {
 
   return (
     <form onSubmit={handleOnSubmit}>
-      {mensaje.mensaje ? enqueueSnackbar(mensaje.mensaje, { variant: mensaje.tipoAlerta }) : null}
-      <div className="grid grid-cols-3 gap-4">
-        <div className="form-group mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+        <div className="form-group">
           <InputText
             id="nombre"
             name="nombre"
@@ -87,7 +88,7 @@ const FormEstadoMotor = () => {
             error={error.nombre}
           />
         </div>
-        <div className="form-group mb-4">
+        <div className="form-group">
           <Switch
             label="montaje"
             id="montaje"
@@ -95,7 +96,7 @@ const FormEstadoMotor = () => {
             onChange={handleChange}
             checked={EstadoMotor.montaje}></Switch>
         </div>
-        <div className="form-group mb-4">
+        <div className="form-group">
           <Checkbox id="activo" name="activo" label="Activo" onChangeFN={handleChange} checked={EstadoMotor.activo} />
         </div>
       </div>

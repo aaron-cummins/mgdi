@@ -1,15 +1,12 @@
 import React, { useEffect, useState, useContext, useMemo } from "react";
 import { InputText, Buttons, Checkbox } from "components";
 import { VersionEquipoContext } from "../context/versionEquipoContext";
-import { closeModal } from "utilities/Utiles";
-import { useStateContext } from "contexts/ContextProvider";
 import { useSnackbar } from "notistack";
 import useValidacionForm from "hooks/useValidacionForm";
 
-const FormVersionEquipo = () => {
+const FormVersionEquipo = ({ closeModal }) => {
   const { registrarVersionEquipo, versionequipoActual, actualizarVersionEquipo, obtenerVersionEquipo } =
     useContext(VersionEquipoContext);
-  const { mensaje } = useStateContext();
   const { enqueueSnackbar } = useSnackbar();
   const { validarTexto, validarNumero, error, setError } = useValidacionForm();
 
@@ -31,7 +28,7 @@ const FormVersionEquipo = () => {
     let valida = true;
 
     if (validarTexto("version", versionequipo.version, "Versión requerida")) valida = false;
-  
+
     return valida;
   };
 
@@ -49,15 +46,20 @@ const FormVersionEquipo = () => {
     setVersionEquipo(versionequipoDefault);
     obtenerVersionEquipo(null);
     setError({});
+    closeModal();
   };
 
   const handleOnSubmit = async (e) => {
     e.preventDefault();
     if (validaciones()) {
       versionequipoActual !== null
-        ? actualizarVersionEquipo(VersionEquipoEnviar())
-        : registrarVersionEquipo(VersionEquipoEnviar());
-      closeModal();
+        ? actualizarVersionEquipo(VersionEquipoEnviar()).then((res) =>
+            enqueueSnackbar(res.mensaje, { variant: res.tipoAlerta })
+          )
+        : registrarVersionEquipo(VersionEquipoEnviar()).then((res) =>
+            enqueueSnackbar(res.mensaje, { variant: res.tipoAlerta })
+          );
+
       limpiaForm();
     } else {
       enqueueSnackbar("Debe corregir los problemas en el formulario", { variant: "error" });
@@ -72,9 +74,8 @@ const FormVersionEquipo = () => {
 
   return (
     <form onSubmit={handleOnSubmit}>
-      {mensaje.mensaje ? enqueueSnackbar(mensaje.mensaje, { variant: mensaje.tipoAlerta }) : null}
-      <div className="grid grid-cols-2 gap-4">
-        <div className="form-group mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+        <div className="form-group">
           <InputText
             id="version"
             name="version"
@@ -86,7 +87,7 @@ const FormVersionEquipo = () => {
             error={error.version}
           />
         </div>
-        <div className="form-group mb-4">
+        <div className="form-group">
           <Checkbox id="activo" name="activo" label="Activo" onChangeFN={handleChange} checked={versionequipo.activo} />
         </div>
       </div>

@@ -1,14 +1,11 @@
 import React, { useEffect, useState, useContext, useMemo } from "react";
 import { InputText, Buttons, Checkbox } from "components";
 import { PaisContext } from "../context/paisContext";
-import { useStateContext } from "contexts/ContextProvider";
-import { closeModal } from "utilities/Utiles";
 import { useSnackbar } from "notistack";
 import useValidacionForm from "hooks/useValidacionForm";
 
-const FormPais = () => {
+const FormPais = ({ closeModal }) => {
   const { registrarPais, paisActual, actualizarPais, obtenerPais } = useContext(PaisContext);
-  const { mensaje } = useStateContext();
   const { enqueueSnackbar } = useSnackbar();
   const { validarTexto, validarNumero, error, setError } = useValidacionForm();
 
@@ -32,7 +29,7 @@ const FormPais = () => {
 
     if (validarTexto("nombre", pais.nombre, "Nombre del país requerido")) valida = false;
     if (validarTexto("abreviacion", pais.abreviacion, "Abreviación del país requerida")) valida = false;
-  
+
     return valida;
   };
 
@@ -50,15 +47,16 @@ const FormPais = () => {
     setPais(paisDefault);
     obtenerPais(null);
     setError({});
+    closeModal();
   };
 
   const handleOnSubmit = async (e) => {
     e.preventDefault();
     if (validaciones()) {
       paisActual !== null
-        ? actualizarPais(PaisAEnviar())
-        : registrarPais(PaisAEnviar());
-      closeModal();
+        ? actualizarPais(PaisAEnviar()).then((res) => enqueueSnackbar(res.mensaje, { variant: res.tipoAlerta }))
+        : registrarPais(PaisAEnviar()).then((res) => enqueueSnackbar(res.mensaje, { variant: res.tipoAlerta }));
+
       limpiaForm();
     } else {
       enqueueSnackbar("Debe corregir los problemas en el formulario", { variant: "error" });
@@ -73,9 +71,8 @@ const FormPais = () => {
 
   return (
     <form onSubmit={handleOnSubmit}>
-      {mensaje.mensaje ? enqueueSnackbar(mensaje.mensaje, { variant: mensaje.tipoAlerta }) : null}
-      <div className="grid grid-cols-2 gap-4">
-        <div className="form-group mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+        <div className="form-group">
           <InputText
             id="nombre"
             name="nombre"
@@ -87,7 +84,7 @@ const FormPais = () => {
             error={error.nombre}
           />
         </div>
-        <div className="form-group mb-4">
+        <div className="form-group">
           <InputText
             id="abreviacion"
             name="abreviacion"

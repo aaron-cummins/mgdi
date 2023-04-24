@@ -3,7 +3,7 @@ import { LugarTrabajoContext } from "../contexts/LugarTrabajoContext";
 import { ColActivoTabla, OpcionesTabla, Tabla } from "components";
 import { SelectsContext } from "contexts/SelectsContext";
 
-const TablaLugarTrabajo = () => {
+const TablaLugarTrabajo = ({ openModal }) => {
   const { lugartrabajoList, obtenerLugaresTrabajo, obtenerLugarTrabajo } = useContext(LugarTrabajoContext);
 
   const {
@@ -13,7 +13,7 @@ const TablaLugarTrabajo = () => {
     obtenerTipoLugarTrabajo,
   } = useContext(SelectsContext);
 
-  const getLugarTrabajo = (props) => obtenerLugarTrabajo(props);
+  const getLugarTrabajo = (props) => obtenerLugarTrabajo(props).then(openModal());
 
   useEffect(() => {
     obtenerLugaresTrabajo();

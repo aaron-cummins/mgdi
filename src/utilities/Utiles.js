@@ -44,3 +44,7 @@ export const Month = (fecha_para_formatear) => {
   let mes = fecha.getMonth() + 1;
   return mes;
 };
+
+export function diasEnUnMes(mes, año) {
+  return new Date(año, mes, 0).getDate();
+}

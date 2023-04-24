@@ -11,13 +11,11 @@ import {
 import { getList, getByID, postObject, putObject, deleteObject, postObjectByID } from "services/genericService";
 import eemmReducer from "../reducer/eemmReducer";
 import useFetchAndLoad from "hooks/useFetchAndLoad";
-import { useStateContext } from "contexts/ContextProvider";
 
 export const EemmContext = createContext();
 
 export const EemmContextProvider = (props) => {
   const { callEndpoint } = useFetchAndLoad();
-  const { alerta } = useStateContext();
   const urlApi = "eemm";
 
   const eemmDefault = {
@@ -214,11 +212,16 @@ export const EemmContextProvider = (props) => {
         ? await callEndpoint(postObjectByID("esn/montado/true", id))
         : await callEndpoint(postObjectByID("esn/montado/false", id));
 
-      alerta("success", "Esn actualizado con exito!");
+      return new Promise((resolve) => resolve({ tipoAlerta: "success", mensaje: "Esn actualizado con exito!" }));
       return true;
     } catch (error) {
       console.log(error);
-      alerta("error", `'Ocurrió un error al intentar actualizar el esn. ${error}`);
+      return new Promise((resolve) =>
+        resolve({
+          tipoAlerta: "error",
+          mensaje: `'Ocurrió un error al intentar actualizar el esn. ${error}`,
+        })
+      );
       return false;
     }
   };
@@ -270,10 +273,12 @@ export const EemmContextProvider = (props) => {
         payload: resultado.data,
       });
       setUnidadMontada(montaje);
-      alerta("success", `${eemmtipo} realizado con exito!`);
+      return new Promise((resolve) => resolve({ tipoAlerta: "success", mensaje: `${eemmtipo} realizado con exito!` }));
     } catch (error) {
       console.log(error);
-      alerta("error", `'Ocurrió un error al intentar realizar el ${eemmtipo}. ${error}`);
+      return new Promise((resolve) =>
+        resolve({ tipoAlerta: "error", mensaje: `'Ocurrió un error al intentar realizar el ${eemmtipo}. ${error}` })
+      );
     }
   };
 
@@ -288,10 +293,14 @@ export const EemmContextProvider = (props) => {
         payload: resultado.data,
       });
       setUnidadMontada(montaje);
-      alerta("success", `${eemmtipo} actualizado con exito!`);
+      return new Promise((resolve) =>
+        resolve({ tipoAlerta: "success", mensaje: `${eemmtipo} actualizado con exito!` })
+      );
     } catch (error) {
       console.log(error);
-      alerta("error", `'Ocurrió un error al intentar actualizar el ${eemmtipo}. ${error}`);
+      return new Promise((resolve) =>
+        resolve({ tipoAlerta: "error", mensaje: `'Ocurrió un error al intentar actualizar el ${eemmtipo}. ${error}` })
+      );
     }
   };
 
@@ -303,10 +312,12 @@ export const EemmContextProvider = (props) => {
         type: ELIMINAR,
         payload: id,
       });
-      alerta("success", "Montaje eliminado con exito!");
+      return new Promise((resolve) => resolve({ tipoAlerta: "success", mensaje: "Montaje eliminado con exito!" }));
     } catch (error) {
       console.log(error);
-      alerta("error", `'Ocurrió un error al intentar eliminar el montaje. ${error}`);
+      return new Promise((resolve) =>
+        resolve({ tipoAlerta: "error", mensaje: `'Ocurrió un error al intentar eliminar el montaje. ${error}` })
+      );
     }
   };
 

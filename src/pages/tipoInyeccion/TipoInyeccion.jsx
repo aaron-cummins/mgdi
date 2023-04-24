@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Header, Modal } from "components";
 import { useStateContext } from "contexts/ContextProvider";
 import { TipoInyeccionContextProvider } from "./context/tipoinyeccionContext";
@@ -8,6 +8,7 @@ import TablaTipoInyeccion from "./components/TablaTipoInyeccion";
 
 const TipoInyeccion = () => {
   const { currentColor } = useStateContext();
+  const [openModal, setOpenModal] = useState(false);
   return (
     <TipoInyeccionContextProvider>
       <div className="m-1 p-7 bg-white rounded-3xl">
@@ -22,15 +23,16 @@ const TipoInyeccion = () => {
               color: "white",
               borderRadius: "10px",
             }}
+            onClick={() => setOpenModal(true)}
             className={`gap-5 p-3  hover:drop-shadow-xl hover:bg-${currentColor} text-center inline-flex items-center`}>
             Nuevo Tipo de inyección
           </button>
         </Header>
 
-        <TablaTipoInyeccion />
+        <TablaTipoInyeccion openModal={() => setOpenModal(true)} />
 
-        <Modal ModalTitle="" modalId="tipoinyeccion-modal">
-          <FormTipoInyeccion modalid="#tipoinyeccion-modal" />
+        <Modal ModalTitle="" modalId="tipoinyeccion-modal" open={openModal} onClose={() => setOpenModal(false)}>
+          <FormTipoInyeccion modalid="#tipoinyeccion-modal" closeModal={() => setOpenModal(false)} />
         </Modal>
       </div>
     </TipoInyeccionContextProvider>

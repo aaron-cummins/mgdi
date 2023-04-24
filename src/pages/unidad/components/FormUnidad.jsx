@@ -1,17 +1,14 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState, useContext } from "react";
 import { InputText, Buttons, Checkbox, Select } from "components";
 import { UnidadContext } from "../context/unidadContext";
-import { closeModal, formatDateshort } from "utilities/Utiles";
-import { useStateContext } from "contexts/ContextProvider";
+import { formatDateshort } from "utilities/Utiles";
 import { SelectsContext } from "contexts/SelectsContext";
-import { useContext } from "react";
 import { useSnackbar } from "notistack";
 import useValidacionForm from "hooks/useValidacionForm";
 import { getUsuarioId } from "utilities/Login_utiles";
 
-const FormUnidad = () => {
+const FormUnidad = ({ closeModal }) => {
   const { registrarUnidad, unidadActual, actualizarUnidad, obtenerUnidad } = useContext(UnidadContext);
-  const { mensaje } = useStateContext();
   const {
     obtenerFlotasLugarTrabajo,
     aplicacionOemsList,
@@ -58,7 +55,6 @@ const FormUnidad = () => {
   }, []);
 
   const [unidad, setUnidad] = useState(unidadDefault);
-  //const [mensaje, setMensaje] = useState(null);
 
   useEffect(() => {
     if (unidadActual !== null) {
@@ -91,9 +87,6 @@ const FormUnidad = () => {
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-
-    //console.log(e);
-
     if (type === "checkbox") setUnidad({ ...unidad, [name]: checked });
     else if (name === "lugarTrabajoId") {
       setUnidad({ ...unidad, [name]: value, lugarTrabajo: { id: value } });
@@ -113,15 +106,17 @@ const FormUnidad = () => {
   const limpiaForm = () => {
     setUnidad(unidadDefault);
     obtenerUnidad(null);
-    closeModal();
     setError({});
+    closeModal();
   };
 
   const handleOnSubmit = async (e) => {
     e.preventDefault();
     if (validaciones()) {
-      unidadActual !== null ? actualizarUnidad(UnidadAEnviar()) : registrarUnidad(UnidadAEnviar());
-      closeModal();
+      unidadActual !== null
+        ? actualizarUnidad(UnidadAEnviar()).then((res) => enqueueSnackbar(res.mensaje, { variant: res.tipoAlerta }))
+        : registrarUnidad(UnidadAEnviar()).then((res) => enqueueSnackbar(res.mensaje, { variant: res.tipoAlerta }));
+
       limpiaForm();
     } else {
       enqueueSnackbar("Debe corregir los problemas en el formulario", { variant: "error" });
@@ -143,8 +138,7 @@ const FormUnidad = () => {
   return (
     <>
       <form onSubmit={handleOnSubmit}>
-        {mensaje.mensaje ? enqueueSnackbar(mensaje.mensaje, { variant: mensaje.tipoAlerta }) : null}
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
           <div className="form-group mb-2">
             <Select
               id="lugarTrabajoId"
@@ -173,8 +167,8 @@ const FormUnidad = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-3 gap-4">
-          <div className="form-group mb-4">
+        <div className="grid grod-cols-1 md:grid-cols-3 gap-4 mb-4">
+          <div className="form-group">
             <InputText
               id="nombre"
               name="nombre"
@@ -186,7 +180,7 @@ const FormUnidad = () => {
               error={error.nombre}
             />
           </div>
-          <div className="form-group mb-4">
+          <div className="form-group">
             <InputText
               id="nserieEquipo"
               name="nserieEquipo"
@@ -198,7 +192,7 @@ const FormUnidad = () => {
               error={error.nserieEquipo}
             />
           </div>
-          <div className="form-group mb-4">
+          <div className="form-group">
             <InputText
               id="modelo"
               name="modelo"
@@ -212,8 +206,8 @@ const FormUnidad = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-3 gap-4">
-          <div className="form-group mb-4">
+        <div className="grid grod-cols-1 md:grid-cols-3 gap-4 mb-4">
+          <div className="form-group">
             <Select
               id="aplicacionOemId"
               name="aplicacionOemId"
@@ -225,7 +219,7 @@ const FormUnidad = () => {
               error={error.aplicacionOemId}
             />
           </div>
-          <div className="form-group mb-4">
+          <div className="form-group">
             <Select
               id="oemId"
               name="oemId"
@@ -237,7 +231,7 @@ const FormUnidad = () => {
               error={error.oemId}
             />
           </div>
-          <div className="form-group mb-4">
+          <div className="form-group">
             <Select
               id="versionId"
               name="versionId"
@@ -252,8 +246,8 @@ const FormUnidad = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-3 gap-4">
-          <div className="form-group mb-4">
+        <div className="grid grod-cols-1 md:grid-cols-3 gap-4 mb-4">
+          <div className="form-group">
             <InputText
               type="date"
               id="fechaActivacion"
@@ -265,7 +259,7 @@ const FormUnidad = () => {
               required={true}
             />
           </div>
-          <div className="form-group mb-4">
+          <div className="form-group">
             <InputText
               type="date"
               id="fechaDesactivacion"
@@ -276,7 +270,7 @@ const FormUnidad = () => {
               onChangeFN={handleChange}
             />
           </div>
-          <div className="form-group mb-4">
+          <div className="form-group">
             <Checkbox id="activo" name="activo" label="Activo" onChangeFN={handleChange} checked={unidad.activo} />
           </div>
         </div>

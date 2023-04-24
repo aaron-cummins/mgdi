@@ -1,15 +1,12 @@
 import React, { useEffect, useState, useContext, useMemo } from "react";
 import { InputText, Buttons, Checkbox } from "components";
 import { FuenteInformacionContext } from "../context/FuenteInformacionContext";
-import { useStateContext } from "contexts/ContextProvider";
-import { closeModal } from "utilities/Utiles";
 import { useSnackbar } from "notistack";
 import useValidacionForm from "hooks/useValidacionForm";
 
-const FormFuenteInformacion = () => {
+const FormFuenteInformacion = ({ closeModal }) => {
   const { FuenteInformacionActual, registrarFuenteInformacion, actualizarFuenteInformacion, obtenerFuenteInformacion } =
     useContext(FuenteInformacionContext);
-  const { mensaje } = useStateContext();
   const { enqueueSnackbar } = useSnackbar();
   const { validarTexto, validarNumero, error, setError } = useValidacionForm();
 
@@ -32,8 +29,9 @@ const FormFuenteInformacion = () => {
   const validaciones = () => {
     let valida = true;
 
-    if (validarTexto("nombre", FuenteInformacion.nombre, "Nombre de la fuente de información requerido")) valida = false;
-  
+    if (validarTexto("nombre", FuenteInformacion.nombre, "Nombre de la fuente de información requerido"))
+      valida = false;
+
     return valida;
   };
 
@@ -51,15 +49,20 @@ const FormFuenteInformacion = () => {
     setFuenteInformacion(FuenteInformacionDefault);
     obtenerFuenteInformacion(null);
     setError({});
+    closeModal();
   };
 
   const handleOnSubmit = async (e) => {
     e.preventDefault();
     if (validaciones()) {
       FuenteInformacionActual !== null
-        ? actualizarFuenteInformacion(FuenteInformacionEnviar())
-        : registrarFuenteInformacion(FuenteInformacionEnviar());
-      closeModal();
+        ? actualizarFuenteInformacion(FuenteInformacionEnviar()).then((res) =>
+            enqueueSnackbar(res.mensaje, { variant: res.tipoAlerta })
+          )
+        : registrarFuenteInformacion(FuenteInformacionEnviar()).then((res) =>
+            enqueueSnackbar(res.mensaje, { variant: res.tipoAlerta })
+          );
+
       limpiaForm();
     } else {
       enqueueSnackbar("Debe corregir los problemas en el formulario", { variant: "error" });
@@ -74,12 +77,11 @@ const FormFuenteInformacion = () => {
 
   return (
     <form onSubmit={handleOnSubmit}>
-      {mensaje.mensaje ? enqueueSnackbar(mensaje.mensaje, { variant: mensaje.tipoAlerta }) : null}
-      <div className="grid grid-cols-2 gap-4">
-        <div className="form-group mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+        <div className="form-group">
           <InputText
             id="nombre"
-            name="nombre" 
+            name="nombre"
             placeholder="Nombre"
             label="Nombre"
             value={FuenteInformacion.nombre}
@@ -88,7 +90,7 @@ const FormFuenteInformacion = () => {
             error={error.nombre}
           />
         </div>
-        <div className="form-group mb-4">
+        <div className="form-group">
           <Checkbox
             id="activo"
             name="activo"

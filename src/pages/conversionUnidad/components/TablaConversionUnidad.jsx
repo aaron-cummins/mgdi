@@ -3,13 +3,15 @@ import { ConversionUnidadContext } from "../context/ConversionUnidadContext";
 import { ColActivoTabla, OpcionesTabla, Tabla } from "components";
 import { SelectsContext } from "contexts/SelectsContext";
 
-const TablaConversionUnidad = () => {
+const TablaConversionUnidad = ({ openModal }) => {
   const { ConversionUnidadList, obtenerConversionUnidades, obtenerConversionUnidad } =
     useContext(ConversionUnidadContext);
 
   const { obtenerConversionFlota, obtenerUnidades } = useContext(SelectsContext);
 
-  const getConversionUnidad = (props) => obtenerConversionUnidad(props);
+  const getConversionUnidad = (props) => {
+    obtenerConversionUnidad(props).then(openModal());
+  };
 
   useEffect(() => {
     obtenerConversionUnidades();

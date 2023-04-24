@@ -7,6 +7,7 @@ import { useSnackbar } from "notistack";
 import { SelectsContext } from "contexts/SelectsContext";
 import useValidacionForm from "hooks/useValidacionForm";
 import { getUsuarioId } from "utilities/Login_utiles";
+import { EstadoEquipo } from "pages";
 
 const FormDesmontaje = (props) => {
   const {
@@ -80,8 +81,6 @@ const FormDesmontaje = (props) => {
       eemmAct.tsr = em.tsr ? em.tsr : "";
 
       setEemm(eemmAct);
-
-      //setEemm(...eemm, em);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [eemmUnidad]);
@@ -127,17 +126,10 @@ const FormDesmontaje = (props) => {
     e.preventDefault();
     DesmontajeAEnviar();
     if (validaciones()) {
-      //eemmActual !== null ? actualizarEemm(DesmontajeAEnviar(), false) : registrarEemm(DesmontajeAEnviar(), false);
-
       eemm.id !== 0 ? actualizarEemm(DesmontajeAEnviar(), false) : registrarEemm(DesmontajeAEnviar(), false);
-
       actualizarEsn(eemm.esn.id, false).then((item) => {
         obtenerEemmUnidadlist(eemm.unidad.id);
       });
-
-      //fuerzaFiltros();
-
-      /*limpiaForm();*/
     } else {
       enqueueSnackbar("Debe corregir los problemas en el formulario", { variant: "error" });
       return false;
@@ -161,8 +153,8 @@ const FormDesmontaje = (props) => {
   return (
     <form onSubmit={handleOnSubmit}>
       {mensaje.mensaje ? enqueueSnackbar(mensaje.mensaje, { variant: mensaje.tipoAlerta }) : null}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-        <div className="form-group mb-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-4">
+        <div className="form-group">
           <Select
             id="esnId"
             name="esnId"
@@ -176,7 +168,7 @@ const FormDesmontaje = (props) => {
             error={error?.esnId}
           />
         </div>
-        <div className="form-group mb-4">
+        <div className="form-group">
           <InputText
             type="date"
             id="fechaps"
@@ -191,7 +183,7 @@ const FormDesmontaje = (props) => {
           />
         </div>
 
-        <div className="form-group mb-4">
+        <div className="form-group">
           <InputText
             type="date"
             id="fechaFalla"
@@ -204,7 +196,7 @@ const FormDesmontaje = (props) => {
             error={error?.fechaFalla}
           />
         </div>
-        <div className="form-group mb-4">
+        <div className="form-group">
           <InputText
             id="hrOperadaMotor"
             name="hrOperadaMotor"
@@ -218,8 +210,8 @@ const FormDesmontaje = (props) => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-        <div className="form-group mb-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-4">
+        <div className="form-group">
           <InputText
             id="hrMotorInstalacion"
             name="hrMotorInstalacion"
@@ -232,7 +224,7 @@ const FormDesmontaje = (props) => {
             error={error?.hrMotorInstalacion}
           />
         </div>
-        <div className="form-group mb-4">
+        <div className="form-group">
           <InputText
             id="hrAcumuladasMotor"
             name="hrAcumuladasMotor"
@@ -245,7 +237,7 @@ const FormDesmontaje = (props) => {
             error={error?.hrAcumuladasMotor}
           />
         </div>
-        <div className="form-group mb-4">
+        <div className="form-group">
           <Select
             id="estadoEquipoId"
             name="estadoEquipoId"
@@ -256,10 +248,11 @@ const FormDesmontaje = (props) => {
             onChange={handleChange}
             required={true}
             error={error?.estadoEquipoId}
+            add={<EstadoEquipo />}
           />
         </div>
 
-        <div className="form-group mb-4">
+        <div className="form-group">
           <Select
             id="estadoMotorId"
             name="estadoMotorId"
@@ -273,8 +266,8 @@ const FormDesmontaje = (props) => {
           />
         </div>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-        <div className="form-group mb-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-4">
+        <div className="form-group">
           <InputText
             id="hrHistoricoMotor"
             name="hrHistoricoMotor"
@@ -288,7 +281,7 @@ const FormDesmontaje = (props) => {
           />
         </div>
 
-        <div className="form-group mb-4">
+        <div className="form-group">
           <InputText
             id="hrHistoricoEquipo"
             name="hrHistoricoEquipo"
@@ -302,7 +295,7 @@ const FormDesmontaje = (props) => {
           />
         </div>
 
-        <div className="form-group mb-4">
+        <div className="form-group">
           <Select
             id="motivoCambioId"
             name="motivoCambioId"
@@ -316,7 +309,7 @@ const FormDesmontaje = (props) => {
           />
         </div>
 
-        <div className="form-group mb-4">
+        <div className="form-group">
           <Select
             id="tipoSalidaId"
             name="tipoSalidaId"
@@ -331,8 +324,8 @@ const FormDesmontaje = (props) => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-4 gap-8">
-        <div className="form-group mb-4">
+      <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-4 gap-8 mb-4">
+        <div className="form-group">
           <Select
             id="contratoId"
             name="contratoId"
@@ -346,8 +339,8 @@ const FormDesmontaje = (props) => {
             error={error?.contratoId}
           />
         </div>
-        <div className="form-group mb-4"></div>
-        <div className="form-group mb-4">
+        <div className="form-group"></div>
+        <div className="form-group">
           <Select
             id="adId"
             name="adId"
@@ -361,7 +354,7 @@ const FormDesmontaje = (props) => {
           />
         </div>
 
-        <div className="form-group mb-4">
+        <div className="form-group">
           <Select
             id="ubId"
             name="ubId"
@@ -376,10 +369,10 @@ const FormDesmontaje = (props) => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-4 gap-8">
-        <div className="form-group mb-4"></div>
-        <div className="form-group mb-4"></div>
-        <div className="form-group mb-4">
+      <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-4 gap-8 mb-4">
+        <div className="form-group"></div>
+        <div className="form-group"></div>
+        <div className="form-group">
           <InputText
             id="tsr"
             name="tsr"
@@ -391,7 +384,7 @@ const FormDesmontaje = (props) => {
             error={error?.tsr}
           />
         </div>
-        <div className="form-group mb-4"></div>
+        <div className="form-group"></div>
       </div>
 
       <div className="modal-footer flex flex-shrink-0 flex-wrap items-center justify-end p-4 border-t border-gray-200 rounded-b-md">

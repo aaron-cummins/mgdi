@@ -3,13 +3,11 @@ import { OBTENER, OBTENER_LISTA, REGISTRAR, ACTUALIZAR, ELIMINAR } from "const/a
 import { getList, getByID, postObject, putObject, deleteObject } from "services/genericService";
 import MotivoCambioReducer from "../reducer/MotivoCambioReducer";
 import useFetchAndLoad from "hooks/useFetchAndLoad";
-import { useStateContext } from "contexts/ContextProvider";
 
 export const MotivoCambioContext = createContext();
 
 export const MotivoCambioContextProvider = (props) => {
   const { callEndpoint } = useFetchAndLoad();
-  const { alerta } = useStateContext();
 
   const urlApi = "motivocambio";
 
@@ -65,10 +63,16 @@ export const MotivoCambioContextProvider = (props) => {
         type: REGISTRAR,
         payload: resultado.data,
       });
-      alerta("success", "Motivo Cambio creado con exito!");
+      return new Promise((resolve) => resolve({ tipoAlerta: "success", mensaje: "Motivo Cambio creado con exito!" }));
     } catch (error) {
       console.log(error);
-      alerta("error", `'Ocurrió un error al intentar crear el Motivo Cambio. ${error}`);
+      return new Promise((resolve) =>
+        resolve({
+          tipoAlerta: "error",
+
+          mensaje: `'Ocurrió un error al intentar crear el Motivo Cambio. ${error}`,
+        })
+      );
     }
   };
 
@@ -80,10 +84,18 @@ export const MotivoCambioContextProvider = (props) => {
         type: ACTUALIZAR,
         payload: resultado.data,
       });
-      alerta("success", "Motivo Cambio actualizado con exito!");
+      return new Promise((resolve) =>
+        resolve({ tipoAlerta: "success", mensaje: "Motivo Cambio actualizado con exito!" })
+      );
     } catch (error) {
       console.log(error);
-      alerta("error", `'Ocurrió un error al intentar actualizar el Motivo Cambio. ${error}`);
+      return new Promise((resolve) =>
+        resolve({
+          tipoAlerta: "error",
+
+          mensaje: `'Ocurrió un error al intentar actualizar el Motivo Cambio. ${error}`,
+        })
+      );
     }
   };
 
@@ -95,10 +107,18 @@ export const MotivoCambioContextProvider = (props) => {
         type: ELIMINAR,
         payload: id,
       });
-      alerta("success", "Motivo Cambio eliminado con exito!");
+      return new Promise((resolve) =>
+        resolve({ tipoAlerta: "success", mensaje: "Motivo Cambio eliminado con exito!" })
+      );
     } catch (error) {
       console.log(error);
-      alerta("error", `'Ocurrió un error al intentar eliminar el Motivo Cambio. ${error}`);
+      return new Promise((resolve) =>
+        resolve({
+          tipoAlerta: "error",
+
+          mensaje: `'Ocurrió un error al intentar eliminar el Motivo Cambio. ${error}`,
+        })
+      );
     }
   };
 

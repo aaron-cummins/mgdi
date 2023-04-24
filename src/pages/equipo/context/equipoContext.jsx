@@ -4,13 +4,10 @@ import { getList, getByID, postObject, putObject, deleteObject } from "services/
 import equipoReducer from "../reducer/equipoReducer";
 import useFetchAndLoad from "hooks/useFetchAndLoad";
 
-import { useStateContext } from "contexts/ContextProvider";
-
 export const EquipoContext = createContext();
 
 export const EquipoContextProvider = (props) => {
   const { callEndpoint } = useFetchAndLoad();
-  const { alerta } = useStateContext();
   const urlApi = "equipo";
 
   const initialState = {
@@ -69,10 +66,16 @@ export const EquipoContextProvider = (props) => {
         type: REGISTRAR,
         payload: resul,
       });
-      alerta("success", "Equipo creado con exito!");
+      return new Promise((resolve) => resolve({ tipoAlerta: "success", mensaje: "Equipo creado con exito!" }));
     } catch (error) {
       console.log(error);
-      alerta("error", `'Ocurrió un error al intentar crear el equipo. ${error}`);
+      return new Promise((resolve) =>
+        resolve({
+          tipoAlerta: "error",
+
+          mensaje: `'Ocurrió un error al intentar crear el equipo. ${error}`,
+        })
+      );
     }
   };
 
@@ -87,10 +90,16 @@ export const EquipoContextProvider = (props) => {
         type: ACTUALIZAR,
         payload: resul,
       });
-      alerta("success", "Equipo actualizado con exito!");
+      return new Promise((resolve) => resolve({ tipoAlerta: "success", mensaje: "Equipo actualizado con exito!" }));
     } catch (error) {
       console.log(error);
-      alerta("error", `'Ocurrió un error al intentar actualizar el equipo. ${error}`);
+      return new Promise((resolve) =>
+        resolve({
+          tipoAlerta: "error",
+
+          mensaje: `'Ocurrió un error al intentar actualizar el equipo. ${error}`,
+        })
+      );
     }
   };
 
@@ -102,10 +111,16 @@ export const EquipoContextProvider = (props) => {
         type: ELIMINAR,
         payload: id,
       });
-      alerta("success", "Equipo eliminado con exito!");
+      return new Promise((resolve) => resolve({ tipoAlerta: "success", mensaje: "Equipo eliminado con exito!" }));
     } catch (error) {
       console.log(error);
-      alerta("error", `'Ocurrió un error al intentar eliminar el equipo. ${error}`);
+      return new Promise((resolve) =>
+        resolve({
+          tipoAlerta: "error",
+
+          mensaje: `'Ocurrió un error al intentar eliminar el equipo. ${error}`,
+        })
+      );
     }
   };
 

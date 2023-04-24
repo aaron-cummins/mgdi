@@ -1,14 +1,11 @@
 import React, { useEffect, useState, useContext, useMemo } from "react";
 import { InputText, Buttons, Checkbox } from "components";
 import { UbContext } from "../context/ubContext";
-import { useStateContext } from "contexts/ContextProvider";
-import { closeModal } from "utilities/Utiles";
 import { useSnackbar } from "notistack";
 import useValidacionForm from "hooks/useValidacionForm";
 
-const FormUb = () => {
+const FormUb = ({ closeModal }) => {
   const { registrarUb, ubActual, actualizarUb, obtenerUb } = useContext(UbContext);
-  const { mensaje } = useStateContext();
   const { enqueueSnackbar } = useSnackbar();
   const { validarTexto, validarNumero, error, setError } = useValidacionForm();
 
@@ -47,14 +44,16 @@ const FormUb = () => {
     setUb(ubDefault);
     obtenerUb(null);
     setError({});
+    closeModal();
   };
 
   const handleOnSubmit = (e) => {
     e.preventDefault();
     if (validaciones()) {
-      ubActual !== null ? actualizarUb(UbAEnviar()) : registrarUb(UbAEnviar());
+      ubActual !== null
+        ? actualizarUb(UbAEnviar()).then((res) => enqueueSnackbar(res.mensaje, { variant: res.tipoAlerta }))
+        : registrarUb(UbAEnviar()).then((res) => enqueueSnackbar(res.mensaje, { variant: res.tipoAlerta }));
       limpiaForm();
-      closeModal();
     } else {
       enqueueSnackbar("Debe corregir los problemas en el formulario", { variant: "error" });
       return false;
@@ -68,9 +67,8 @@ const FormUb = () => {
 
   return (
     <form onSubmit={handleOnSubmit}>
-      {mensaje.mensaje ? enqueueSnackbar(mensaje.mensaje, { variant: mensaje.tipoAlerta }) : null}
-      <div className="grid grid-cols-3 gap-4">
-        <div className="form-group mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+        <div className="form-group">
           <InputText
             id="nombre"
             name="nombre"
@@ -84,7 +82,7 @@ const FormUb = () => {
           />
         </div>
 
-        <div className="form-group mb-8">
+        <div className="form-group">
           <InputText
             id="procesamiento"
             name="procesamiento"
@@ -97,7 +95,7 @@ const FormUb = () => {
             error={error?.procesamiento}
           />
         </div>
-        <div className="form-group mb-4">
+        <div className="form-group">
           <Checkbox id="activo" name="activo" onChangeFN={handleChange} checked={ub?.activo} label="Activo" />
         </div>
       </div>

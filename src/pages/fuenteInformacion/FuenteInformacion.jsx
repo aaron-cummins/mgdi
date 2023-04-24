@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Header, Modal } from "components";
 import { useStateContext } from "contexts/ContextProvider";
 import { FuenteInformacionContextProvider } from "./context/FuenteInformacionContext";
@@ -8,6 +8,7 @@ import TablaFuenteInformacion from "./components/TablaFuenteInformacion";
 
 const FuenteInformacion = () => {
   const { currentColor } = useStateContext();
+  const [openModal, setOpenModal] = useState(false);
   return (
     <FuenteInformacionContextProvider>
       <div className="m-1 p-7 bg-white rounded-3xl">
@@ -22,15 +23,20 @@ const FuenteInformacion = () => {
               color: "white",
               borderRadius: "10px",
             }}
+            onClick={() => setOpenModal(true)}
             className={`gap-5 p-3  hover:drop-shadow-xl hover:bg-${currentColor} text-center inline-flex items-center`}>
             Nueva Fuente Información
           </button>
         </Header>
 
-        <TablaFuenteInformacion />
+        <TablaFuenteInformacion openModal={() => setOpenModal(true)} />
 
-        <Modal ModalTitle="Fuente Informacion" modalId="fuenteinformacion-modal">
-          <FormFuenteInformacion />
+        <Modal
+          ModalTitle="Fuente Informacion"
+          modalId="fuenteinformacion-modal"
+          open={openModal}
+          onClose={() => setOpenModal(false)}>
+          <FormFuenteInformacion closeModal={() => setOpenModal(false)} />
         </Modal>
       </div>
     </FuenteInformacionContextProvider>

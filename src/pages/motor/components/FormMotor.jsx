@@ -1,16 +1,13 @@
 import React, { useEffect, useState, useContext, useMemo } from "react";
 import { InputText, Buttons, Checkbox, Select } from "components";
 import { MotorContext } from "../context/motorContext";
-import { useStateContext } from "contexts/ContextProvider";
-import { closeModal } from "utilities/Utiles";
 import { SelectsContext } from "contexts/SelectsContext";
 import { useSnackbar } from "notistack";
 import useValidacionForm from "hooks/useValidacionForm";
 
-const FormMotor = () => {
+const FormMotor = ({ closeModal }) => {
   const { registrarMotor, motorActual, actualizarMotor, obtenerMotor } = useContext(MotorContext);
   const { enqueueSnackbar } = useSnackbar();
-  const { mensaje } = useStateContext();
   const { aplicacionesList } = useContext(SelectsContext);
   const { validarTexto, validarSelect, validarNumero, error, setError } = useValidacionForm();
 
@@ -59,13 +56,16 @@ const FormMotor = () => {
     setMotor(motorDefault);
     obtenerMotor(null);
     setError({});
+    closeModal();
   };
 
   const handleOnSubmit = async (e) => {
     e.preventDefault();
     if (validaciones()) {
-      motorActual !== null ? actualizarMotor(MotorEnviar()) : registrarMotor(MotorEnviar());
-      closeModal();
+      motorActual !== null
+        ? actualizarMotor(MotorEnviar()).then((res) => enqueueSnackbar(res.mensaje, { variant: res.tipoAlerta }))
+        : registrarMotor(MotorEnviar()).then((res) => enqueueSnackbar(res.mensaje, { variant: res.tipoAlerta }));
+
       limpiaForm();
     } else {
       enqueueSnackbar("Debe corregir los problemas en el formulario", { variant: "error" });
@@ -81,9 +81,8 @@ const FormMotor = () => {
 
   return (
     <form onSubmit={handleOnSubmit}>
-      {mensaje.mensaje ? enqueueSnackbar(mensaje.mensaje, { variant: mensaje.tipoAlerta }) : null}
-      <div className="grid grid-cols-2 gap-4">
-        <div className="form-group mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+        <div className="form-group">
           <InputText
             id="nombre"
             name="nombre"
@@ -95,7 +94,7 @@ const FormMotor = () => {
             error={error.nombre}
           />
         </div>
-        <div className="form-group mb-4">
+        <div className="form-group">
           <Select
             id="aplicacionId"
             name="aplicacionId"
@@ -108,8 +107,8 @@ const FormMotor = () => {
           />
         </div>
       </div>
-      <div className="grid grid-cols-2 gap-4">
-        <div className="form-group mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+        <div className="form-group">
           <InputText
             id="rangoPotencia"
             name="rangoPotencia"
@@ -121,7 +120,7 @@ const FormMotor = () => {
             error={error.rangoPotencia}
           />
         </div>
-        <div className="form-group mb-4">
+        <div className="form-group">
           <Checkbox id="activo" name="activo" label="Activo" onChangeFN={handleChange} checked={motor.activo} />
         </div>
       </div>

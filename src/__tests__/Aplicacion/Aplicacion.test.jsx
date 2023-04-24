@@ -1,5 +1,5 @@
 import React from "react";
-import "@testing-library/jest-dom/extend-expect";
+//import "@testing-library/jest-dom/extend-expect";
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { Aplicacion } from "pages";
 import { ContextProvider } from "contexts/ContextProvider";
@@ -7,7 +7,7 @@ import { SnackbarProvider } from "notistack";
 
 describe("Aplicación", () => {
   //Realiza una limpieza después de cada ejecución de los test
-  afterEach(cleanup);
+  beforeEach(cleanup);
   afterEach(jest.clearAllMocks);
 
   const renderComponent = () =>

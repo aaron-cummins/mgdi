@@ -6,7 +6,6 @@ import { useStateContext } from "contexts/ContextProvider";
 import { SelectsContext } from "contexts/SelectsContext";
 import { getUsuarioLugaresTrabajoList } from "utilities/Login_utiles";
 import { Tooltip } from "@mui/material";
-//import LoadPage from "pages/utiles/LoadPage";
 
 const Layout = () => {
   const { activeMenu, themeSettings, setThemeSettings, currentColor, currentMode } = useStateContext();
@@ -53,7 +52,7 @@ const Layout = () => {
 
           {/* SIDEBARS */}
           {activeMenu ? (
-            <div className="w-screen md:w-80 fixed sidebar dark:bg-secondary-dark-bg bg-secondary-dark-bg">
+            <div className="h-full md:w-80 fixed sidebar dark:bg-secondary-dark-bg bg-secondary-dark-bg">
               <Sidebar />
             </div>
           ) : (
@@ -65,7 +64,7 @@ const Layout = () => {
           {/* CONTENIDO */}
           <div
             className={`dark:bg-main-dark-bg bg-main-bg min-h-screen w-full ${
-              activeMenu ? "md:ml-80 ml-80" : "flex-1"
+              activeMenu ? "md:ml-80 ml-80 sm:ml-80" : "flex-1"
             }`}>
             {/* NAVBAR */}
             <div className="dark:bg-main-dark-bg navbar w-full">

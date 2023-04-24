@@ -2,11 +2,11 @@ import React, { useEffect, useContext } from "react";
 import { PostTratamientoContext } from "../context/PostTratamientoContext";
 import { ColActivoTabla, OpcionesTabla, Tabla } from "components";
 
-const TablaPostTratamiento = () => {
+const TablaPostTratamiento = ({ openModal }) => {
   const { PostTratamientoList, obtenerPostTratamiento, obtenerPostTratamientos } = useContext(PostTratamientoContext);
 
   const getPostTratamiento = (props) => {
-    obtenerPostTratamiento(props);
+    obtenerPostTratamiento(props).then(openModal());
   };
 
   useEffect(() => {

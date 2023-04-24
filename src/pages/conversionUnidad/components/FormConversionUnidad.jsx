@@ -1,17 +1,14 @@
 import { useState, useContext, useMemo, useEffect } from "react";
 import { InputText, Buttons, Checkbox, Select } from "components";
 import { ConversionUnidadContext } from "../context/ConversionUnidadContext";
-import { closeModal } from "utilities/Utiles";
-import { useStateContext } from "contexts/ContextProvider";
 import { SelectsContext } from "contexts/SelectsContext";
 import { useSnackbar } from "notistack";
 import useValidacionForm from "hooks/useValidacionForm";
 
-const FormConversionUnidad = () => {
+const FormConversionUnidad = ({ closeModal }) => {
   const { obtenerConversionUnidad, ConversionUnidadActual, actualizarConversionUnidad, registrarConversionUnidad } =
     useContext(ConversionUnidadContext);
   const { enqueueSnackbar } = useSnackbar();
-  const { mensaje } = useStateContext();
   const { unidadesList, conversionFlotaList } = useContext(SelectsContext);
   const { validarTexto, validarSelect, validarNumero, error, setError } = useValidacionForm();
 
@@ -73,15 +70,19 @@ const FormConversionUnidad = () => {
     setConversionUnidad(ConversionUnidadDefault);
     obtenerConversionUnidad(null);
     setError({});
+    closeModal();
   };
 
   const handleOnSubmit = async (e) => {
     e.preventDefault();
     if (validaciones()) {
       ConversionUnidadActual !== null
-        ? actualizarConversionUnidad(ConversionUnidadEnviar())
-        : registrarConversionUnidad(ConversionUnidadEnviar());
-      closeModal();
+        ? actualizarConversionUnidad(ConversionUnidadEnviar()).then((res) =>
+            enqueueSnackbar(res.mensaje, { variant: res.tipoAlerta })
+          )
+        : registrarConversionUnidad(ConversionUnidadEnviar()).then((res) =>
+            enqueueSnackbar(res.mensaje, { variant: res.tipoAlerta })
+          );
       limpiaForm();
     } else {
       enqueueSnackbar("Debe corregir los problemas en el formulario", { variant: "error" });
@@ -98,9 +99,8 @@ const FormConversionUnidad = () => {
 
   return (
     <form onSubmit={handleOnSubmit}>
-      {mensaje.mensaje ? enqueueSnackbar(mensaje.mensaje, { variant: mensaje.tipoAlerta }) : null}
-      <div className="grid grid-cols-2 gap-4">
-        <div className="form-group mb-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+        <div className="form-group">
           <InputText
             id="nombre"
             name="nombre"
@@ -113,7 +113,7 @@ const FormConversionUnidad = () => {
           />
         </div>
         <div className="grid grid-cols-2 gap-4">
-          <div className="form-group mb-6">
+          <div className="form-group">
             <Checkbox
               id="activo"
               name="activo"
@@ -125,8 +125,8 @@ const FormConversionUnidad = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-4">
-        <div className="form-group mb-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+        <div className="form-group">
           <Select
             id="unidadId"
             name="unidadId"
@@ -139,7 +139,7 @@ const FormConversionUnidad = () => {
             error={error.unidadId}
           />
         </div>
-        <div className="form-group mb-6">
+        <div className="form-group">
           <Select
             id="conversionFlotasId"
             name="conversionFlotasId"

@@ -2,10 +2,10 @@ import React, { useEffect, useContext } from "react";
 import { TipoInyeccionContext } from "../context/tipoinyeccionContext";
 import { ColActivoTabla, OpcionesTabla, Tabla } from "components";
 
-const TablaTipoInyeccion = () => {
+const TablaTipoInyeccion = ({ openModal }) => {
   const { tipoinyeccionList, obtenerTipoInyecciones, obtenerTipoInyeccion } = useContext(TipoInyeccionContext);
 
-  const getTipoInyeccion = (props) => obtenerTipoInyeccion(props);
+  const getTipoInyeccion = (props) => obtenerTipoInyeccion(props).then(openModal());
 
   useEffect(() => {
     obtenerTipoInyecciones();

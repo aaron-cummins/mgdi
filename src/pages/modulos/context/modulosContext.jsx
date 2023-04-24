@@ -3,13 +3,12 @@ import { OBTENER, OBTENER_LISTA, REGISTRAR, ACTUALIZAR, ELIMINAR } from "const/a
 import { getList, getByID, postObject, putObject, deleteObject } from "services/genericService";
 import modulosReducer from "../reducer/modulosReducer";
 import useFetchAndLoad from "hooks/useFetchAndLoad";
-import { useStateContext } from "contexts/ContextProvider";
 
 export const ModulosContext = createContext();
 
 export const ModulosContextProvider = (props) => {
   const { callEndpoint } = useFetchAndLoad();
-  const { alerta } = useStateContext();
+
   const urlApi = "modulos";
 
   const initialState = {
@@ -64,10 +63,15 @@ export const ModulosContextProvider = (props) => {
         type: REGISTRAR,
         payload: resultado.data,
       });
-      alerta("success", "Módulo creado con exito!");
+      return new Promise((resolve) => resolve({ tipoAlerta: "success", mensaje: "Módulo creado con exito!" }));
     } catch (error) {
       console.log(error);
-      alerta("error", `'Ocurrió un error al intentar crear el Módulo. ${error}`);
+      return new Promise((resolve) =>
+        resolve({
+          tipoAlerta: "error",
+          mensaje: `'Ocurrió un error al intentar crear el Módulo. ${error}`,
+        })
+      );
     }
   };
 
@@ -80,10 +84,16 @@ export const ModulosContextProvider = (props) => {
         type: ACTUALIZAR,
         payload: resultado.data,
       });
-      alerta("success", "Módulo actualizado con exito!");
+      return new Promise((resolve) => resolve({ tipoAlerta: "success", mensaje: "Módulo actualizado con exito!" }));
     } catch (error) {
       console.log(error);
-      alerta("error", `'Ocurrió un error al intentar actualizar el Módulo. ${error}`);
+      return new Promise((resolve) =>
+        resolve({
+          tipoAlerta: "error",
+
+          mensaje: `'Ocurrió un error al intentar actualizar el Módulo. ${error}`,
+        })
+      );
     }
   };
 
@@ -95,10 +105,16 @@ export const ModulosContextProvider = (props) => {
         type: ELIMINAR,
         payload: id,
       });
-      alerta("success", "Módulo eliminado con exito!");
+      return new Promise((resolve) => resolve({ tipoAlerta: "success", mensaje: "Módulo eliminado con exito!" }));
     } catch (error) {
       console.log(error);
-      alerta("error", `'Ocurrió un error al intentar eliminar el Módulo. ${error}`);
+      return new Promise((resolve) =>
+        resolve({
+          tipoAlerta: "error",
+
+          mensaje: `'Ocurrió un error al intentar eliminar el Módulo. ${error}`,
+        })
+      );
     }
   };
 

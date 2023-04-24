@@ -3,13 +3,11 @@ import { OBTENER, OBTENER_LISTA, REGISTRAR, ACTUALIZAR, ELIMINAR } from "const/a
 import { getList, getByID, postObject, putObject, deleteObject } from "services/genericService";
 import TipoBlockReducer from "../reducer/TipoBlockReducer";
 import useFetchAndLoad from "hooks/useFetchAndLoad";
-import { useStateContext } from "contexts/ContextProvider";
 
 export const TipoBlockContext = createContext();
 
 export const TipoBlockContextProvider = (props) => {
   const { callEndpoint } = useFetchAndLoad();
-  const { alerta } = useStateContext();
 
   const urlApi = "tipoblock";
 
@@ -65,10 +63,12 @@ export const TipoBlockContextProvider = (props) => {
         type: REGISTRAR,
         payload: resultado.data,
       });
-      alerta("success", "Tipo Block creado con exito!");
+      return new Promise((resolve) => resolve({ tipoAlerta: "success", mensaje: "Tipo Block creado con exito!" }));
     } catch (error) {
       console.log(error);
-      alerta("error", `'Ocurrió un error al intentar crear el Tipo Block. ${error}`);
+      return new Promise((resolve) =>
+        resolve({ tipoAlerta: "error", mensaje: `'Ocurrió un error al intentar crear el Tipo Block. ${error}` })
+      );
     }
   };
 
@@ -80,10 +80,12 @@ export const TipoBlockContextProvider = (props) => {
         type: ACTUALIZAR,
         payload: resultado.data,
       });
-      alerta("success", "Tipo Block actualizado con exito!");
+      return new Promise((resolve) => resolve({ tipoAlerta: "success", mensaje: "Tipo Block actualizado con exito!" }));
     } catch (error) {
       console.log(error);
-      alerta("error", `'Ocurrió un error al intentar actualizar el Tipo Block. ${error}`);
+      return new Promise((resolve) =>
+        resolve({ tipoAlerta: "error", mensaje: `'Ocurrió un error al intentar actualizar el Tipo Block. ${error}` })
+      );
     }
   };
 
@@ -95,10 +97,12 @@ export const TipoBlockContextProvider = (props) => {
         type: ELIMINAR,
         payload: id,
       });
-      alerta("success", "Tipo block eliminado con exito!");
+      return new Promise((resolve) => resolve({ tipoAlerta: "success", mensaje: "Tipo block eliminado con exito!" }));
     } catch (error) {
       console.log(error);
-      alerta("error", `'Ocurrió un error al intentar eliminar el Tipo block. ${error}`);
+      return new Promise((resolve) =>
+        resolve({ tipoAlerta: "error", mensaje: `'Ocurrió un error al intentar eliminar el Tipo block. ${error}` })
+      );
     }
   };
 

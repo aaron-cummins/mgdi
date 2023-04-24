@@ -4,7 +4,7 @@ import { ColActivoTabla, Filtros, OpcionesTabla, Tabla } from "components";
 import { SelectsContext } from "contexts/SelectsContext";
 import { useNavigate } from "react-router-dom";
 
-const TablaUsuario = () => {
+const TablaUsuario = ({ openModal }) => {
   const { usuarioList, obtenerUsuariolist, obtenerUsuario, obtenerPermisosUsuariolist } = useContext(UsuarioContext);
   const { obtenerCargos, obtenerRol } = useContext(SelectsContext);
   const [filterData, setFilterData] = useState([]);
@@ -13,7 +13,7 @@ const TablaUsuario = () => {
     "form-control block w-full px-3 py-1.5 border border-solid rounded border-gray-300 text-gray-600 pl-1";
   const labelClass = "text-sm text-gray-600";
 
-  const getUsuario = (props) => obtenerUsuario(props);
+  const getUsuario = (props) => obtenerUsuario(props).then(openModal());
   const getUsuarioPermisos = (props) => {
     obtenerPermisosUsuariolist(props.id);
     obtenerUsuario(props);

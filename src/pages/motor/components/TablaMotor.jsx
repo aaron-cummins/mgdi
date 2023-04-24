@@ -3,10 +3,10 @@ import { MotorContext } from "../context/motorContext";
 import { SelectsContext } from "contexts/SelectsContext";
 import { ColActivoTabla, OpcionesTabla, Tabla } from "components";
 
-const TablaMotors = () => {
+const TablaMotors = ({ openModal }) => {
   const { motorList, obtenerMotors, obtenerMotor } = useContext(MotorContext);
   const { obtenerAplicaciones } = useContext(SelectsContext);
-  const getMotor = (props) => obtenerMotor(props);
+  const getMotor = (props) => obtenerMotor(props).then(openModal());
 
   useEffect(() => {
     obtenerMotors();

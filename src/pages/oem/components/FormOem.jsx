@@ -1,14 +1,11 @@
 import React, { useEffect, useState, useContext, useMemo } from "react";
 import { InputText, Buttons, Checkbox } from "components";
 import { OemContext } from "../context/oemContext";
-import { useStateContext } from "contexts/ContextProvider";
-import { closeModal } from "utilities/Utiles";
 import { useSnackbar } from "notistack";
 import useValidacionForm from "hooks/useValidacionForm";
 
-const FormOem = () => {
+const FormOem = ({ closeModal }) => {
   const { registrarOem, oemActual, actualizarOem, obtenerOem } = useContext(OemContext);
-  const { mensaje } = useStateContext();
   const { enqueueSnackbar } = useSnackbar();
   const { validarTexto, validarNumero, error, setError } = useValidacionForm();
 
@@ -32,7 +29,7 @@ const FormOem = () => {
 
     if (validarTexto("nombre", oem.nombre, "Nombre Oem requerido")) valida = false;
     if (validarTexto("abreviacion", oem.abreviacion, "Nombre abreviación requerida")) valida = false;
-  
+
     return valida;
   };
 
@@ -50,15 +47,16 @@ const FormOem = () => {
     setOem(oemDefault);
     obtenerOem(null);
     setError({});
+    closeModal();
   };
 
   const handleOnSubmit = async (e) => {
     e.preventDefault();
     if (validaciones()) {
       oemActual !== null
-        ? actualizarOem(OemAEnviar())
-        : registrarOem(OemAEnviar());
-      closeModal();
+        ? actualizarOem(OemAEnviar()).then((res) => enqueueSnackbar(res.mensaje, { variant: res.tipoAlerta }))
+        : registrarOem(OemAEnviar()).then((res) => enqueueSnackbar(res.mensaje, { variant: res.tipoAlerta }));
+
       limpiaForm();
     } else {
       enqueueSnackbar("Debe corregir los problemas en el formulario", { variant: "error" });
@@ -73,9 +71,8 @@ const FormOem = () => {
 
   return (
     <form onSubmit={handleOnSubmit}>
-      {mensaje.mensaje ? enqueueSnackbar(mensaje.mensaje, { variant: mensaje.tipoAlerta }) : null}
-      <div className="grid grid-cols-2 gap-4">
-        <div className="form-group mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+        <div className="form-group">
           <InputText
             id="nombre"
             name="nombre"
@@ -87,7 +84,7 @@ const FormOem = () => {
             error={error.nombre}
           />
         </div>
-        <div className="form-group mb-4">
+        <div className="form-group">
           <InputText
             id="abreviacion"
             name="abreviacion"

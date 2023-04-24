@@ -1,14 +1,11 @@
 import React, { useEffect, useState, useContext, useMemo } from "react";
 import { InputText, Buttons, Checkbox } from "components";
 import { CargoContext } from "../context/cargoContext";
-import { closeModal } from "utilities/Utiles";
-import { useStateContext } from "contexts/ContextProvider";
 import { useSnackbar } from "notistack";
 import useValidacionForm from "hooks/useValidacionForm";
 
-const FormCargo = () => {
+const FormCargo = ({ closeModal }) => {
   const { registrarCargo, cargoActual, actualizarCargo, obtenerCargo } = useContext(CargoContext);
-  const { mensaje } = useStateContext();
   const { enqueueSnackbar } = useSnackbar();
   const { validarTexto, validarNumero, error, setError } = useValidacionForm();
 
@@ -30,7 +27,7 @@ const FormCargo = () => {
     let valida = true;
 
     if (validarTexto("nombre", cargo.nombre, "Nombre del cargo requerido")) valida = false;
-  
+
     return valida;
   };
 
@@ -48,15 +45,15 @@ const FormCargo = () => {
     setCargo(cargoDefault);
     obtenerCargo(null);
     setError({});
+    closeModal();
   };
 
   const handleOnSubmit = async (e) => {
     e.preventDefault();
     if (validaciones()) {
       cargoActual !== null
-        ? actualizarCargo(CargoAEnviar())
-        : registrarCargo(CargoAEnviar());
-      closeModal();
+        ? actualizarCargo(CargoAEnviar()).then((res) => enqueueSnackbar(res.mensaje, { variant: res.tipoAlerta }))
+        : registrarCargo(CargoAEnviar()).then((res) => enqueueSnackbar(res.mensaje, { variant: res.tipoAlerta }));
       limpiaForm();
     } else {
       enqueueSnackbar("Debe corregir los problemas en el formulario", { variant: "error" });
@@ -71,9 +68,8 @@ const FormCargo = () => {
 
   return (
     <form onSubmit={handleOnSubmit}>
-      {mensaje.mensaje ? enqueueSnackbar(mensaje.mensaje, { variant: mensaje.tipoAlerta }) : null}
-      <div className="grid grid-cols-2 gap-4">
-        <div className="form-group mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+        <div className="form-group">
           <InputText
             id="nombre"
             name="nombre"
@@ -85,7 +81,7 @@ const FormCargo = () => {
             error={error.nombre}
           />
         </div>
-        <div className="form-group mb-4">
+        <div className="form-group">
           <Checkbox id="activo" name="activo" label="Activo" onChangeFN={handleChange} checked={cargo.activo} />
         </div>
       </div>

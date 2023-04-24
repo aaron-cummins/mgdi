@@ -2,10 +2,13 @@ import React, { useEffect, useContext } from "react";
 import { AplicacionContext } from "../context/aplicacionContext";
 import { ColActivoTabla, OpcionesTabla, Tabla } from "components";
 
-const TablaAplicacion = () => {
+const TablaAplicacion = ({ openModal }) => {
   const { aplicacionList, obtenerAplicaciones, obtenerAplicacion } = useContext(AplicacionContext);
 
-  const getAplicacion = (props) => obtenerAplicacion(props);
+  const getAplicacion = (props) => {
+    obtenerAplicacion(props);
+    openModal();
+  };
 
   useEffect(() => {
     obtenerAplicaciones();

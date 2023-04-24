@@ -2,10 +2,10 @@ import React, { useEffect, useContext } from "react";
 import { TipoEmisionContext } from "../context/tipoemisionContext";
 import { ColActivoTabla, OpcionesTabla, Tabla } from "components";
 
-const TablaTipoEmision = () => {
+const TablaTipoEmision = ({ openModal }) => {
   const { tipoemisionList, obtenerTipoEmisiones, obtenerTipoEmision } = useContext(TipoEmisionContext);
 
-  const getTipoEmision = (props) => obtenerTipoEmision(props);
+  const getTipoEmision = (props) => obtenerTipoEmision(props).then(openModal());
 
   useEffect(() => {
     obtenerTipoEmisiones();

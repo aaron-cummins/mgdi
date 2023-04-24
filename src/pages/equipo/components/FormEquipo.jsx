@@ -1,16 +1,13 @@
 import React, { useEffect, useState, useContext, useMemo } from "react";
 import { InputText, Buttons, Checkbox, Select } from "components";
 import { EquipoContext } from "../context/equipoContext";
-import { useStateContext } from "contexts/ContextProvider";
-import { closeModal } from "utilities/Utiles";
 import { useSnackbar } from "notistack";
 import { SelectsContext } from "contexts/SelectsContext";
 import useValidacionForm from "hooks/useValidacionForm";
 
-const FormEquipo = () => {
+const FormEquipo = ({ closeModal }) => {
   const { registrarEquipo, equipoActual, actualizarEquipo, obtenerEquipo } = useContext(EquipoContext);
   const { enqueueSnackbar } = useSnackbar();
-  const { mensaje } = useStateContext();
   const { aplicacionOemsList, oemsList } = useContext(SelectsContext);
   const { validarTexto, validarSelect, validarNumero, error, setError } = useValidacionForm();
 
@@ -68,7 +65,9 @@ const FormEquipo = () => {
   const handleOnSubmit = async (e) => {
     e.preventDefault();
     if (validaciones()) {
-      equipoActual !== null ? actualizarEquipo(EquipoAEnviar()) : registrarEquipo(EquipoAEnviar());
+      equipoActual !== null
+        ? actualizarEquipo(EquipoAEnviar()).then((res) => enqueueSnackbar(res.mensaje, { variant: res.tipoAlerta }))
+        : registrarEquipo(EquipoAEnviar()).then((res) => enqueueSnackbar(res.mensaje, { variant: res.tipoAlerta }));
       closeModal();
       limpiaForm();
     } else {
@@ -88,9 +87,8 @@ const FormEquipo = () => {
 
   return (
     <form onSubmit={handleOnSubmit}>
-      {mensaje.mensaje ? enqueueSnackbar(mensaje.mensaje, { variant: mensaje.tipoAlerta }) : null}
-      <div className="grid grid-cols-2 gap-4">
-        <div className="form-group mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+        <div className="form-group">
           <InputText
             id="nombre"
             name="nombre"
@@ -102,7 +100,7 @@ const FormEquipo = () => {
             error={error.nombre}
           />
         </div>
-        <div className="form-group mb-4">
+        <div className="form-group">
           <Select
             id="aplicacionOemId"
             name="aplicacionOemId"
@@ -115,8 +113,8 @@ const FormEquipo = () => {
           />
         </div>
       </div>
-      <div className="grid grid-cols-2 gap-4">
-        <div className="form-group mb-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+        <div className="form-group">
           <Select
             id="oemId"
             name="oemId"

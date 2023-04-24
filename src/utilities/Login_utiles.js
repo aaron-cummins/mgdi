@@ -117,7 +117,8 @@ export const PermisosUsuario = (permisos) => {
 };
 
 export const getUsuarioId = () => {
-  return JSON.parse(sessionStorage.getItem("user_info"))["id"];
+  let user = JSON.parse(sessionStorage.getItem("user_info"));
+  return user.id;
 };
 
 export const getUsuarioEmail = () => {

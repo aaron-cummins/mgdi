@@ -1,16 +1,13 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { InputText, Buttons, Checkbox, Select } from "components";
 import { UsuarioContext } from "../context/usuarioContext";
-import { closeModal } from "utilities/Utiles";
-import { useStateContext } from "contexts/ContextProvider";
 import { useContext } from "react";
 import { useSnackbar } from "notistack";
 import { SelectsContext } from "contexts/SelectsContext";
 import useValidacionForm from "hooks/useValidacionForm";
 
-const FormUsuario = () => {
+const FormUsuario = ({ closeModal }) => {
   const { registrarUsuario, usuarioActual, actualizarUsuario, obtenerUsuario } = useContext(UsuarioContext);
-  const { mensaje } = useStateContext();
   const { enqueueSnackbar } = useSnackbar();
   const { cargosList } = useContext(SelectsContext);
   const {
@@ -97,13 +94,16 @@ const FormUsuario = () => {
     setUsuario(usuarioDefault);
     obtenerUsuario(null);
     setError({});
+    closeModal();
   };
 
   const handleOnSubmit = async (e) => {
     e.preventDefault();
     if (validaciones()) {
-      usuarioActual !== null ? actualizarUsuario(UsuarioAEnviar()) : registrarUsuario(UsuarioAEnviar());
-      closeModal();
+      usuarioActual !== null
+        ? actualizarUsuario(UsuarioAEnviar()).then((res) => enqueueSnackbar(res.mensaje, { variant: res.tipoAlerta }))
+        : registrarUsuario(UsuarioAEnviar()).then((res) => enqueueSnackbar(res.mensaje, { variant: res.tipoAlerta }));
+
       limpiaForm();
     } else {
       enqueueSnackbar("Debe corregir los problemas en el formulario", { variant: "error" });
@@ -119,8 +119,7 @@ const FormUsuario = () => {
 
   return (
     <form onSubmit={handleOnSubmit}>
-      {mensaje.mensaje ? enqueueSnackbar(mensaje.mensaje, { variant: mensaje.tipoAlerta }) : null}
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
         <div className="form-group mb-2">
           <InputText
             id="nombres"
@@ -147,7 +146,7 @@ const FormUsuario = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
         <div className="form-group mb-2">
           <InputText
             id="rut"
@@ -188,7 +187,7 @@ const FormUsuario = () => {
         />
       </div>
 
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
         <div className="form-group mb-2">
           <InputText
             type="tel"
@@ -214,7 +213,7 @@ const FormUsuario = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
         <div className="form-group mb-2">
           <Select
             id="cargoId"

@@ -2,10 +2,10 @@ import React, { useEffect, useContext } from "react";
 import { MonitoreoMotorContext } from "../context/monitoreoMotorContext";
 import { ColActivoTabla, OpcionesTabla, Tabla } from "components";
 
-const TablaMonitoreoMotor = () => {
+const TablaMonitoreoMotor = ({ openModal }) => {
   const { monitoreomotorList, obtenerMonitoreoMotors, obtenerMonitoreoMotor } = useContext(MonitoreoMotorContext);
 
-  const getMonitoreoMotor = (props) => obtenerMonitoreoMotor(props);
+  const getMonitoreoMotor = (props) => obtenerMonitoreoMotor(props).then(openModal());
 
   useEffect(() => {
     obtenerMonitoreoMotors();

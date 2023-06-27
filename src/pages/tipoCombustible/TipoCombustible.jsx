@@ -25,14 +25,14 @@ const TipoCombustible = () => {
             }}
             onClick={() => setOpenModal(true)}
             className={`gap-5 p-3  hover:drop-shadow-xl hover:bg-${currentColor} text-center inline-flex items-center`}>
-            Nuevo Tipo Admisión
+            Nuevo Tipo Combustible
           </button>
         </Header>
 
         <TablaTipoCombustible openModal={() => setOpenModal(true)} />
 
         <Modal
-          ModalTitle="Tipo Admisión"
+          ModalTitle="Tipo Combustible"
           modalId="tipocombustible-modal"
           open={openModal}
           onClose={() => setOpenModal(false)}>

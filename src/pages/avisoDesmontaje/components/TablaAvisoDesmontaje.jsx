@@ -6,7 +6,7 @@ const TablaAvisoDesmontaje = ({ openModal }) => {
   const { avisoDesmontajeList, obtenerAvisoDesmontajes, obtenerAvisoDesmontaje } = useContext(AvisoDesmontajeContext);
 
   const getAvisoDesmontaje = (props) => {
-    obtenerAvisoDesmontaje(props).tehn(openModal());
+    obtenerAvisoDesmontaje(props).then(openModal());
   };
 
   useEffect(() => {

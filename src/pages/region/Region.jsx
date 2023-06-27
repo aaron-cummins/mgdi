@@ -32,7 +32,7 @@ const Region = () => {
 
         <TablaRegiones openModal={() => setOpenModal(true)} />
 
-        <Modal ModalTitle="Region" modalId="region-modal" open={openModal} onClose={() => setOpenModal(false)}>
+        <Modal ModalTitle="Región" modalId="region-modal" open={openModal} onClose={() => setOpenModal(false)}>
           <FormRegion closeModal={() => setOpenModal(false)} />
         </Modal>
       </div>

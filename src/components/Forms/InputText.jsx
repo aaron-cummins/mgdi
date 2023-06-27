@@ -15,6 +15,7 @@ const InputText = ({ id, name, placeholder, value, onChangeFN, required, label, 
         type={type ? type : "text"}
         className={`${classStyle} ${error ? "border border-red-500" : ""}`}
         id={id}
+        data-testid="Inputtest"
         name={name}
         placeholder={placeholder}
         value={value}

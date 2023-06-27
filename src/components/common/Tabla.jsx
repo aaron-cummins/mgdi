@@ -46,6 +46,7 @@ const Tabla = (props) => {
       <div className="border-solid border-1">
         <DataTable
           //progressPending={cargando}
+          data-testid="Tablatest"
           progressComponent={<Spinner />}
           customStyles={customStyles}
           pagination={!props.pagination ? true : props.pagination}

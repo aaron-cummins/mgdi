@@ -32,7 +32,7 @@ const VersionEquipo = () => {
         <TablaVersionEquipo openModal={() => setOpenModal(true)} />
 
         <Modal
-          ModalTitle="VersionEquipo"
+          ModalTitle="Versión Equipo"
           modalId="versionequipo-modal"
           open={openModal}
           onClose={() => setOpenModal(false)}>

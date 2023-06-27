@@ -31,7 +31,7 @@ const TipoSalida = () => {
 
         <TablaTipoSalida openModal={() => setOpenModal(true)} />
 
-        <Modal ModalTitle="tiposalida" modalId="tiposalida-modal" open={openModal} onClose={() => setOpenModal(false)}>
+        <Modal ModalTitle="Tipo Salida" modalId="tiposalida-modal" open={openModal} onClose={() => setOpenModal(false)}>
           <FormTipoSalida closeModal={() => setOpenModal(false)} />
         </Modal>
       </div>

@@ -33,7 +33,7 @@ const EstadoMotorInstalacion = () => {
         <TablaEstadoMotorInstalacion openModal={() => setOpenModal(true)} />
 
         <Modal
-          ModalTitle="Estado Motor Instalacion"
+          ModalTitle="Estado Motor Instalación"
           modalId="estadomotorinstalacion-modal"
           open={openModal}
           onClose={() => setOpenModal(false)}>

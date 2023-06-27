@@ -25,13 +25,13 @@ const TipoInyeccion = () => {
             }}
             onClick={() => setOpenModal(true)}
             className={`gap-5 p-3  hover:drop-shadow-xl hover:bg-${currentColor} text-center inline-flex items-center`}>
-            Nuevo Tipo de inyección
+            Nuevo Tipo Inyección
           </button>
         </Header>
 
         <TablaTipoInyeccion openModal={() => setOpenModal(true)} />
 
-        <Modal ModalTitle="" modalId="tipoinyeccion-modal" open={openModal} onClose={() => setOpenModal(false)}>
+        <Modal ModalTitle="Tipo Inyección" modalId="tipoinyeccion-modal" open={openModal} onClose={() => setOpenModal(false)}>
           <FormTipoInyeccion modalid="#tipoinyeccion-modal" closeModal={() => setOpenModal(false)} />
         </Modal>
       </div>

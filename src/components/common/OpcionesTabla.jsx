@@ -23,6 +23,7 @@ const OpcionesTabla = ({
         <Tooltip key={`tooltip-editar`} title="Editar" placement="right" arrow>
           <button
             type="button"
+            data-testid="EditartestID"
             onClick={() => FnEditar()}
             className={`${buttonStyle} bg-blue-light-cummins`}
             data-te-toggle="modal"
